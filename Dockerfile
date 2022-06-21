@@ -14,7 +14,7 @@ FROM --platform=amd64 node:16-alpine
 WORKDIR /app
 
 COPY --from=builder /app/build ./build
-COPY package*.json ./
+COPY ./ .
 
 RUN npm i --production=true
 

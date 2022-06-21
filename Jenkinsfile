@@ -85,7 +85,7 @@ pipeline {
                 fi
               """
             }
-            notify_slack("Backend startup success")
+            notify_slack("Traefik startup success")
           }
         }
       } 
