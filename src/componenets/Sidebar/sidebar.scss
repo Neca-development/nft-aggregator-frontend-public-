@@ -1,0 +1,19 @@
+.sidebar {
+  &__ranges {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-rows: auto;
+    row-gap: 1.625rem;
+  }
+
+  &__buttons {
+    margin-top: 1.625rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    & button {
+      width: 48%;
+    }
+  }
+}
