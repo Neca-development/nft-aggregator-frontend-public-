@@ -1,3 +1,5 @@
+@import "../../../style/mixins";
+
 .textInput {
   width: 100%;
   position: relative;
@@ -13,6 +15,11 @@
     padding-right: 2rem;
     width: 100%;
     color: var(--pale);
+    @include hoverTransition;
+
+    &:hover {
+      border-color: var(--pale);
+    }
 
     &:focus {
       background-color: #fff;

@@ -1,3 +1,5 @@
+@import "../../../style/mixins";
+
 .btn {
   border-radius: 1.25rem;
   border: none;
@@ -15,6 +17,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  @include hoverTransition;
 
   & > img,
   svg {
@@ -22,8 +25,16 @@
     margin-left: 0.75rem;
   }
 
+  & path {
+    @include hoverTransition;
+  }
+
   &:hover {
     color: var(--dark);
+
+    & path {
+      stroke: var(--dark);
+    }
   }
 
   &_large {
@@ -33,5 +44,9 @@
   &_secondary {
     background-color: var(--bg);
     color: var(--pale);
+
+    &:hover {
+      color: #fff;
+    }
   }
 }

@@ -5,9 +5,10 @@
   align-items: center;
   padding: 0.75rem 1rem;
   border-bottom: 0.0625rem solid var(--dark);
+  @include hoverTransition;
 
   &:hover {
-    background-color: #4a4365;
+    background-color: var(--dark);
   }
 
   & p {
@@ -53,5 +54,12 @@
   &__fav {
     cursor: pointer;
     width: 1.4375rem;
+
+    &:hover {
+      & > path {
+        fill: var(--primary);
+        @include hoverTransition;
+      }
+    }
   }
 }
