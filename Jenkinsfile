@@ -70,8 +70,8 @@ pipeline {
                 echo GIT_REPO_NAME=${GIT_REPO_NAME} >> .development.env
                 echo BRANCH_NAME=${BRANCH_NAME} >> .development.env
 
-                if [ "\$(docker-compose port backend $IMAGE_EXPOSED_PORT)" ]; then
-                  IMAGE_PREVIOUS_PORT="\$(docker-compose port backend $IMAGE_EXPOSED_PORT | egrep "[0-9]+\$" -o)"
+                if [ "\$(docker-compose port traefik $IMAGE_EXPOSED_PORT)" ]; then
+                  IMAGE_PREVIOUS_PORT="\$(docker-compose port traefik $IMAGE_EXPOSED_PORT | egrep "[0-9]+\$" -o)"
                 fi
 
                 docker-compose down -v
@@ -97,7 +97,7 @@ pipeline {
       node(null) {
         script {
           if (env.BRANCH_NAME == "dev" || env.BRANCH_NAME == "master" || env.BRANCH_NAME == "main") {
-            // notify_slack('Build failure')
+            notify_slack('Build failure')
           }
         }
       }
