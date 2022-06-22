@@ -44,6 +44,11 @@
       color: #fff;
     }
 
+    & > a {
+      color: inherit;
+      text-decoration: none;
+    }
+
     &_active {
       color: #fff;
       padding-bottom: 1rem;
