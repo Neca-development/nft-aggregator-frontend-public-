@@ -21,6 +21,7 @@
       text-transform: uppercase;
       cursor: pointer;
       position: relative;
+      @include hoverTransition;
 
       &:hover {
         color: #fff;

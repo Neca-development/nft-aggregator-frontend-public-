@@ -1,6 +1,7 @@
 import tempImg from "../assets/images/temp-item.jpg";
+import { ICollection, ICollectionData } from "../models/collection";
 
-export const collectionItemMock = {
+export const collectionItemMock: ICollection = {
   id: 1,
   openseaId: "string",
   image: tempImg,
@@ -39,7 +40,7 @@ export const collectionItemMock = {
   },
 };
 
-const collectionItemMock2 = {
+const collectionItemMock2: ICollection = {
   id: 2,
   openseaId: "string",
   image: tempImg,
@@ -78,7 +79,7 @@ const collectionItemMock2 = {
   },
 };
 
-export const collectionsDataMock = [
+export const collectionsDataMock: ICollectionData[] = [
   {
     collections: [collectionItemMock, collectionItemMock2],
     ranges: {
