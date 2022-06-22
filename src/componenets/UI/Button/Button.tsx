@@ -5,19 +5,22 @@ import classnames from "classnames";
 interface IButtonProps {
   children: any;
   icon?: "wallet" | "profile";
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "gradient";
   size?: "normal" | "large";
+  onClick?: () => void;
 }
 
 const Button = (props: IButtonProps) => {
-  const { children, icon, variant, size } = props;
+  const { children, icon, variant, size, onClick } = props;
   return (
     <button
       className={classnames(
         "btn",
         { btn_secondary: variant === "secondary" },
+        { btn_gradient: variant === "gradient" },
         { btn_large: size === "large" }
       )}
+      onClick={onClick}
     >
       {children}
       {icon === "wallet" && (

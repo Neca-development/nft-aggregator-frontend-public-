@@ -1,0 +1,13 @@
+@import "../../../style/mixins";
+
+.heart {
+  cursor: pointer;
+  width: 1.4375rem;
+
+  &:hover {
+    & > path {
+      fill: var(--primary);
+      @include hoverTransition;
+    }
+  }
+}

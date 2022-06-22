@@ -1,0 +1,34 @@
+.favorite {
+  &__body {
+    margin: 2rem 9rem;
+    background: var(--bg);
+    box-shadow: 0px 0.625rem 0.9375rem #161028;
+    border-radius: 1rem;
+    padding: 1rem;
+    padding-bottom: 0.5rem;
+    height: 43.75rem;
+    overflow-y: auto;
+  }
+
+  &__wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+
+  &__empty {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    & h2 {
+      font-weight: 500;
+      font-size: 1.375rem;
+      line-height: 1.5rem;
+      color: var(--pale);
+      margin-bottom: 1.5rem;
+    }
+  }
+}

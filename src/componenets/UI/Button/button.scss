@@ -39,6 +39,7 @@
 
   &_large {
     padding: 0.8125rem 1.5rem;
+    border-radius: 1.5rem;
   }
 
   &_secondary {
@@ -48,5 +49,9 @@
     &:hover {
       color: #fff;
     }
+  }
+
+  &_gradient {
+    background: var(--gradient);
   }
 }
