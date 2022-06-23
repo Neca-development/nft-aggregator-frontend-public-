@@ -52,6 +52,13 @@
   }
 
   &_gradient {
-    background: var(--gradient);
+    background: linear-gradient(90deg, #3adfcb 0%, #219cfb 38%, #861af0 70%, #d00683 100%);
+    background-position: 100%;
+    background-size: 200%;
+
+    &:hover {
+      background-position: 0%;
+      color: #fff;
+    }
   }
 }
