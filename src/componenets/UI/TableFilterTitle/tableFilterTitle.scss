@@ -1,0 +1,29 @@
+@import "../../../style/mixins";
+
+.tableFilterTitle {
+  cursor: pointer;
+
+  &:hover {
+    & h2 {
+      color: #fff;
+    }
+  }
+
+  & > h2 {
+    position: relative;
+    font-weight: 500;
+    font-size: 0.8125rem;
+    line-height: 1.375rem;
+    color: var(--pale);
+    text-transform: uppercase;
+    @include hoverTransition;
+    display: inline;
+  }
+
+  & img {
+    position: absolute;
+    right: -1.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

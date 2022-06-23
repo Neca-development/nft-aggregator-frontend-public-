@@ -79,14 +79,12 @@ const collectionItemMock2: ICollection = {
   },
 };
 
-export const collectionsDataMock: ICollectionData[] = [
-  {
-    collections: [collectionItemMock, collectionItemMock2],
-    ranges: {
-      sizeMax: 0,
-      floorPriceMax: 0,
-      twitterFollowersCountMax: 0,
-      discordMembersCountMax: 0,
-    },
+export const collectionsDataMock: ICollectionData = {
+  collections: [collectionItemMock, collectionItemMock2],
+  ranges: {
+    sizeMax: 10000,
+    floorPriceMax: 100,
+    twitterFollowersCountMax: 10000,
+    discordMembersCountMax: 50000,
   },
-];
+};

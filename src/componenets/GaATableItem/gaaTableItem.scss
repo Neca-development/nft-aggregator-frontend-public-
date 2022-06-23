@@ -1,0 +1,89 @@
+.gaaItem {
+  background: var(--bg);
+  border: 0.0625rem solid #4a4365;
+  border-radius: 0.5rem;
+  padding-bottom: 1rem;
+
+  & p {
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.375rem;
+  }
+
+  &__descr {
+    padding: 0 1rem;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3.75rem;
+      background: linear-gradient(180deg, rgba(42, 38, 66, 0) 0%, #2a2642 100%);
+    }
+
+    & > h3 {
+      font-weight: 500;
+      font-size: 1rem;
+      line-height: 1.375rem;
+    }
+  }
+
+  &__stat {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.625rem 0;
+
+    & span {
+      color: var(--pale);
+    }
+  }
+
+  &__price {
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+  }
+
+  &__text {
+    margin-top: 0.3125rem;
+    height: 5.5rem;
+    overflow: hidden;
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.625rem;
+    padding: 0 0.6875rem;
+
+    & > button {
+      width: 12.5rem;
+      margin-right: 1rem;
+    }
+  }
+
+  &__social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & > img {
+      max-width: 1.4rem;
+    }
+
+    & > p {
+      margin: 0 0.5rem;
+    }
+
+    & > a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
