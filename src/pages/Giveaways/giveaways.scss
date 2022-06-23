@@ -1,0 +1,100 @@
+@import "../../style/mixins";
+
+.giveaways {
+  background: var(--bg);
+  box-shadow: 0px 0.625rem 0.9375rem #161028;
+  border-radius: 1rem;
+  height: fit-content;
+  max-height: 85vh;
+
+  &__header {
+    padding: 0.5625rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 0.0625rem solid #4a4365;
+    align-items: center;
+  }
+
+  &__tabs {
+    background: #19002c;
+    border-radius: 1.125rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.125rem;
+  }
+
+  &__colNames {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    & h2 {
+      margin-right: 2.125rem;
+    }
+  }
+
+  &__tabBtn {
+    background: transparent;
+    border: none;
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 1.375rem;
+    color: var(--pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.3125rem 1.5rem;
+    cursor: pointer;
+    @include hoverTransition;
+
+    &:hover {
+      color: #fff;
+    }
+
+    &_active {
+      background: var(--primary);
+      border-radius: 1rem;
+      color: #fff;
+    }
+  }
+
+  &__body {
+    padding: 0.75rem 1rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    overflow-y: auto;
+  }
+
+  &__empty {
+    height: 35rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    & h2 {
+      font-weight: 500;
+      font-size: 1.375rem;
+      line-height: 1.5rem;
+      color: var(--pale);
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  &__colActive {
+    &::before {
+      content: "";
+      position: absolute;
+      right: -1.1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1rem;
+      height: 1rem;
+      background-image: url("../../assets/icons/sort-asc.svg");
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+  }
+}
