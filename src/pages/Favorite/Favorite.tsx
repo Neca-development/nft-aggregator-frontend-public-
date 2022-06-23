@@ -15,14 +15,21 @@ function Favorite() {
     <main className="container favorite">
       <div className="favorite__body">
         {favoritesMock.length > 0 ? (
-          <section className="favorite__wrapper">
-            {favoritesMock.map((fav, idx) => (
-              <FavoriteItem key={idx} item={fav} />
-            ))}
-            <img src={favoriteTempSkeleton} alt="" />
-            <img src={favoriteTempSkeleton} alt="" />
-            <img src={favoriteTempSkeleton} alt="" />
-          </section>
+          <>
+            <section className="favorite__wrapper">
+              {favoritesMock.map((fav, idx) => (
+                <FavoriteItem key={idx} item={fav} />
+              ))}
+              <img src={favoriteTempSkeleton} alt="" />
+              <img src={favoriteTempSkeleton} alt="" />
+              <img src={favoriteTempSkeleton} alt="" />
+            </section>
+            <div className="favorite__loadMoreBtn">
+              <Button size="large" variant="gradient">
+                Load more
+              </Button>
+            </div>
+          </>
         ) : (
           <div className="favorite__empty">
             <h2>No collections in favorites</h2>
