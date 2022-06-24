@@ -5,8 +5,9 @@ import "./tabs.scss";
 const Tabs = ({ tabsArray, activeTab, setActiveTab }) => {
   return (
     <div className="tabs">
-      {tabsArray.map((tab: string) => (
+      {tabsArray.map((tab: string, idx: number) => (
         <button
+          key={idx}
           className={classNames("tabs__button", {
             tabs__button_active: activeTab === tab,
           })}

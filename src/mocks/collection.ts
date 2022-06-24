@@ -35,7 +35,7 @@ export const collectionItemMock: ICollection = {
       channelType: "giveaway",
     },
     {
-      id: 0,
+      id: 1,
       text: "Because maybe You're gonna be the one that saves me And after all You're my wonderwall",
       createdAt: "2022-06-21T15:27:05.208Z",
       discordId: "string",
@@ -46,7 +46,7 @@ export const collectionItemMock: ICollection = {
       channelType: "giveaway",
     },
     {
-      id: 0,
+      id: 2,
       text: "Because maybe You're gonna be the one that saves me And after all You're my wonderwall",
       createdAt: "2022-06-21T15:27:05.208Z",
       discordId: "string",
@@ -57,7 +57,7 @@ export const collectionItemMock: ICollection = {
       channelType: "giveaway",
     },
     {
-      id: 0,
+      id: 3,
       text: "Because maybe You're gonna be the one that saves me And after all You're my wonderwall",
       createdAt: "2022-06-21T15:27:05.208Z",
       discordId: "string",
@@ -68,7 +68,7 @@ export const collectionItemMock: ICollection = {
       channelType: "giveaway",
     },
     {
-      id: 0,
+      id: 4,
       text: "Because maybe You're gonna be the one that saves me And after all You're my wonderwall",
       createdAt: "2022-06-21T15:27:05.208Z",
       discordId: "string",
@@ -79,7 +79,7 @@ export const collectionItemMock: ICollection = {
       channelType: "giveaway",
     },
     {
-      id: 0,
+      id: 5,
       text: "Because maybe You're gonna be the one that saves me And after all You're my wonderwall",
       createdAt: "2022-06-21T15:27:05.208Z",
       discordId: "string",
