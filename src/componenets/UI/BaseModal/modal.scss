@@ -1,0 +1,48 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  max-width: min(80%, 1000px);
+  max-height: 100vh;
+  position: relative;
+  background: linear-gradient(61.36deg, #37123e 0.87%, #13162e 91.84%);
+  border: 0.0625rem solid #4a4365;
+  border-radius: 1rem;
+}
+
+.modal-close {
+  position: absolute;
+  right: -2rem;
+  top: -2rem;
+  background: transparent;
+  color: #fff;
+  border: none;
+  font-size: 2rem;
+  line-height: 2rem;
+  cursor: pointer;
+}
+
+.modal-enter {
+  opacity: 0;
+}
+.modal-enter-active {
+  opacity: 1;
+  transition: opacity 200ms;
+}
+.modal-exit {
+  opacity: 1;
+}
+.modal-exit-active {
+  opacity: 0;
+  transition: opacity 200ms;
+}

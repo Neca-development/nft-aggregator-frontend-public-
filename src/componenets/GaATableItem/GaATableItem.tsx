@@ -3,17 +3,13 @@ import { IGaaItem } from "../../models/gaa";
 import "./gaaTableItem.scss";
 import etherIcon from "../../assets/icons/Ethereum.svg";
 import Button from "../UI/Button/Button";
-import discordIcon from "../../assets/icons/discord.svg";
-import linkIcon from "../../assets/icons/link.svg";
-import { kFormatter } from "../../app/utils";
+import SocialIcon from "../UI/SocialIcon/SocialIcon";
+import ItemBannerBlock from "../UI/ItemBannerBlock/ItemBannerBlock";
 
 const GaATableItem = ({ item }: { item: IGaaItem }) => {
   return (
     <article className="gaaItem">
-      <div className="favItem__imageBlock">
-        <img src={item.bannerImage} alt="" className="favItem__bg" />
-        <img src={item.image} alt="" className="favItem__logo" />
-      </div>
+      <ItemBannerBlock banner={item.bannerImage} logo={item.image} />
 
       <div className="gaaItem__descr">
         <h3>{item.name}</h3>
@@ -37,14 +33,7 @@ const GaATableItem = ({ item }: { item: IGaaItem }) => {
 
       <div className="gaaItem__controls">
         <Button>Expand</Button>
-        <div className="gaaItem__social">
-          <img src={discordIcon} alt="discord" />
-          {/* TODO add discord members count */}
-          <p>{kFormatter(99200)}</p>
-          <a href="/">
-            <img src={linkIcon} alt="" />
-          </a>
-        </div>
+        <SocialIcon community="discord" number={99200} link="/" showLinkIcon={true} />
       </div>
     </article>
   );

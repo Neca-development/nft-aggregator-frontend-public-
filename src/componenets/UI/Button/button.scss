@@ -61,4 +61,20 @@
       color: #fff;
     }
   }
+
+  &_link {
+    background: transparent;
+    color: var(--links);
+    border: 0.0625rem solid var(--primary);
+    padding: 0.25rem 1rem;
+
+    & > a {
+      text-decoration: none;
+      color: var(--links);
+    }
+
+    &:hover {
+      border-color: var(--links);
+    }
+  }
 }

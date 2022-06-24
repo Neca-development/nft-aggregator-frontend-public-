@@ -7,6 +7,20 @@
 @import "./style/variables.scss";
 @import "./style/mixins";
 
+*::-webkit-scrollbar {
+  width: 4px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--bg);
+  margin: 0.8rem 0;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--primary);
+  border-radius: 2px;
+}
+
 html {
   font-size: 1vw;
 
