@@ -15,15 +15,6 @@
     align-items: center;
   }
 
-  &__tabs {
-    background: #19002c;
-    border-radius: 1.125rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.125rem;
-  }
-
   &__colNames {
     display: flex;
     align-items: center;
@@ -31,31 +22,6 @@
 
     & h2 {
       margin-right: 2.125rem;
-    }
-  }
-
-  &__tabBtn {
-    background: transparent;
-    border: none;
-    font-weight: 500;
-    font-size: 1rem;
-    line-height: 1.375rem;
-    color: var(--pale);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.3125rem 1.5rem;
-    cursor: pointer;
-    @include hoverTransition;
-
-    &:hover {
-      color: #fff;
-    }
-
-    &_active {
-      background: var(--primary);
-      border-radius: 1rem;
-      color: #fff;
     }
   }
 

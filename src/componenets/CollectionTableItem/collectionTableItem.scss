@@ -42,12 +42,4 @@
   &__textSize {
     justify-content: flex-end;
   }
-
-  &__textDaily {
-    color: var(--success);
-
-    &_down {
-      color: var(--accent);
-    }
-  }
 }

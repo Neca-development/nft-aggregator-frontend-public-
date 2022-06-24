@@ -6,30 +6,10 @@
   padding-bottom: 1rem;
   position: relative;
 
-  &__imageBlock {
-    position: relative;
-    padding-bottom: 1.875rem;
-    margin-bottom: 0.625rem;
-  }
-
   & .heart {
     position: absolute;
     right: 0.5rem;
-    bottom: 2.6rem;
-  }
-
-  &__bg {
-    width: 100%;
-    border-radius: 0.8rem 0.8rem 0px 0px;
-  }
-
-  &__logo {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 1.875rem;
-    width: 3.75rem;
+    bottom: 11rem;
   }
 
   & > h4 {

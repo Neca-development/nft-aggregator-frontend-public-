@@ -9,7 +9,7 @@ export interface ICollection {
   discordMembersCount: number;
   twitterFollowersCount: number;
   isFavorite: boolean;
-  createdAt: string | Date;
+  createdAt: string;
   ownersCount: number;
   volumeTraded: number;
   weeklyChange: number;
@@ -17,12 +17,13 @@ export interface ICollection {
   description: string;
   discordMessages: IDiscordMessage[];
   twitter: ITwitterMessage;
+  banner: string;
 }
 
 interface IDiscordMessage {
   id: number;
   text: string;
-  createdAt: string | Date;
+  createdAt: string;
   discordId: string;
   author: {
     name: string;

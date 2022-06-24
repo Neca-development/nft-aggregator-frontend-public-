@@ -5,7 +5,7 @@ import classnames from "classnames";
 interface IButtonProps {
   children: any;
   icon?: "wallet" | "profile";
-  variant?: "primary" | "secondary" | "gradient";
+  variant?: "primary" | "secondary" | "gradient" | "link";
   size?: "normal" | "large";
   onClick?: () => void;
 }
@@ -18,6 +18,7 @@ const Button = (props: IButtonProps) => {
         "btn",
         { btn_secondary: variant === "secondary" },
         { btn_gradient: variant === "gradient" },
+        { btn_link: variant === "link" },
         { btn_large: size === "large" }
       )}
       onClick={onClick}

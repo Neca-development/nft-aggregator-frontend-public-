@@ -5,14 +5,14 @@ import { GiveawaysAndAnnMock } from "../../mocks/gaa";
 import GaATableItem from "../../componenets/GaATableItem/GaATableItem";
 import Button from "../../componenets/UI/Button/Button";
 import { useNavigate } from "react-router-dom";
-import classNames from "classnames";
 import { GivewaysFilterBy } from "../../models/filters";
 import TableFilterTitle from "../../componenets/UI/TableFilterTitle/TableFilterTitle";
+import Tabs from "../../componenets/UI/Tabs/Tabs";
 
 enum GaaTabs {
-  all = "all",
-  giveaway = "giveaway",
-  announce = "announcements",
+  all = "All",
+  giveaway = "Giveaways",
+  announce = "Announcements",
 }
 
 function Giveaways() {
@@ -32,32 +32,11 @@ function Giveaways() {
 
       <section className="giveaways">
         <div className="giveaways__header">
-          <div className="giveaways__tabs">
-            <button
-              className={classNames("giveaways__tabBtn", {
-                giveaways__tabBtn_active: activeTab === GaaTabs.all,
-              })}
-              onClick={() => setActiveTab(GaaTabs.all)}
-            >
-              All
-            </button>
-            <button
-              className={classNames("giveaways__tabBtn", {
-                giveaways__tabBtn_active: activeTab === GaaTabs.giveaway,
-              })}
-              onClick={() => setActiveTab(GaaTabs.giveaway)}
-            >
-              Giveaways
-            </button>
-            <button
-              className={classNames("giveaways__tabBtn", {
-                giveaways__tabBtn_active: activeTab === GaaTabs.announce,
-              })}
-              onClick={() => setActiveTab(GaaTabs.announce)}
-            >
-              Announcements
-            </button>
-          </div>
+          <Tabs
+            tabsArray={[GaaTabs.all, GaaTabs.giveaway, GaaTabs.announce]}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+          />
           <div className="giveaways__colNames">
             <TableFilterTitle
               name="Date"

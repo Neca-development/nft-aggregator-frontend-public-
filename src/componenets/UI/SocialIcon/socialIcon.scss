@@ -1,0 +1,19 @@
+.socialIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & > img {
+    max-width: 1.4rem;
+  }
+
+  & > p {
+    margin: 0 0.3rem;
+  }
+
+  & > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
