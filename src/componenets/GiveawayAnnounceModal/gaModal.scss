@@ -1,0 +1,54 @@
+.gaModal {
+  height: auto;
+  max-height: inherit;
+  width: 56.25rem;
+  margin: 1rem;
+  padding: 1rem;
+  padding-right: 0.75rem;
+  background: #1a132e;
+  border-radius: 0.625rem;
+  overflow-y: auto;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+
+    & > img {
+      width: 2.5rem;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+
+    & > p {
+      font-weight: 500;
+      font-size: 1rem;
+      line-height: 1.375rem;
+      margin-right: 0.5rem;
+    }
+
+    & > span {
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.375rem;
+      color: var(--pale);
+    }
+
+    & > button {
+      margin-left: auto;
+    }
+  }
+
+  & h4 {
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 1.375rem;
+  }
+
+  &__text {
+    margin-top: 0.75rem;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.375rem;
+  }
+}

@@ -12,15 +12,17 @@ export interface IGaaItem {
   name: string;
   size: number;
   floorPrice: number;
-  discordMessage: {
-    id: number;
-    text: string;
-    createdAt: Date | string;
-    discordId: string;
-    author: {
-      name: string;
-      image: string;
-    };
-    channelType: string;
+  discordMessage: IGaaMessage;
+}
+
+export interface IGaaMessage {
+  id: number;
+  text: string;
+  createdAt: string;
+  discordId: string;
+  author: {
+    name: string;
+    image: string;
   };
+  channelType: string;
 }

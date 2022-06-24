@@ -30,13 +30,13 @@ const TableFilterTitle = ({
   };
 
   return (
-    <div className="tableFilterTitle" onClick={handleActiveFilter}>
-      <h2>
+    <button className="tableFilterTitle" onClick={handleActiveFilter}>
+      <span>
         {name}
         {activeFilter === filter &&
           (isSortAsc ? <img src={sortAscIcon} alt="asc" /> : <img src={sortDescIcon} alt="desc" />)}
-      </h2>
-    </div>
+      </span>
+    </button>
   );
 };
 
