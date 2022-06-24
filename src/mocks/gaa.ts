@@ -12,12 +12,12 @@ export const GiveawaysAndAnnMock: IGiveawaysAndAnn = {
       floorPrice: 28.89,
       discordMessage: {
         id: 0,
-        text: "FLOOR MIGHT NOT BE ACCURATE! Lowest listings could be locked in staking and not purchasable. The Impostors Genesis Aliens Lowest listings could be locked in street",
+        text: "FLOOR MIGHT NOT BE ACCURATE! Lowest listings could be locked in staking and not purchasable. The Impostors Genesis Aliens Lowest listings could be locked in street. FLOOR MIGHT NOT BE ACCURATE! Lowest listings could be locked in staking and not purchasable. The Impostors Genesis Aliens Lowest listings could be locked in street. FLOOR MIGHT NOT BE ACCURATE! Lowest listings could be locked in staking and not purchasable. The Impostors Genesis Aliens Lowest listings could be locked in street. FLOOR MIGHT NOT BE ACCURATE! Lowest listings could be locked in staking and not purchasable. The Impostors Genesis Aliens Lowest listings could be locked in street. FLOOR MIGHT NOT BE ACCURATE! Lowest listings could be locked in staking and not purchasable. The Impostors Genesis Aliens Lowest listings could be locked in street. FLOOR MIGHT NOT BE ACCURATE! Lowest listings could be locked in staking and not purchasable. The Impostors Genesis Aliens Lowest listings could be locked in street.",
         createdAt: "2022-06-23T09:01:47.608Z",
         discordId: "string",
         author: {
-          name: "string",
-          image: "string",
+          name: "Scott Chegg",
+          image: mockLogo,
         },
         channelType: "giveaway",
       },
@@ -35,7 +35,7 @@ export const GiveawaysAndAnnMock: IGiveawaysAndAnn = {
         discordId: "string",
         author: {
           name: "string",
-          image: "string",
+          image: mockLogo,
         },
         channelType: "announcement",
       },

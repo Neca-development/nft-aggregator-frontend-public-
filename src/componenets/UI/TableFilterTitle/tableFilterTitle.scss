@@ -2,14 +2,18 @@
 
 .tableFilterTitle {
   cursor: pointer;
+  border: none;
+  background: transparent;
+  text-align: left;
+  padding: 0;
 
   &:hover {
-    & h2 {
+    & span {
       color: #fff;
     }
   }
 
-  & > h2 {
+  & > span {
     position: relative;
     font-weight: 500;
     font-size: 0.8125rem;

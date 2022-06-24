@@ -1,8 +1,14 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import classNames from "classnames";
 import "./tabs.scss";
 
-const Tabs = ({ tabsArray, activeTab, setActiveTab }) => {
+interface ITabsProps {
+  tabsArray: string[];
+  activeTab: string;
+  setActiveTab: Dispatch<SetStateAction<string>>;
+}
+
+const Tabs = ({ tabsArray, activeTab, setActiveTab }: ITabsProps) => {
   return (
     <div className="tabs">
       {tabsArray.map((tab: string, idx: number) => (
