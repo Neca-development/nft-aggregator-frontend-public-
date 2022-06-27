@@ -5,6 +5,7 @@ import InfoModal from "./componenets/InfoModal/InfoModal";
 import Collections from "./pages/Collections/Collections";
 import Favorite from "./pages/Favorite/Favorite";
 import Giveaways from "./pages/Giveaways/Giveaways";
+import Profile from "./pages/Profile/Profile";
 
 // maybe rewrite later
 function RequireSubscriptionGuard({ children }) {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/" element={<Collections />} />
         <Route path="/favorite" element={<Favorite />} />
         <Route path="/giveaways" element={<Giveaways />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </div>
   );

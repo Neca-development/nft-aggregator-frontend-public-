@@ -1,7 +1,10 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import userSlice from "./state/userSlice";
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    user: userSlice,
+  },
   devTools: process.env.NODE_ENV !== "production",
 });
 
