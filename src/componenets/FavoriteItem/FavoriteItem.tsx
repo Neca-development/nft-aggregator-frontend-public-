@@ -14,7 +14,7 @@ import CollectionModal from "../CollectionModal/CollectionModal";
 import { collectionItemMock } from "../../mocks/collection";
 
 const FavoriteItem = ({ item }: { item: IFavorite }) => {
-  const { toggle: openModal, HookModal } = useModal();
+  const { toggle: openModal, hookModal } = useModal();
   // TEMP get collection info from backend
   const tempItem = collectionItemMock;
 
@@ -51,7 +51,7 @@ const FavoriteItem = ({ item }: { item: IFavorite }) => {
         </div>
       </article>
 
-      {HookModal(<CollectionModal item={tempItem} />)}
+      {hookModal(<CollectionModal item={tempItem} />)}
     </>
   );
 };

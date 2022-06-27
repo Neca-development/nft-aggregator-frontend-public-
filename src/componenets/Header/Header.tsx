@@ -4,10 +4,15 @@ import logo from "../../assets/icons/logo.svg";
 import Button from "../UI/Button/Button";
 import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
+import { useModal } from "../../app/useModal";
+import TransactionProcessingModal from "../TransactionProcessingModal/TransactionProcessingModal";
+
+const mockTransInProccess = true;
 
 function Header() {
   const location = useLocation();
   const [currentTab, setCurrentTab] = useState("/");
+  const { toggle: openTransInProcModal, hookModal } = useModal();
 
   // Observe tab change to add styling
   useEffect(() => {
@@ -53,7 +58,11 @@ function Header() {
             </li>
           </ul>
         </nav>
-        <Button icon="wallet">Log in</Button>
+        <Button icon="wallet" onClick={openTransInProcModal}>
+          Log in
+        </Button>
+
+        {hookModal(<TransactionProcessingModal />)}
       </div>
     </header>
   );

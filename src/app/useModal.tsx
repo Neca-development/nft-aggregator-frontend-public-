@@ -11,7 +11,7 @@ export const useModal = () => {
     setIsShowing(!isShowing);
   }, [isShowing]);
 
-  const HookModal = useCallback(
+  const hookModal = useCallback(
     (children: React.ReactNode) => {
       return ReactDOM.createPortal(
         <CSSTransition
@@ -31,5 +31,5 @@ export const useModal = () => {
     [isShowing, toggle]
   );
 
-  return { toggle, HookModal };
+  return { toggle, hookModal };
 };

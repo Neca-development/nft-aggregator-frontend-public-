@@ -14,12 +14,12 @@ interface ICollectionTableItemProps {
 }
 
 const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
-  const { toggle: openModal, HookModal } = useModal();
+  const { toggle: openCollectionModal, hookModal } = useModal();
 
   return (
     <>
       <article className="collectionTableItem">
-        <div className="collectionTableItem__itemName" onClick={openModal}>
+        <div className="collectionTableItem__itemName" onClick={openCollectionModal}>
           <img src={item.image} alt="" className="collectionTableItem__itemImage" />
           <p>{item.name}</p>
         </div>
@@ -44,7 +44,7 @@ const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
         <Heart isFavorite={item.isFavorite} />
       </article>
 
-      {HookModal(<CollectionModal item={item} />)}
+      {hookModal(<CollectionModal item={item} />)}
     </>
   );
 };

@@ -1,0 +1,26 @@
+.infoModal {
+  width: 40rem;
+  height: 24rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0 auto;
+
+  & > h3 {
+    font-weight: 500;
+    font-size: 1.125rem;
+    line-height: 1.375rem;
+    color: var(--success);
+  }
+
+  & > p {
+    margin-top: 1.25rem;
+    margin-bottom: 2.25rem;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.375rem;
+    max-width: 30rem;
+  }
+}

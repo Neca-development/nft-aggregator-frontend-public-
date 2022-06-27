@@ -63,7 +63,7 @@ const CollectionModal = ({ item }: { item: ICollection }) => {
               <div className="mesg__noAccess">
                 <p>Viewing tweets is only available with a paid subscription</p>
                 <Button variant="gradient" size="large">
-                  Buy subscription
+                  Buy Subscription
                 </Button>
               </div>
             ))}
