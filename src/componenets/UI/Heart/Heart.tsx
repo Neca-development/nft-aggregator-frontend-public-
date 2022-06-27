@@ -1,13 +1,14 @@
 import React, { useState } from "react";
+import { useAppSelector } from "../../../app/hooks";
 import { useModal } from "../../../app/useModal";
 import InfoModal from "../../InfoModal/InfoModal";
 import "./heart.scss";
 
 // mocks
 let mockFavSize = 1;
-const mockHasSubscription = false;
 
 const Heart = ({ isFavorite, onClick }: { isFavorite: boolean; onClick?: () => void }) => {
+  const { hasSubscription } = useAppSelector(state => state.user);
   const { toggle: openLimitModal, hookModal } = useModal();
   const [isFav, setIsFav] = useState(isFavorite);
 
@@ -19,7 +20,7 @@ const Heart = ({ isFavorite, onClick }: { isFavorite: boolean; onClick?: () => v
       return;
     }
     // WARN >=1 just for testing, set to 3 later
-    if (mockFavSize >= 1 && mockHasSubscription === false) {
+    if (mockFavSize >= 1 && hasSubscription === false) {
       openLimitModal();
     } else {
       // add to favorites here

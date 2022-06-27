@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../app/hooks";
 import Button from "../UI/Button/Button";
 import "./infoModal.scss";
 
@@ -6,10 +8,10 @@ interface IInfoModalProps {
   type: "no-subscription" | "reached-limit" | "expired";
 }
 
-const tempMetamaskConnected = true;
-const tempUserHasSubs = false;
-
 const InfoModal = ({ type }: IInfoModalProps) => {
+  const { wallet, hasSubscription } = useAppSelector(state => state.user);
+  const navigate = useNavigate();
+
   return (
     <div className="infoModal">
       {type === "no-subscription" && (
@@ -35,10 +37,9 @@ const InfoModal = ({ type }: IInfoModalProps) => {
           </p>
         </>
       )}
-      {/* @ts-ignore */}
-      {tempMetamaskConnected === false && <Button size="large">Connect Metamask</Button>}
-      {tempMetamaskConnected === true && tempUserHasSubs === false && (
-        <Button size="large" variant="gradient">
+      {!wallet && <Button size="large">Connect Metamask</Button>}
+      {wallet && hasSubscription === false && (
+        <Button size="large" variant="gradient" onClick={() => navigate("/profile")}>
           Buy Subscription
         </Button>
       )}

@@ -59,6 +59,10 @@
     &:hover {
       background-position: 0%;
       color: #fff;
+
+      & path {
+        stroke: #fff;
+      }
     }
   }
 

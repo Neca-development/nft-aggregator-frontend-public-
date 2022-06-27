@@ -4,13 +4,15 @@ import FavoriteItem from "../../componenets/FavoriteItem/FavoriteItem";
 import Button from "../../componenets/UI/Button/Button";
 import { favoriteItemMock } from "../../mocks/favorite";
 import "./favorite.scss";
-import favoriteTempSkeleton from "../../assets/images/favorite-skeleton.png";
 import { useModal } from "../../app/useModal";
 import InfoModal from "../../componenets/InfoModal/InfoModal";
+import { useAppSelector } from "../../app/hooks";
+import FavoriteSkeleton from "../../componenets/UI/FavoriteSkeleton/FavoriteSkeleton";
 
 const favoritesMock = [favoriteItemMock, favoriteItemMock, favoriteItemMock];
 
 function Favorite() {
+  const { hasSubscription } = useAppSelector(state => state.user);
   const navigate = useNavigate();
   const { toggle: openLimitModal, hookModal } = useModal();
 
@@ -23,15 +25,17 @@ function Favorite() {
               {favoritesMock.map((fav, idx) => (
                 <FavoriteItem key={idx} item={fav} />
               ))}
-              <img src={favoriteTempSkeleton} alt="" />
-              <img src={favoriteTempSkeleton} alt="" />
-              <img src={favoriteTempSkeleton} alt="" />
+              <FavoriteSkeleton />
+              <FavoriteSkeleton />
+              <FavoriteSkeleton />
             </section>
-            <div className="favorite__loadMoreBtn">
-              <Button size="large" variant="gradient" onClick={openLimitModal}>
-                Load more
-              </Button>
-            </div>
+            {hasSubscription === false && (
+              <div className="favorite__loadMoreBtn">
+                <Button size="large" variant="gradient" onClick={openLimitModal}>
+                  Load more
+                </Button>
+              </div>
+            )}
 
             {hookModal(<InfoModal type="expired" />)}
           </>

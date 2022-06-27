@@ -2,28 +2,29 @@ import React, { useEffect, useState } from "react";
 import "./header.scss";
 import logo from "../../assets/icons/logo.svg";
 import Button from "../UI/Button/Button";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import { useModal } from "../../app/useModal";
 import TransactionProcessingModal from "../TransactionProcessingModal/TransactionProcessingModal";
-
-const mockTransInProccess = true;
+import { useAppSelector } from "../../app/hooks";
 
 function Header() {
+  const { wallet, transactionState } = useAppSelector(state => state.user);
   const location = useLocation();
+  const navigate = useNavigate();
   const [currentTab, setCurrentTab] = useState("/");
-  const { toggle: openTransInProcModal, hookModal } = useModal();
+  const { toggle: openTransInProccessModal, hookModal } = useModal();
 
   // Observe tab change to add styling
   useEffect(() => {
     if (location.pathname.match(/^\/$/)) {
       setCurrentTab("/");
-    }
-    if (location.pathname.match(/^\/favorite$/)) {
+    } else if (location.pathname.match(/^\/favorite$/)) {
       setCurrentTab("/favorite");
-    }
-    if (location.pathname.match(/^\/giveaways$/)) {
+    } else if (location.pathname.match(/^\/giveaways$/)) {
       setCurrentTab("/giveaways");
+    } else {
+      setCurrentTab(null);
     }
   }, [location]);
 
@@ -58,9 +59,22 @@ function Header() {
             </li>
           </ul>
         </nav>
-        <Button icon="wallet" onClick={openTransInProcModal}>
-          Log in
-        </Button>
+
+        {wallet ? (
+          transactionState === "none" ? (
+            <Button icon="profile" onClick={() => navigate("/profile")}>
+              Profile
+            </Button>
+          ) : (
+            <Button icon="profile" variant="gradient" onClick={openTransInProccessModal}>
+              Transaction in progress
+            </Button>
+          )
+        ) : (
+          <Button icon="wallet" onClick={() => navigate("/profile")}>
+            Log in
+          </Button>
+        )}
 
         {hookModal(<TransactionProcessingModal />)}
       </div>
