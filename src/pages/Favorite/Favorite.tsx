@@ -5,11 +5,14 @@ import Button from "../../componenets/UI/Button/Button";
 import { favoriteItemMock } from "../../mocks/favorite";
 import "./favorite.scss";
 import favoriteTempSkeleton from "../../assets/images/favorite-skeleton.png";
+import { useModal } from "../../app/useModal";
+import InfoModal from "../../componenets/InfoModal/InfoModal";
 
 const favoritesMock = [favoriteItemMock, favoriteItemMock, favoriteItemMock];
 
 function Favorite() {
   const navigate = useNavigate();
+  const { toggle: openLimitModal, hookModal } = useModal();
 
   return (
     <main className="container favorite">
@@ -25,10 +28,12 @@ function Favorite() {
               <img src={favoriteTempSkeleton} alt="" />
             </section>
             <div className="favorite__loadMoreBtn">
-              <Button size="large" variant="gradient">
+              <Button size="large" variant="gradient" onClick={openLimitModal}>
                 Load more
               </Button>
             </div>
+
+            {hookModal(<InfoModal type="expired" />)}
           </>
         ) : (
           <div className="favorite__empty">

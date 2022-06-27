@@ -9,7 +9,7 @@ import { useModal } from "../../app/useModal";
 import GiveawayAnnounceModal from "../GiveawayAnnounceModal/GiveawaysAnnounceModal";
 
 const GaATableItem = ({ item }: { item: IGaaItem }) => {
-  const { toggle: openModal, HookModal } = useModal();
+  const { toggle: openModal, hookModal } = useModal();
 
   return (
     <>
@@ -42,7 +42,7 @@ const GaATableItem = ({ item }: { item: IGaaItem }) => {
         </div>
       </article>
 
-      {HookModal(<GiveawayAnnounceModal message={item.discordMessage} />)}
+      {hookModal(<GiveawayAnnounceModal message={item.discordMessage} />)}
     </>
   );
 };
