@@ -52,7 +52,7 @@
   }
 
   &_gradient {
-    background: linear-gradient(90deg, #3adfcb 0%, #219cfb 38%, #861af0 70%, #d00683 100%);
+    background: var(--gradient);
     background-position: 100%;
     background-size: 200%;
 
@@ -82,7 +82,7 @@
       color: var(--links);
 
       & path {
-        stroke: #ba65fb;
+        stroke: var(--links);
       }
     }
   }

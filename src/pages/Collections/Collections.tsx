@@ -8,7 +8,7 @@ import { CollectionsFilterBy } from "../../models/filters";
 import Button from "../../componenets/UI/Button/Button";
 
 function Collections() {
-  const [activeFilter, setActiveFilter] = useState(null);
+  const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [isSortAsc, setIsSortAsc] = useState(true);
 
   return (

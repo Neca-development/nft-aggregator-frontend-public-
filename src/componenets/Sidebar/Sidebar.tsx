@@ -21,10 +21,9 @@ const Sidebar: React.FC<ISidebarProps> = ({
   discordMax,
   searchPlaceholder,
 }) => {
-  // TODO maybe remade
   const [collectionSizeFilter, setCollectionSizeFilter] = useState([0, collectionMax]);
-  const [priceFilter, setPriceFilter] = useState([0, priceMax]);
-  const [twitterFolFilter, setTwitterFolFilter] = useState([0, twitterMax]);
+  const [priceFilter, setPriceFilter] = useState([0, priceMax!]);
+  const [twitterFolFilter, setTwitterFolFilter] = useState([0, twitterMax!]);
   const [discordFolFilter, setDiscordFolFilter] = useState([0, discordMax]);
 
   return (
@@ -46,7 +45,7 @@ const Sidebar: React.FC<ISidebarProps> = ({
             <RangeInput
               name="Floor Price"
               min={0}
-              max={priceMax}
+              max={priceMax!}
               value={priceFilter}
               setValue={setPriceFilter}
               showEtherIcon={true}
@@ -54,7 +53,7 @@ const Sidebar: React.FC<ISidebarProps> = ({
             <RangeInput
               name="Twitter Followers"
               min={0}
-              max={twitterMax}
+              max={twitterMax!}
               value={twitterFolFilter}
               setValue={setTwitterFolFilter}
               showEtherIcon={false}

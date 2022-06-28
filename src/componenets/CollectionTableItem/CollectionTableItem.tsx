@@ -1,6 +1,5 @@
 import React from "react";
 import "./collectionTableItem.scss";
-import etherIcon from "../../assets/icons/Ethereum.svg";
 import linkIcon from "../../assets/icons/link.svg";
 import { kFormatter } from "../../app/utils";
 import { ICollection } from "../../models/collection";
@@ -8,6 +7,7 @@ import Heart from "../UI/Heart/Heart";
 import { useModal } from "../../app/useModal";
 import CollectionModal from "../CollectionModal/CollectionModal";
 import Gain from "../UI/Gain/Gain";
+import EthereumIcon from "../UI/EthereumIcon/EthereumIcon";
 
 interface ICollectionTableItemProps {
   item: ICollection;
@@ -25,7 +25,7 @@ const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
         </div>
         <p className="collectionTableItem__textSize">{item.size.toLocaleString()}</p>
         <p>
-          <img src={etherIcon} alt="ether" />
+          <EthereumIcon />
           {item.floorPrice}
         </p>
         <Gain change={item.dailyChange} />

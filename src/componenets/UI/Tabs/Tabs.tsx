@@ -5,7 +5,7 @@ import "./tabs.scss";
 interface ITabsProps {
   tabsArray: string[];
   activeTab: string;
-  setActiveTab: Dispatch<SetStateAction<string>>;
+  setActiveTab: Dispatch<SetStateAction<any>>;
 }
 
 const Tabs = ({ tabsArray, activeTab, setActiveTab }: ITabsProps) => {

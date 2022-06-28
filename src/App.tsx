@@ -8,7 +8,7 @@ import Giveaways from "./pages/Giveaways/Giveaways";
 import Profile from "./pages/Profile/Profile";
 
 // maybe rewrite later
-function RequireSubscriptionGuard({ children }) {
+function RequireSubscriptionGuard({ children }: { children: React.ReactNode }) {
   const tempHasSubs = false;
   const redirectFunc = () => {
     return <InfoModal type="no-subscription" />;

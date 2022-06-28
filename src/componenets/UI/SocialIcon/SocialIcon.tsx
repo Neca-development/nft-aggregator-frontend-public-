@@ -17,7 +17,9 @@ const SocialIcon = ({ community, number, link, showLinkIcon }: ISocialIconProps)
     <div className="socialIcon">
       {community === "discord" && <img src={discordIcon} alt="discord" />}
       {community === "twitter" && <img src={twitterIcon} alt="discord" />}
+
       <p>{kFormatter(number)}</p>
+
       {showLinkIcon && (
         <a href={link} target="_blank" rel="noreferrer">
           <img src={linkIcon} alt="" />

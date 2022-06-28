@@ -10,7 +10,7 @@ export function hundredFormatter(num: number) {
   return num > 100 ? "99+" : num;
 }
 
-export function convertDate(date: string) {
+export function formatDate(date: string) {
   const newDate = new Date(date);
   if (newDate.getFullYear() === new Date().getFullYear()) {
     return dayjs(newDate).format("DD MMM");

@@ -1,7 +1,6 @@
 import React from "react";
 import { IFavorite } from "../../models/favorite";
 import "./favoriteItem.scss";
-import etherLogo from "../../assets/icons/Ethereum.svg";
 import Button from "../UI/Button/Button";
 import discordIcon from "../../assets/icons/discord.svg";
 import twitterIcon from "../../assets/icons/twitter.svg";
@@ -12,6 +11,7 @@ import ItemBannerBlock from "../UI/ItemBannerBlock/ItemBannerBlock";
 import { useModal } from "../../app/useModal";
 import CollectionModal from "../CollectionModal/CollectionModal";
 import { collectionItemMock } from "../../mocks/collection";
+import EthereumIcon from "../UI/EthereumIcon/EthereumIcon";
 
 const FavoriteItem = ({ item }: { item: IFavorite }) => {
   const { toggle: openModal, hookModal } = useModal();
@@ -27,11 +27,12 @@ const FavoriteItem = ({ item }: { item: IFavorite }) => {
         <h4>{item.name}</h4>
         <div className="favItem__stats">
           <p style={{ marginRight: "0.5rem" }}>
-            Floor price <img src={etherLogo} alt="" />
+            Floor price <EthereumIcon />
             {item.floorPrice}
           </p>
           <p>
-            24h change <Gain change={item.dailyChange} />
+            24h change
+            <Gain change={item.dailyChange} />
           </p>
         </div>
         <div className="favItem__stats favItem__stats_bottom">

@@ -17,6 +17,8 @@ export const useModal = () => {
 
   const hookModal = useCallback(
     (children: React.ReactNode) => {
+      const portalElement = document.getElementById("portal")!;
+
       return ReactDOM.createPortal(
         <CSSTransition
           in={isShowing}
@@ -29,7 +31,7 @@ export const useModal = () => {
             {children}
           </BaseModal>
         </CSSTransition>,
-        document.getElementById("portal")
+        portalElement
       );
     },
     [isShowing, toggle]

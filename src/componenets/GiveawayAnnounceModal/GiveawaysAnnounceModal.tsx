@@ -1,5 +1,5 @@
 import React from "react";
-import { convertDate } from "../../app/utils";
+import { formatDate } from "../../app/utils";
 import { IGaaMessage } from "../../models/gaa";
 import Button from "../UI/Button/Button";
 import "./gaModal.scss";
@@ -10,7 +10,7 @@ const GiveawayAnnounceModal = ({ message }: { message: IGaaMessage }) => {
       <div className="gaModal__header">
         <img src={message.author.image} alt="" />
         <p>{message.author.name}</p>
-        <span>{convertDate(message.createdAt)}</span>
+        <span>{formatDate(message.createdAt)}</span>
         <Button variant="link" icon="link">
           {/* NEED MESSAGE LINK */}
           <a href="/" target="_blank" rel="noreferrer">

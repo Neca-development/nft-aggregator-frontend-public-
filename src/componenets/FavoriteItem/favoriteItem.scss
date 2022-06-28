@@ -1,6 +1,6 @@
 .favItem {
   background: var(--bg);
-  border: 0.0625rem solid #4a4365;
+  border: 0.0625rem solid var(--border);
   border-radius: 0.5rem;
   overflow: hidden;
   padding-bottom: 1rem;
@@ -26,9 +26,8 @@
     display: flex;
     align-items: center;
 
-    & img {
-      width: 1rem;
-      margin: 0 0.1875rem;
+    & .gain {
+      margin-left: 0.3125rem;
     }
   }
 
@@ -44,18 +43,10 @@
       padding: 0 0.875rem 0 0.6875rem;
     }
 
-    & Button {
+    & .btn {
       width: 12.1875rem;
       margin-right: 1rem;
     }
-  }
-
-  &__increase {
-    color: var(--success);
-  }
-
-  &__descrease {
-    color: var(--accent);
   }
 
   &__socialIcon {
@@ -64,7 +55,7 @@
     display: flex;
     align-items: center;
 
-    & img {
+    & > img {
       max-width: 1.5rem;
     }
 

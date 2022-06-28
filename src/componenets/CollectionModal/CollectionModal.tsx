@@ -8,9 +8,11 @@ import etherBlue from "../../assets/icons/ether-blue.svg";
 import Gain from "../UI/Gain/Gain";
 import classNames from "classnames";
 import SocialIcon from "../UI/SocialIcon/SocialIcon";
-import { convertDate } from "../../app/utils";
+import { formatDate, kFormatter } from "../../app/utils";
 import Tabs from "../UI/Tabs/Tabs";
 import ItemBannerBlock from "../UI/ItemBannerBlock/ItemBannerBlock";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../app/hooks";
 
 enum CollectionTabs {
   discord = "Discord",
@@ -18,10 +20,11 @@ enum CollectionTabs {
 }
 
 const CollectionModal = ({ item }: { item: ICollection }) => {
+  const navigate = useNavigate();
+  const { hasSubscription } = useAppSelector(state => state.user);
+
   const [activeTab, setActiveTab] = useState(CollectionTabs.discord);
   const [showFullDescr, setShowFullDescr] = useState(false);
-  // TEMP access flag
-  const hasAccess = false;
 
   return (
     <section className="colModal">
@@ -41,20 +44,20 @@ const CollectionModal = ({ item }: { item: ICollection }) => {
                 <div className="singleMessage__header">
                   <img src={msg.author.image} alt="avatar" />
                   <p>{msg.author.name}</p>
-                  <span>{convertDate(msg.createdAt)}</span>
+                  <span>{formatDate(msg.createdAt)}</span>
                 </div>
                 <p className="singleMessage__text">{msg.text}</p>
               </div>
             ))}
           {activeTab === CollectionTabs.twitter &&
-            (hasAccess ? (
+            (hasSubscription ? (
               item.twitter.messages.map((msg, idx) => (
                 <div key={idx} className="mesg__item singleMessage">
                   <div className="singleMessage__header">
                     <img src={item.twitter.author.image} alt="avatar" />
                     <p>{item.twitter.author.name}</p>
                     {/* NEED twitter message created at date  */}
-                    {/* <span>{convertDate(msg.createdAt)}</span> */}
+                    {/* <span>{formatDate(msg.createdAt)}</span> */}
                   </div>
                   <p className="singleMessage__text">{msg}</p>
                 </div>
@@ -62,7 +65,7 @@ const CollectionModal = ({ item }: { item: ICollection }) => {
             ) : (
               <div className="mesg__noAccess">
                 <p>Viewing tweets is only available with a paid subscription</p>
-                <Button variant="gradient" size="large">
+                <Button variant="gradient" size="large" onClick={() => navigate("/profile")}>
                   Buy Subscription
                 </Button>
               </div>
@@ -79,7 +82,7 @@ const CollectionModal = ({ item }: { item: ICollection }) => {
             <h3>
               {item.name} <img src={verifiedIcon} alt="verified" />
             </h3>
-            <span>created {convertDate(item.createdAt)}</span>
+            <span>created {formatDate(item.createdAt)}</span>
           </div>
           <Heart isFavorite={item.isFavorite} />
         </div>
@@ -89,7 +92,7 @@ const CollectionModal = ({ item }: { item: ICollection }) => {
             Collection size <span>{item.size.toLocaleString()}</span>
           </p>
           <p>
-            Owners <span>{item.ownersCount}</span>
+            Owners <span>{kFormatter(item.ownersCount)}</span>
           </p>
           {/* ATTENTION LATER */}
           <Button variant="link">
@@ -164,8 +167,10 @@ const CollectionModal = ({ item }: { item: ICollection }) => {
             link="/"
             showLinkIcon={true}
           />
-          {/* NEED LINK TO SITE */}
-          <a href="/">docs.impostors.gg</a>
+          {/* NEED LINK TO COLLECTION SITE */}
+          <a href="/" target="_blank" rel="no-referrer">
+            docs.impostors.gg
+          </a>
         </div>
       </div>
     </section>

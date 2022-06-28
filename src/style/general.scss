@@ -1,0 +1,12 @@
+.container {
+  max-width: min(100%, 1440px);
+  margin: 0 auto;
+  padding: 0 2.5rem;
+}
+
+.tableLayout {
+  display: grid;
+  grid-template-columns: 14rem 1fr;
+  column-gap: 4rem;
+  margin-top: 2rem;
+}
