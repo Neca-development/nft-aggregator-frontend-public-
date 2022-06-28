@@ -2,7 +2,7 @@ import React from "react";
 import "./modal.scss";
 
 interface IBaseModalProps {
-  closeModal: () => void;
+  closeModal: (arg: React.SyntheticEvent) => void;
   children: React.ReactNode;
 }
 

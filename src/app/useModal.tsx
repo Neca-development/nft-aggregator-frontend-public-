@@ -7,9 +7,13 @@ export const useModal = () => {
   const [isShowing, setIsShowing] = useState(false);
   const nodeRef = useRef<HTMLDivElement>(null);
 
-  const toggle = useCallback(() => {
-    setIsShowing(!isShowing);
-  }, [isShowing]);
+  const toggle = useCallback(
+    (event: React.SyntheticEvent) => {
+      event.stopPropagation();
+      setIsShowing(!isShowing);
+    },
+    [isShowing]
+  );
 
   const hookModal = useCallback(
     (children: React.ReactNode) => {
