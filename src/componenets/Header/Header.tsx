@@ -24,7 +24,7 @@ function Header() {
     } else if (location.pathname.match(/^\/giveaways$/)) {
       setCurrentTab("/giveaways");
     } else {
-      setCurrentTab(null);
+      setCurrentTab("");
     }
   }, [location]);
 

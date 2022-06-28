@@ -25,11 +25,11 @@ function Favorite() {
               {favoritesMock.map((fav, idx) => (
                 <FavoriteItem key={idx} item={fav} />
               ))}
-              <FavoriteSkeleton />
-              <FavoriteSkeleton />
-              <FavoriteSkeleton />
+              {/* Check later: show skeletons if favorites size=3? */}
+              {favoritesMock.length >= 3 &&
+                Array.from(Array(3).keys()).map(i => <FavoriteSkeleton key={i} />)}
             </section>
-            {hasSubscription === false && (
+            {hasSubscription === false && favoritesMock.length >= 3 && (
               <div className="favorite__loadMoreBtn">
                 <Button size="large" variant="gradient" onClick={openLimitModal}>
                   Load more

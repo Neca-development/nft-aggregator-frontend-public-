@@ -6,8 +6,9 @@
   align-items: center;
   color: #fff;
 
-  & img {
+  & > img {
     width: 1rem;
+    margin-right: 0.1rem;
   }
 
   &_positive {

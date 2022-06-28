@@ -18,7 +18,7 @@ enum GaaTabs {
 function Giveaways() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(GaaTabs.all);
-  const [activeFilter, setActiveFilter] = useState(null);
+  const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [isSortAsc, setIsSortAsc] = useState(true);
 
   return (

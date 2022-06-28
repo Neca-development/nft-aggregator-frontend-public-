@@ -18,7 +18,7 @@
 }
 
 .mesg {
-  background: #1a132e;
+  background: var(--dark);
   border-radius: 0.625rem;
   padding: 1rem;
   padding-top: 0.625rem;
@@ -120,7 +120,7 @@
 
       & > img {
         position: absolute;
-        top: 0;
+        top: auto;
         right: -1.2rem;
         width: 1rem;
       }

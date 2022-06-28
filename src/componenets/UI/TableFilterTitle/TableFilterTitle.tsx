@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import "./tableFilterTitle.scss";
 import sortAscIcon from "../../../assets/icons/sort-asc.svg";
 import sortDescIcon from "../../../assets/icons/sort-desc.svg";
@@ -6,9 +6,9 @@ import sortDescIcon from "../../../assets/icons/sort-desc.svg";
 interface ITableFilterTitleProps {
   name: string;
   isSortAsc: boolean;
-  setActiveFilter: (arg: string) => void;
-  setIsSortAsc: (arg: boolean) => void;
-  activeFilter: string;
+  setActiveFilter: Dispatch<SetStateAction<string | null>>;
+  setIsSortAsc: Dispatch<SetStateAction<boolean>>;
+  activeFilter: string | null;
   filter: string;
 }
 

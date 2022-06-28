@@ -1,11 +1,7 @@
 import React from "react";
 import "./textInput.scss";
 
-interface ITextInputProps {
-  placeholder: string;
-}
-
-const TextInput: React.FC<ITextInputProps> = ({ placeholder }) => {
+const TextInput = ({ placeholder }: { placeholder: string }) => {
   return (
     <label className="textInput">
       <input type="text" name="search" placeholder={placeholder} />

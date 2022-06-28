@@ -4,10 +4,10 @@ import { useModal } from "../../../app/useModal";
 import InfoModal from "../../InfoModal/InfoModal";
 import "./heart.scss";
 
-// mocks
+// MOCK
 let mockFavSize = 1;
 
-const Heart = ({ isFavorite, onClick }: { isFavorite: boolean; onClick?: () => void }) => {
+const Heart = ({ isFavorite }: { isFavorite: boolean }) => {
   const { hasSubscription } = useAppSelector(state => state.user);
   const { toggle: openLimitModal, hookModal } = useModal();
   const [isFav, setIsFav] = useState(isFavorite);

@@ -1,12 +1,12 @@
 import React from "react";
 import { IGaaItem } from "../../models/gaa";
 import "./gaaTableItem.scss";
-import etherIcon from "../../assets/icons/Ethereum.svg";
 import Button from "../UI/Button/Button";
 import SocialIcon from "../UI/SocialIcon/SocialIcon";
 import ItemBannerBlock from "../UI/ItemBannerBlock/ItemBannerBlock";
 import { useModal } from "../../app/useModal";
 import GiveawayAnnounceModal from "../GiveawayAnnounceModal/GiveawaysAnnounceModal";
+import EthereumIcon from "../UI/EthereumIcon/EthereumIcon";
 
 const GaATableItem = ({ item }: { item: IGaaItem }) => {
   const { toggle: openModal, hookModal } = useModal();
@@ -23,7 +23,7 @@ const GaATableItem = ({ item }: { item: IGaaItem }) => {
               NFT: {item.size.toLocaleString()} <span>items</span>
             </p>
             <p className="gaaItem__price">
-              Floor price: <img src={etherIcon} alt="" className="etherIcon" />
+              Floor price: <EthereumIcon />
               {item.floorPrice}
             </p>
           </div>

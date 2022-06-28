@@ -1,14 +1,14 @@
 import React, { Dispatch, SetStateAction } from "react";
 import "./rangeInput.scss";
 import Slider from "rc-slider";
-import etherIcon from "../../../assets/icons/Ethereum.svg";
+import EthereumIcon from "../EthereumIcon/EthereumIcon";
 
 interface IRangeInputProps {
   name: string;
   min: number;
   max: number;
   value: number[];
-  setValue: Dispatch<SetStateAction<number[] | number>>;
+  setValue: Dispatch<SetStateAction<number[]>>;
   showEtherIcon: boolean;
 }
 
@@ -60,7 +60,7 @@ const RangeInput: React.FC<IRangeInputProps> = ({
           {showEtherIcon && (
             <div className="rangeInput__ether">
               <span>{value[0]}</span>
-              <img src={etherIcon} alt="" />
+              <EthereumIcon />
             </div>
           )}
           <input
@@ -77,7 +77,7 @@ const RangeInput: React.FC<IRangeInputProps> = ({
           {showEtherIcon && (
             <div className="rangeInput__ether">
               <span>{value[1]}</span>
-              <img src={etherIcon} alt="" />
+              <EthereumIcon />
             </div>
           )}
           <input
@@ -93,7 +93,14 @@ const RangeInput: React.FC<IRangeInputProps> = ({
         </label>
       </div>
 
-      <Slider range min={min} max={max} value={value} onChange={val => setValue(val)} />
+      <Slider
+        range
+        min={min}
+        max={max}
+        value={value}
+        //@ts-ignore
+        onChange={(val: number[]) => setValue(val)}
+      />
     </div>
   );
 };

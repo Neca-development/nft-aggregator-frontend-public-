@@ -1,10 +1,10 @@
 import React from "react";
 import Button from "../../componenets/UI/Button/Button";
 import "./profile.scss";
-import etherIcon from "../../assets/icons/Ethereum.svg";
 import metamaskIcon from "../../assets/icons/metamask.svg";
 import dayjs from "dayjs";
 import { useAppSelector } from "../../app/hooks";
+import EthereumIcon from "../../componenets/UI/EthereumIcon/EthereumIcon";
 
 function Profile() {
   const { wallet, subscriptionExpireDate, hasSubscription } = useAppSelector(state => state.user);
@@ -34,7 +34,7 @@ function Profile() {
     <section className="container profile">
       <div className="profile__body">
         <div className="profile__wallet">
-          <img src={etherIcon} alt="" className="etherIcon" />
+          <EthereumIcon />
           <p>{displayWalletAddress(wallet)}</p>
         </div>
 
