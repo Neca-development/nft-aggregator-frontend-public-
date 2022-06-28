@@ -67,6 +67,7 @@ const RangeInput: React.FC<IRangeInputProps> = ({
             type="number"
             name="min"
             min={min}
+            max={max}
             value={value[0].toString()}
             onChange={handleInputChange}
           />
@@ -82,6 +83,7 @@ const RangeInput: React.FC<IRangeInputProps> = ({
           <input
             type="number"
             name="max"
+            min={min}
             max={max}
             value={value[1].toString()}
             onChange={handleInputChange}
