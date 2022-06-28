@@ -156,13 +156,13 @@ const CollectionModal = ({ item }: { item: ICollection }) => {
             community="discord"
             number={item.discordMembersCount}
             link="/"
-            showLinkIcon={false}
+            showLinkIcon={true}
           />
           <SocialIcon
             community="twitter"
             number={item.twitterFollowersCount}
             link="/"
-            showLinkIcon={false}
+            showLinkIcon={true}
           />
           {/* NEED LINK TO SITE */}
           <a href="/">docs.impostors.gg</a>
