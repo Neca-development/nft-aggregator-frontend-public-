@@ -7,7 +7,7 @@ interface IButtonProps {
   icon?: "wallet" | "profile" | "link";
   variant?: "primary" | "secondary" | "gradient" | "link";
   size?: "normal" | "large";
-  onClick?: () => void;
+  onClick?: (arg?: any) => void;
 }
 
 const Button = (props: IButtonProps) => {

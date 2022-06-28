@@ -12,16 +12,17 @@ const Heart = ({ isFavorite, onClick }: { isFavorite: boolean; onClick?: () => v
   const { toggle: openLimitModal, hookModal } = useModal();
   const [isFav, setIsFav] = useState(isFavorite);
 
-  const handleFavoriteClick = () => {
+  const handleFavoriteClick = (e: React.SyntheticEvent) => {
+    e.stopPropagation();
     // remove from favorites here
     if (isFav) {
       setIsFav(false);
       mockFavSize -= 1;
       return;
     }
-    // WARN >=1 just for testing, set to 3 later
+    // // WARN >=1 just for testing, set to 3 later
     if (mockFavSize >= 1 && hasSubscription === false) {
-      openLimitModal();
+      openLimitModal(e);
     } else {
       // add to favorites here
       setIsFav(true);

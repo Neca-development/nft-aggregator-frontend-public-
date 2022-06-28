@@ -6,6 +6,7 @@
   padding: 0.75rem 1rem;
   border-bottom: 0.0625rem solid var(--dark);
   @include hoverTransition;
+  cursor: pointer;
 
   &:hover {
     background-color: var(--dark);
@@ -30,7 +31,6 @@
   &__itemName {
     display: flex;
     align-items: center;
-    cursor: pointer;
   }
 
   &__itemImage {

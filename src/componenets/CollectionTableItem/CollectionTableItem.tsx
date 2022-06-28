@@ -18,8 +18,8 @@ const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
 
   return (
     <>
-      <article className="collectionTableItem">
-        <div className="collectionTableItem__itemName" onClick={openCollectionModal}>
+      <article className="collectionTableItem" onClick={openCollectionModal}>
+        <div className="collectionTableItem__itemName">
           <img src={item.image} alt="" className="collectionTableItem__itemImage" />
           <p>{item.name}</p>
         </div>
@@ -31,13 +31,13 @@ const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
         <Gain change={item.dailyChange} />
         <p>
           {kFormatter(item.discordMembersCount)}
-          <a href="/">
+          <a href="/" target="_blank" rel="no-referrer" onClick={e => e.stopPropagation()}>
             <img src={linkIcon} alt="discord" />
           </a>
         </p>
         <p>
           {kFormatter(item.twitterFollowersCount)}
-          <a href="/">
+          <a href="/" target="_blank" rel="no-referrer" onClick={e => e.stopPropagation()}>
             <img src={linkIcon} alt="twitter" />
           </a>
         </p>
