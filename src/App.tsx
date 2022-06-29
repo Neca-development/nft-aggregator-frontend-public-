@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Header from "./componenets/Header/Header";
 import InfoModal from "./componenets/InfoModal/InfoModal";
+import Admin from "./pages/Admin/Admin";
 import Collections from "./pages/Collections/Collections";
 import Favorite from "./pages/Favorite/Favorite";
 import Giveaways from "./pages/Giveaways/Giveaways";
@@ -25,6 +26,8 @@ function App() {
         <Route path="/favorite" element={<Favorite />} />
         <Route path="/giveaways" element={<Giveaways />} />
         <Route path="/profile" element={<Profile />} />
+
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </div>
   );

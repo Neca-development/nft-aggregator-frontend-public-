@@ -1,0 +1,47 @@
+.editModal {
+  margin: 1rem;
+  padding: 1rem;
+  background-color: var(--dark);
+
+  & > h2 {
+    font-weight: 500;
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  & > p {
+    font-weight: 500;
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+    color: var(--accent);
+  }
+
+  &__wrapper {
+    margin-top: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1.25rem;
+  }
+
+  &__selectWrapper {
+    width: 18rem;
+    color: var(--dark);
+
+    & > span {
+      font-weight: bold;
+      font-size: 1rem;
+      line-height: 1.25rem;
+    }
+  }
+
+  &__multiselect {
+    margin-top: 0.3rem;
+  }
+
+  &__btns {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

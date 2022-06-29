@@ -1,0 +1,156 @@
+@import "../../style/mixins";
+
+.admin {
+  margin-top: 2rem !important;
+
+  &__table {
+    margin-top: 1rem;
+    background-color: var(--bg);
+    border-radius: 1rem;
+  }
+
+  &__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: start;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+
+    & .textInput {
+      width: 30%;
+    }
+  }
+
+  &__selectWrapper {
+    display: flex;
+    flex-direction: column;
+    margin-left: 2rem;
+    min-width: 15rem;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.375rem;
+
+    & > span {
+      text-transform: uppercase;
+      font-weight: 500;
+      font-size: 0.8125rem;
+      line-height: 1.375rem;
+      color: var(--pale);
+      text-transform: uppercase;
+    }
+
+    & > select {
+      width: 100%;
+      margin-top: 0.625rem;
+      border: 0.0625rem solid var(--border);
+      background-color: var(--bg);
+      color: var(--pale);
+      border-radius: 1.5rem;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.375rem;
+      padding: 0.8125rem 1rem;
+      cursor: pointer;
+      @include hoverTransition;
+
+      &:hover {
+        border-color: var(--pale);
+      }
+
+      &:focus {
+        background-color: #fff;
+        border-color: var(--primary);
+        outline: none;
+        color: var(--dark);
+      }
+    }
+  }
+
+  &__cols {
+    display: grid;
+    grid-template-columns: 40% 1fr 1fr;
+    column-gap: 2.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+    padding: 1rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 0.8125rem;
+    line-height: 1.375rem;
+    color: var(--pale);
+    text-transform: uppercase;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: 40% 1fr 1fr;
+    column-gap: 2.5rem;
+    border-bottom: 0.0625rem solid var(--dark);
+    padding: 1rem;
+    align-items: center;
+    cursor: pointer;
+    @include hoverTransition;
+
+    &:hover {
+      background-color: var(--dark);
+    }
+
+    & p {
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.375rem;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__footer {
+    margin-top: 1rem;
+    padding: 1rem;
+
+    & .pagination {
+      display: flex;
+      align-items: center;
+    }
+
+    & .page-item {
+      font-weight: 500;
+      font-weight: 500;
+      font-size: 1rem;
+      line-height: 1.375rem;
+      border: 0.0625rem solid var(--border);
+      border-radius: 50%;
+      min-width: 2rem;
+      min-height: 2rem;
+      text-align: center;
+      margin: 0 0.2rem;
+      cursor: pointer;
+      @include hoverTransition;
+
+      &:hover {
+        background-color: var(--dark);
+      }
+    }
+
+    & .page-link {
+      display: block;
+      padding: 0.2rem;
+      width: 100%;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    & .active {
+      background: var(--pale);
+    }
+
+    & .disabled {
+      pointer-events: none;
+      opacity: 0.6;
+    }
+  }
+}
