@@ -43,3 +43,21 @@ $container-width: 1440px;
 @mixin hoverTransition {
   transition: all 0.2s ease-out;
 }
+
+@mixin scrollbarOnHover {
+  overflow-y: auto;
+  mask-image: linear-gradient(to top, transparent, black),
+    linear-gradient(to left, transparent 4px, black 4px);
+  mask-size: 100% 20000px;
+  mask-position: left bottom;
+  -webkit-mask-image: linear-gradient(to top, transparent, black),
+    linear-gradient(to left, transparent 4px, black 4px);
+  -webkit-mask-size: 100% 20000px;
+  -webkit-mask-position: left bottom;
+  @include hoverTransition;
+
+  &:hover {
+    mask-position: left top;
+    -webkit-mask-position: left top;
+  }
+}

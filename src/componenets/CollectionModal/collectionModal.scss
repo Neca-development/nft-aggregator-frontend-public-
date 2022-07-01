@@ -1,3 +1,5 @@
+@import "../../style/mixins";
+
 .colModal {
   display: flex;
   justify-content: space-between;
@@ -8,12 +10,12 @@
   &__messages {
     margin: 1rem;
     width: 60%;
-    overflow-y: auto;
+    @include scrollbarOnHover;
   }
 
   &__info {
     width: 40%;
-    overflow-y: auto;
+    @include scrollbarOnHover;
   }
 }
 
