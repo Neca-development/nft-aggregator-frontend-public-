@@ -10,7 +10,7 @@ pipeline {
 
   stages {
     stage ('Check build') {
-      agent any
+      agent { label 'main' }
 
       when { changeRequest() }
 
@@ -20,7 +20,7 @@ pipeline {
     }
 
     stage('Build') {
-      agent any
+      agent { label 'main' }
 
       when {
         allOf {
@@ -48,7 +48,7 @@ pipeline {
     stage('Start') {
       parallel {
         stage('Dev') {
-          agent any
+          agent { label 'main' }
 
           when {
             allOf {
