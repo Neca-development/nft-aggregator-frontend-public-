@@ -27,7 +27,7 @@ services:
       - "--providers.docker=true"
       - "--providers.docker.constraints=Label(`custom.label`,`${GIT_REPO_NAME}-${BRANCH_NAME}`)"
       - "--providers.docker.exposedbydefault=false"
-      - "--providers.docker.network=default"
+      - "--providers.docker.network=${GIT_REPO_NAME}-${BRANCH_NAME}"
       - "--entrypoints.web.address=:80"
     ports:
       - "${WEB_PORT:-80}"
