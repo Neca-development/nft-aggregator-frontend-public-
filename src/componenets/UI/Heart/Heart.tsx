@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useAppSelector } from "../../../app/hooks";
-import { useModal } from "../../../app/useModal";
-import InfoModal from "../../InfoModal/InfoModal";
+import { useAppSelector } from "@store/store.hook";
+import { useModal } from "@hooks/useModal";
+import InfoModal from "@components/InfoModal/InfoModal";
 import "./heart.scss";
 
 // MOCK

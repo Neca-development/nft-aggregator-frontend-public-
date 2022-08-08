@@ -1,9 +1,9 @@
 import React from "react";
 import "./socialIcon.scss";
-import discordIcon from "../../../assets/icons/discord.svg";
-import twitterIcon from "../../../assets/icons/twitter.svg";
-import { kFormatter } from "../../../app/utils";
-import linkIcon from "../../../assets/icons/link.svg";
+import DiscordIcon from "@assets/icons/discord.svg";
+import TwitterIcon from "@assets/icons/twitter.svg";
+import LinkIcon from "@assets/icons/link.svg";
+import { kFormatter } from "@utils/utils";
 
 interface ISocialIconProps {
   community: "discord" | "twitter";
@@ -15,14 +15,14 @@ interface ISocialIconProps {
 const SocialIcon = ({ community, number, link, showLinkIcon }: ISocialIconProps) => {
   return (
     <div className="socialIcon">
-      {community === "discord" && <img src={discordIcon} alt="discord" />}
-      {community === "twitter" && <img src={twitterIcon} alt="discord" />}
+      {community === "discord" && <DiscordIcon />}
+      {community === "twitter" && <TwitterIcon />}
 
       <p>{kFormatter(number)}</p>
 
       {showLinkIcon && (
         <a href={link} target="_blank" rel="noreferrer">
-          <img src={linkIcon} alt="" />
+          <LinkIcon />
         </a>
       )}
     </div>

@@ -1,9 +1,13 @@
 import React from "react";
 import "./ethereumIcon.scss";
-import etherGrayIcon from "../../../assets/icons/Ethereum.svg";
+import EtherGray from "@assets/icons/Ethereum.svg";
 
 const EthereumIcon = () => {
-  return <img src={etherGrayIcon} alt="Ethereum" className="etherIcon" />;
+  return (
+    <span className="etherIcon">
+      <EtherGray />
+    </span>
+  );
 };
 
 export default EthereumIcon;

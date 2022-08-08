@@ -1,12 +1,12 @@
 import React from "react";
-import { IGaaItem } from "../../models/gaa";
+import { IGaaItem } from "@models/gaa";
 import "./gaaTableItem.scss";
-import Button from "../UI/Button/Button";
-import SocialIcon from "../UI/SocialIcon/SocialIcon";
-import ItemBannerBlock from "../UI/ItemBannerBlock/ItemBannerBlock";
-import { useModal } from "../../app/useModal";
-import GiveawayAnnounceModal from "../GiveawayAnnounceModal/GiveawaysAnnounceModal";
-import EthereumIcon from "../UI/EthereumIcon/EthereumIcon";
+import Button from "@UI/Button/Button";
+import SocialIcon from "@UI/SocialIcon/SocialIcon";
+import ItemBannerBlock from "@UI/ItemBannerBlock/ItemBannerBlock";
+import { useModal } from "@hooks/useModal";
+import GiveawayAnnounceModal from "@components/GiveawayAnnounceModal/GiveawaysAnnounceModal";
+import EthereumIcon from "@UI/EthereumIcon/EthereumIcon";
 
 const GaATableItem = ({ item }: { item: IGaaItem }) => {
   const { toggle: openModal, hookModal } = useModal();

@@ -1,20 +1,35 @@
 import React from "react";
-import Button from "../../componenets/UI/Button/Button";
+import Button from "@UI/Button/Button";
 import "./profile.scss";
-import metamaskIcon from "../../assets/icons/metamask.svg";
+import MetamaskIcon from "@assets/icons/metamask.svg";
 import dayjs from "dayjs";
-import { useAppSelector } from "../../app/hooks";
-import EthereumIcon from "../../componenets/UI/EthereumIcon/EthereumIcon";
+import { useAppDispatch, useAppSelector } from "@store/store.hook";
+import { motion } from "framer-motion";
+import { shortenAddress, useEthers } from "@usedapp/core";
+import { selectUserData, setWallet } from "@store/state/userSlice";
+import EthereumIcon from "@UI/EthereumIcon/EthereumIcon";
 
 function Profile() {
-  const { wallet, subscriptionExpireDate, hasSubscription } = useAppSelector(state => state.user);
+  const { wallet, subscriptionExpireDate, hasSubscription } = useAppSelector(selectUserData);
+  const dispatch = useAppDispatch();
+  const { activateBrowserWallet, deactivate } = useEthers();
 
   const convertExpireDate = (date: string) => {
     return dayjs(new Date(date)).format("DD.MM.YYYY");
   };
 
-  const displayWalletAddress = (address: string) => {
-    return address.slice(0, 5) + "..." + address.slice(-4);
+  const connectWallet = async () => {
+    try {
+      await activateBrowserWallet();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const disconnectWallet = () => {
+    deactivate();
+    dispatch(setWallet(null));
+    localStorage.removeItem("sign");
   };
 
   if (!wallet) {
@@ -22,8 +37,8 @@ function Profile() {
       <section className="container profile">
         <div className="profile__noMetamask">
           <p>Connect wallet to use the functionality of the service.</p>
-          <button>
-            MetaMask <img src={metamaskIcon} alt="" />
+          <button onClick={connectWallet}>
+            MetaMask <MetamaskIcon />
           </button>
         </div>
       </section>
@@ -31,11 +46,17 @@ function Profile() {
   }
 
   return (
-    <section className="container profile">
+    <motion.section
+      className="container profile"
+      initial={{ opacity: 0, translateY: -100 }}
+      animate={{ opacity: 1, translateY: 0 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+    >
       <div className="profile__body">
         <div className="profile__wallet">
           <EthereumIcon />
-          <p>{displayWalletAddress(wallet)}</p>
+          <p>{shortenAddress(wallet)}</p>
         </div>
 
         {hasSubscription === true && (
@@ -71,8 +92,14 @@ function Profile() {
             </Button>
           )}
         </div>
+
+        <div className="profile__disconnectBtn">
+          <Button variant="primary" onClick={disconnectWallet}>
+            Log out
+          </Button>
+        </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
 

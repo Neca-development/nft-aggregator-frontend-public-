@@ -1,12 +1,17 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import Header from "./componenets/Header/Header";
-import InfoModal from "./componenets/InfoModal/InfoModal";
-import Admin from "./pages/Admin/Admin";
-import Collections from "./pages/Collections/Collections";
-import Favorite from "./pages/Favorite/Favorite";
-import Giveaways from "./pages/Giveaways/Giveaways";
-import Profile from "./pages/Profile/Profile";
+import { AnimatePresence } from "framer-motion";
+import React, { useCallback, useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
+import Header from "@components/Header/Header";
+import InfoModal from "@components/InfoModal/InfoModal";
+import Admin from "@pages/Admin/Admin";
+import Collections from "@pages/Collections/Collections";
+import Favorite from "@pages/Favorite/Favorite";
+import Giveaways from "@pages/Giveaways/Giveaways";
+import Profile from "@pages/Profile/Profile";
+import { useDispatch } from "react-redux";
+import { useEthers } from "@usedapp/core";
+import { useCreateSignature } from "@hooks/useCreateSignature";
+import { setWallet } from "@store/state/userSlice";
 
 // maybe rewrite later
 function RequireSubscriptionGuard({ children }: { children: React.ReactNode }) {
@@ -18,17 +23,39 @@ function RequireSubscriptionGuard({ children }: { children: React.ReactNode }) {
 }
 
 function App() {
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const { account } = useEthers();
+  const { signMessage } = useCreateSignature();
+
+  const askForSignature = useCallback(async () => {
+    const userHasSignature = localStorage.getItem("sign");
+    if (!userHasSignature) {
+      const { signature } = await signMessage();
+      localStorage.setItem("sign", JSON.stringify(signature));
+    }
+  }, [signMessage]);
+
+  useEffect(() => {
+    if (account) {
+      dispatch(setWallet(account));
+      askForSignature();
+    }
+  }, [account, askForSignature, dispatch]);
+
   return (
     <div className="App">
       <Header />
-      <Routes>
-        <Route path="/" element={<Collections />} />
-        <Route path="/favorite" element={<Favorite />} />
-        <Route path="/giveaways" element={<Giveaways />} />
-        <Route path="/profile" element={<Profile />} />
+      <AnimatePresence exitBeforeEnter>
+        <Routes key={location.pathname} location={location}>
+          <Route path="/" element={<Collections />} />
+          <Route path="/favorite" element={<Favorite />} />
+          <Route path="/giveaways" element={<Giveaways />} />
+          <Route path="/profile" element={<Profile />} />
 
-        <Route path="/admin" element={<Admin />} />
-      </Routes>
+          <Route path="/admin" element={<Admin />} />
+        </Routes>
+      </AnimatePresence>
     </div>
   );
 }

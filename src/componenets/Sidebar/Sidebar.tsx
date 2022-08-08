@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Button from "../UI/Button/Button";
-import RangeInput from "../UI/RangeInput/RangeInput";
-import TextInput from "../UI/TextInput/TextInput";
+import Button from "@UI/Button/Button";
+import RangeInput from "@UI/RangeInput/RangeInput";
+import TextInput from "@UI/TextInput/TextInput";
 import "./sidebar.scss";
 
 interface ISidebarProps {

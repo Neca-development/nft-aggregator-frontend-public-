@@ -1,17 +1,17 @@
 import React from "react";
-import { IFavorite } from "../../models/favorite";
+import { IFavorite } from "@models/favorite";
 import "./favoriteItem.scss";
-import Button from "../UI/Button/Button";
-import discordIcon from "../../assets/icons/discord.svg";
-import twitterIcon from "../../assets/icons/twitter.svg";
-import { hundredFormatter } from "../../app/utils";
-import Heart from "../UI/Heart/Heart";
-import Gain from "../UI/Gain/Gain";
-import ItemBannerBlock from "../UI/ItemBannerBlock/ItemBannerBlock";
-import { useModal } from "../../app/useModal";
-import CollectionModal from "../CollectionModal/CollectionModal";
-import { collectionItemMock } from "../../mocks/collection";
-import EthereumIcon from "../UI/EthereumIcon/EthereumIcon";
+import Button from "@UI/Button/Button";
+import DiscordIcon from "@assets/icons/discord.svg";
+import TwitterIcon from "@assets/icons/twitter.svg";
+import Heart from "@UI/Heart/Heart";
+import Gain from "@UI/Gain/Gain";
+import ItemBannerBlock from "@UI/ItemBannerBlock/ItemBannerBlock";
+import { useModal } from "@hooks/useModal";
+import CollectionModal from "@components/CollectionModal/CollectionModal";
+import { collectionItemMock } from "@mocks/collection";
+import EthereumIcon from "@UI/EthereumIcon/EthereumIcon";
+import { hundredFormatter } from "@utils/utils";
 
 const FavoriteItem = ({ item }: { item: IFavorite }) => {
   const { toggle: openModal, hookModal } = useModal();
@@ -38,13 +38,15 @@ const FavoriteItem = ({ item }: { item: IFavorite }) => {
         <div className="favItem__stats favItem__stats_bottom">
           <Button onClick={openModal}>View more details</Button>
           <div className="favItem__socialIcon">
-            <img src={discordIcon} alt="" />
+            {/* <img src={discordIcon} alt="" /> */}
+            <DiscordIcon />
             {item.discordNewMessages > 0 && (
               <span>{hundredFormatter(item.discordNewMessages)}</span>
             )}
           </div>
           <div className="favItem__socialIcon">
-            <img src={twitterIcon} alt="" />
+            {/* <img src={twitterIcon} alt="" /> */}
+            <TwitterIcon />
             {item.twitterNewMessages > 0 && (
               <span>{hundredFormatter(item.twitterNewMessages)}</span>
             )}
