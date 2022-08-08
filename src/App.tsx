@@ -31,8 +31,14 @@ function App() {
   const askForSignature = useCallback(async () => {
     const userHasSignature = localStorage.getItem("sign");
     if (!userHasSignature) {
-      const { signature } = await signMessage();
-      localStorage.setItem("sign", JSON.stringify(signature));
+      const signResult = await signMessage();
+      if (!signResult?.signature) {
+        alert(
+          "Please confirm the signature or you will not be able to use the application. Reload the page to request it again"
+        );
+      } else {
+        localStorage.setItem("sign", JSON.stringify(signResult.signature));
+      }
     }
   }, [signMessage]);
 

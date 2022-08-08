@@ -7,7 +7,6 @@ export const useCreateSignature = () => {
   const { library, account } = useEthers();
 
   const signMessage = useCallback(async () => {
-    console.log(library);
     try {
       const signer = library.getSigner();
       const signature = await signer.signMessage(message);
@@ -19,7 +18,8 @@ export const useCreateSignature = () => {
         address,
       };
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
+      return { error: err.message };
     }
   }, [account]);
 
