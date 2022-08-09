@@ -10,7 +10,7 @@ import { selectUserData, setWallet } from "@store/state/userSlice";
 import EthereumIcon from "@UI/EthereumIcon/EthereumIcon";
 
 function Profile() {
-  const { wallet, subscriptionExpireDate, hasSubscription } = useAppSelector(selectUserData);
+  const { wallet, active, expiresAt } = useAppSelector(selectUserData);
   const dispatch = useAppDispatch();
   const { activateBrowserWallet, deactivate } = useEthers();
 
@@ -59,11 +59,11 @@ function Profile() {
           <p>{shortenAddress(wallet)}</p>
         </div>
 
-        {hasSubscription === true && (
+        {active === true && (
           <div className="profile__expireBlock">
             <p>
               The action of your subscription will expire after:
-              <span>{convertExpireDate(subscriptionExpireDate)}</span>
+              <span>{convertExpireDate(expiresAt)}</span>
             </p>
           </div>
         )}
@@ -82,7 +82,7 @@ function Profile() {
         </ul>
         <div className="profile__bottom">
           <p>Subscription cost: 0.03 ETH</p>
-          {hasSubscription ? (
+          {active ? (
             <Button variant="gradient" size="large">
               Renew subscription
             </Button>

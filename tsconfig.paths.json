@@ -9,11 +9,12 @@
       "@UI/*": ["src/componenets/UI/*"],
 
       "@store/*": ["src/store/*"],
-      "@models/*": ["src/models/*"],
-      "@mocks/*": ["src/mocks/*"],
+      "@services/*": ["src/services/*"],
 
       "@hooks/*": ["src/common/hooks/*"],
-      "@utils/*": ["src/common/utils/*"]
+      "@utils/*": ["src/common/utils/*"],
+      "@models/*": ["src/models/*"],
+      "@mocks/*": ["src/mocks/*"]
     }
   }
 }
