@@ -35,7 +35,7 @@ function Admin() {
 
   const openEditModal = (event, collection) => {
     setCollectionToEdit(collection);
-    toggleEditModal(event);
+    toggleEditModal();
   };
 
   return (

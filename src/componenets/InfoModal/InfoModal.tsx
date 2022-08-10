@@ -4,12 +4,15 @@ import { useAppSelector } from "@store/store.hook";
 import Button from "@UI/Button/Button";
 import "./infoModal.scss";
 import { selectUserData } from "@store/state/userSlice";
+import BaseModal from "@components/UI/BaseModal/BaseModal";
 
 interface IInfoModalProps {
-  type: "no-subscription" | "reached-limit" | "expired";
+  type: "no-subscription" | "reached-limit" | "expired" | "no-signature";
+  onClose: () => void;
+  isOpen: boolean;
 }
 
-const InfoModal = ({ type }: IInfoModalProps) => {
+const InfoModal = ({ type, onClose, isOpen }: IInfoModalProps) => {
   const { wallet, active } = useAppSelector(selectUserData);
   const navigate = useNavigate();
 
@@ -42,21 +45,40 @@ const InfoModal = ({ type }: IInfoModalProps) => {
             </p>
           </>
         );
+      case "no-signature":
+        return (
+          <>
+            <h3>You have rejected the signature</h3>
+            <p>
+              Please confirm the signature or you will not be able to use the full features of the
+              application. Connect your MetaMask wallet again
+            </p>
+          </>
+        );
     }
   };
 
-  return (
-    <div className="infoModal">
-      {renderInfoModal()}
+  const closeAndNavigateToProfile = () => {
+    navigate("/profile");
+    onClose();
+  };
 
-      {wallet && active === false ? (
-        <Button size="large" variant="gradient" onClick={() => navigate("/profile")}>
-          Buy Subscription
-        </Button>
-      ) : (
-        <Button size="large">Connect Metamask</Button>
-      )}
-    </div>
+  return (
+    <BaseModal closeModal={onClose} isOpen={isOpen}>
+      <div className="infoModal">
+        {renderInfoModal()}
+
+        {wallet && active === false ? (
+          <Button size="large" variant="gradient" onClick={closeAndNavigateToProfile}>
+            Buy Subscription
+          </Button>
+        ) : (
+          <Button size="large" onClick={closeAndNavigateToProfile}>
+            Connect Metamask
+          </Button>
+        )}
+      </div>
+    </BaseModal>
   );
 };
 

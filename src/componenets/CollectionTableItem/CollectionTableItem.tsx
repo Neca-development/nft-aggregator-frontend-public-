@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import "./collectionTableItem.scss";
 import LinkIcon from "@assets/icons/link.svg";
 import { kFormatter } from "@utils/utils";
 import { ICollection } from "@models/collection";
 import Heart from "@UI/Heart/Heart";
-import { useModal } from "@hooks/useModal";
 import CollectionModal from "@components/CollectionModal/CollectionModal";
 import Gain from "@UI/Gain/Gain";
 import EthereumIcon from "@components/UI/EthereumIcon/EthereumIcon";
@@ -14,11 +13,11 @@ interface ICollectionTableItemProps {
 }
 
 const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
-  const { toggle: openCollectionModal, hookModal } = useModal();
+  const [showCollectionModal, setShowCollectionModal] = useState(false);
 
   return (
     <>
-      <article className="collectionTableItem" onClick={openCollectionModal}>
+      <article className="collectionTableItem" onClick={() => setShowCollectionModal(true)}>
         <div className="collectionTableItem__itemName">
           <img src={item.image} alt="" className="collectionTableItem__itemImage" />
           <p>{item.name}</p>
@@ -44,7 +43,11 @@ const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
         <Heart isFavorite={item.isFavorite} />
       </article>
 
-      {hookModal(<CollectionModal item={item} />)}
+      <CollectionModal
+        item={item}
+        isOpen={showCollectionModal}
+        onClose={() => setShowCollectionModal(false)}
+      />
     </>
   );
 };

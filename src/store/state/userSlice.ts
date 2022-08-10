@@ -27,6 +27,9 @@ export const userSlice = createSlice({
     setSignature: (state, action: PayloadAction<string>) => {
       state.signature = action.payload;
     },
+    clearUserState: () => {
+      return initialState;
+    },
   },
   extraReducers: builder => {
     builder.addMatcher(
@@ -42,7 +45,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setWallet, setSignature } = userSlice.actions;
+export const { setWallet, setSignature, clearUserState } = userSlice.actions;
 
 export const selectUserData = (state: RootState) => state.user;
 

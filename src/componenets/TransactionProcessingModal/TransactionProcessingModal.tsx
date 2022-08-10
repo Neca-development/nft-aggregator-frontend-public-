@@ -1,12 +1,20 @@
+import BaseModal from "@components/UI/BaseModal/BaseModal";
 import React from "react";
 import "./transProcModal.scss";
 
-const TransactionProcessingModal = () => {
+interface ITransactionProcessingModalProps {
+  isOpen: boolean;
+  onClose: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const TransactionProcessingModal = ({ isOpen, onClose }: ITransactionProcessingModalProps) => {
   return (
-    <div className="transProcModal">
-      <h3>Transaction processing</h3>
-      <div>Some loader here...</div>
-    </div>
+    <BaseModal isOpen={isOpen} closeModal={onClose}>
+      <div className="transProcModal">
+        <h3>Transaction processing</h3>
+        <div>Some loader here...</div>
+      </div>
+    </BaseModal>
   );
 };
 

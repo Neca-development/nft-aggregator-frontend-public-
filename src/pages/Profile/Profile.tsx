@@ -34,14 +34,20 @@ function Profile() {
 
   if (!wallet) {
     return (
-      <section className="container profile">
+      <motion.section
+        className="container profile"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+      >
         <div className="profile__noMetamask">
           <p>Connect wallet to use the functionality of the service.</p>
           <button onClick={connectWallet}>
             MetaMask <MetamaskIcon />
           </button>
         </div>
-      </section>
+      </motion.section>
     );
   }
 

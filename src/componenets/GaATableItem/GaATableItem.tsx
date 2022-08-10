@@ -1,15 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { IGaaItem } from "@models/gaa";
 import "./gaaTableItem.scss";
 import Button from "@UI/Button/Button";
 import SocialIcon from "@UI/SocialIcon/SocialIcon";
 import ItemBannerBlock from "@UI/ItemBannerBlock/ItemBannerBlock";
-import { useModal } from "@hooks/useModal";
 import GiveawayAnnounceModal from "@components/GiveawayAnnounceModal/GiveawaysAnnounceModal";
 import EthereumIcon from "@UI/EthereumIcon/EthereumIcon";
 
 const GaATableItem = ({ item }: { item: IGaaItem }) => {
-  const { toggle: openModal, hookModal } = useModal();
+  const [showItemModal, setShowItemModal] = useState(false);
 
   return (
     <>
@@ -37,12 +36,16 @@ const GaATableItem = ({ item }: { item: IGaaItem }) => {
         </div>
 
         <div className="gaaItem__controls">
-          <Button onClick={openModal}>Expand</Button>
+          <Button onClick={() => setShowItemModal(true)}>Expand</Button>
           <SocialIcon community="discord" number={99200} link="/" showLinkIcon={true} />
         </div>
       </article>
 
-      {hookModal(<GiveawayAnnounceModal message={item.discordMessage} />)}
+      <GiveawayAnnounceModal
+        message={item.discordMessage}
+        isOpen={showItemModal}
+        onClose={() => setShowItemModal(false)}
+      />
     </>
   );
 };
