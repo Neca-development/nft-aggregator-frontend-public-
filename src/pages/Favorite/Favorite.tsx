@@ -1,21 +1,68 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FavoriteItem from "@components/FavoriteItem/FavoriteItem";
 import Button from "@components/UI/Button/Button";
-import { favoriteItemMock } from "@mocks/favorite";
 import "./favorite.scss";
 import InfoModal from "@components/InfoModal/InfoModal";
 import FavoriteSkeleton from "@UI/FavoriteSkeleton/FavoriteSkeleton";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useAppSelector } from "@store/store.hook";
 import { selectUserData } from "@store/state/userSlice";
-
-const favoritesMock = [favoriteItemMock, favoriteItemMock, favoriteItemMock];
+import { convertToFavItem } from "@utils/utils";
+import { collectionsDataMock } from "@mocks/collection";
+import { IFavorite } from "@models/favorite";
+import { freeFavoritesSize } from "@constants/constant";
 
 function Favorite() {
-  const { active } = useAppSelector(selectUserData);
+  const { active, wallet } = useAppSelector(selectUserData);
   const navigate = useNavigate();
   const [showLimitModal, setShowLimitModal] = useState(false);
+  const [favorites, setFavorites] = useState(null);
+
+  const importFavFromLs = useCallback(() => {
+    if (wallet) {
+      return;
+    }
+    const favFromLs = JSON.parse(localStorage.getItem("favorites"));
+    const findedCollections = [];
+    // request /api/collection/id here by each fav id
+
+    // TEMP
+    favFromLs.forEach((id: number) => {
+      const finded = collectionsDataMock.collections.find(c => c.id === id);
+      const converted = convertToFavItem(finded);
+      findedCollections.push(converted);
+    });
+
+    setFavorites(findedCollections);
+  }, [wallet]);
+
+  const renderFooterBtn = () => {
+    if (!wallet) {
+      return (
+        <Button size="large" variant="gradient" onClick={() => navigate("/profile")}>
+          Connect wallet
+        </Button>
+      );
+    }
+    if (active === false) {
+      return (
+        <Button size="large" variant="gradient" onClick={() => setShowLimitModal(true)}>
+          Load more
+        </Button>
+      );
+    }
+  };
+
+  // listen for deletion in ls
+  useEffect(() => {
+    importFavFromLs();
+    window.addEventListener("storage", importFavFromLs);
+
+    return () => {
+      window.removeEventListener("storage", importFavFromLs);
+    };
+  }, [importFavFromLs]);
 
   return (
     <motion.main
@@ -23,32 +70,25 @@ function Favorite() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.15 }}
+      transition={{ duration: 0.2 }}
     >
       <div className="favorite__body">
-        {favoritesMock.length > 0 ? (
+        {favorites && favorites.length > 0 ? (
           <>
             <section className="favorite__wrapper">
-              {favoritesMock.map((fav, idx) => (
-                <FavoriteItem key={idx} item={fav} />
-              ))}
+              <AnimatePresence>
+                {favorites.map((fav: IFavorite) => (
+                  <FavoriteItem key={fav.collectionId} item={fav} />
+                ))}
+              </AnimatePresence>
               {/* Check later: show skeletons if favorites size=3? */}
-              {favoritesMock.length >= 3 &&
+              {favorites.length >= freeFavoritesSize &&
                 Array.from(Array(3).keys()).map(i => <FavoriteSkeleton key={i} />)}
             </section>
-            {active === false && favoritesMock.length >= 3 && (
-              <div className="favorite__loadMoreBtn">
-                <Button size="large" variant="gradient" onClick={() => setShowLimitModal(true)}>
-                  Load more
-                </Button>
-              </div>
-            )}
 
-            <InfoModal
-              type="expired"
-              isOpen={showLimitModal}
-              onClose={() => setShowLimitModal(false)}
-            />
+            {favorites.length >= freeFavoritesSize && (
+              <div className="favorite__loadMoreBtn">{renderFooterBtn()}</div>
+            )}
           </>
         ) : (
           <div className="favorite__empty">
@@ -59,6 +99,8 @@ function Favorite() {
           </div>
         )}
       </div>
+
+      <InfoModal type="expired" isOpen={showLimitModal} onClose={() => setShowLimitModal(false)} />
     </motion.main>
   );
 }

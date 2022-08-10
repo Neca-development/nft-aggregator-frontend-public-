@@ -14,7 +14,8 @@
       "@hooks/*": ["src/common/hooks/*"],
       "@utils/*": ["src/common/utils/*"],
       "@models/*": ["src/models/*"],
-      "@mocks/*": ["src/mocks/*"]
+      "@mocks/*": ["src/mocks/*"],
+      "@constants/*": ["src/common/constants/*"]
     }
   }
 }

@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import Sidebar from "../../componenets/Sidebar/Sidebar";
+import Sidebar from "@components/Sidebar/Sidebar";
 import "./collections.scss";
-import { collectionsDataMock } from "../../mocks/collection";
-import CollectionTableItem from "../../componenets/CollectionTableItem/CollectionTableItem";
-import TableFilterTitle from "../../componenets/UI/TableFilterTitle/TableFilterTitle";
-import { CollectionsFilterBy } from "../../models/filters";
-import Button from "../../componenets/UI/Button/Button";
+import { collectionsDataMock } from "@mocks/collection";
+import CollectionTableItem from "@components/CollectionTableItem/CollectionTableItem";
+import TableFilterTitle from "@UI/TableFilterTitle/TableFilterTitle";
+import { CollectionsFilterBy } from "@models/filters";
+import Button from "@UI/Button/Button";
 import { motion } from "framer-motion";
 
 function Collections() {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [isSortAsc, setIsSortAsc] = useState(true);
+  const [data, setData] = useState(collectionsDataMock);
 
   return (
     <motion.main
@@ -22,10 +23,10 @@ function Collections() {
     >
       <Sidebar
         page="collections"
-        collectionMax={collectionsDataMock.ranges.sizeMax}
-        discordMax={collectionsDataMock.ranges.discordMembersCountMax}
-        priceMax={collectionsDataMock.ranges.floorPriceMax}
-        twitterMax={collectionsDataMock.ranges.twitterFollowersCountMax}
+        collectionMax={data.ranges.sizeMax}
+        discordMax={data.ranges.discordMembersCountMax}
+        priceMax={data.ranges.floorPriceMax}
+        twitterMax={data.ranges.twitterFollowersCountMax}
         searchPlaceholder="Collection name"
       />
 
@@ -82,9 +83,9 @@ function Collections() {
           <span></span>
         </div>
 
-        {collectionsDataMock.collections.length > 0 ? (
+        {data.collections.length > 0 ? (
           <div className="collections__body">
-            {collectionsDataMock.collections.map(item => (
+            {data.collections.map(item => (
               <CollectionTableItem key={item.id} item={item} />
             ))}
           </div>
