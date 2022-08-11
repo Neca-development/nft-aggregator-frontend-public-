@@ -6,14 +6,15 @@ import { favoriteItemMock } from "@mocks/favorite";
 import "./favorite.scss";
 import { useModal } from "@hooks/useModal";
 import InfoModal from "@components/InfoModal/InfoModal";
-import { useAppSelector } from "@store/store.hook";
 import FavoriteSkeleton from "@UI/FavoriteSkeleton/FavoriteSkeleton";
 import { motion } from "framer-motion";
+import { useAppSelector } from "@store/store.hook";
+import { selectUserData } from "@store/state/userSlice";
 
 const favoritesMock = [favoriteItemMock, favoriteItemMock, favoriteItemMock];
 
 function Favorite() {
-  const { hasSubscription } = useAppSelector(state => state.user);
+  const { active } = useAppSelector(selectUserData);
   const navigate = useNavigate();
   const { toggle: openLimitModal, hookModal } = useModal();
 
@@ -36,7 +37,7 @@ function Favorite() {
               {favoritesMock.length >= 3 &&
                 Array.from(Array(3).keys()).map(i => <FavoriteSkeleton key={i} />)}
             </section>
-            {hasSubscription === false && favoritesMock.length >= 3 && (
+            {active === false && favoritesMock.length >= 3 && (
               <div className="favorite__loadMoreBtn">
                 <Button size="large" variant="gradient" onClick={openLimitModal}>
                   Load more

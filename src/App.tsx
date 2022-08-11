@@ -11,15 +11,16 @@ import Profile from "@pages/Profile/Profile";
 import { useDispatch } from "react-redux";
 import { useEthers } from "@usedapp/core";
 import { useCreateSignature } from "@hooks/useCreateSignature";
-import { setWallet } from "@store/state/userSlice";
+import { selectUserData, setSignature, setWallet } from "@store/state/userSlice";
+import { useGetSubscriptionStateQuery } from "@services/payment.api";
+import { useAppSelector } from "@store/store.hook";
 
-// maybe rewrite later
-function RequireSubscriptionGuard({ children }: { children: React.ReactNode }) {
-  const tempHasSubs = false;
+function RequireSubscriptionGuard({ children }: { children: JSX.Element }) {
+  const { active } = useAppSelector(selectUserData);
   const redirectFunc = () => {
     return <InfoModal type="no-subscription" />;
   };
-  return tempHasSubs ? children : redirectFunc();
+  return active ? children : redirectFunc();
 }
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
   const dispatch = useDispatch();
   const { account } = useEthers();
   const { signMessage } = useCreateSignature();
+  const { refetch: getSubState } = useGetSubscriptionStateQuery();
 
   const askForSignature = useCallback(async () => {
     const userHasSignature = localStorage.getItem("sign");
@@ -37,10 +39,13 @@ function App() {
           "Please confirm the signature or you will not be able to use the application. Reload the page to request it again"
         );
       } else {
-        localStorage.setItem("sign", JSON.stringify(signResult.signature));
+        const signature = signResult.signature;
+        dispatch(setSignature(signature));
+        localStorage.setItem("sign", JSON.stringify(signature));
+        getSubState();
       }
     }
-  }, [signMessage]);
+  }, [dispatch, getSubState, signMessage]);
 
   useEffect(() => {
     if (account) {
@@ -56,7 +61,14 @@ function App() {
         <Routes key={location.pathname} location={location}>
           <Route path="/" element={<Collections />} />
           <Route path="/favorite" element={<Favorite />} />
-          <Route path="/giveaways" element={<Giveaways />} />
+          <Route
+            path="/giveaways"
+            element={
+              <RequireSubscriptionGuard>
+                <Giveaways />
+              </RequireSubscriptionGuard>
+            }
+          />
           <Route path="/profile" element={<Profile />} />
 
           <Route path="/admin" element={<Admin />} />

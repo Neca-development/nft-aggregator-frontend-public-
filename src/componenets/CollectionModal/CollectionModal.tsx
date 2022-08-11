@@ -4,7 +4,7 @@ import "./collectionModal.scss";
 import VerifiedIcon from "@assets/icons/verified.svg";
 import Heart from "@UI/Heart/Heart";
 import Button from "@UI/Button/Button";
-import etherBlue from "@assets/icons/ether-blue.svg";
+import EtherBlue from "@assets/icons/ether-blue.svg";
 import Gain from "@UI/Gain/Gain";
 import classNames from "classnames";
 import SocialIcon from "@UI/SocialIcon/SocialIcon";
@@ -13,6 +13,7 @@ import Tabs from "@UI/Tabs/Tabs";
 import ItemBannerBlock from "@UI/ItemBannerBlock/ItemBannerBlock";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "@store/store.hook";
+import { selectUserData } from "@store/state/userSlice";
 
 enum CollectionTabs {
   discord = "Discord",
@@ -21,7 +22,7 @@ enum CollectionTabs {
 
 const CollectionModal = ({ item }: { item: ICollection }) => {
   const navigate = useNavigate();
-  const { hasSubscription } = useAppSelector(state => state.user);
+  const { active } = useAppSelector(selectUserData);
 
   const [activeTab, setActiveTab] = useState(CollectionTabs.discord);
   const [showFullDescr, setShowFullDescr] = useState(false);
@@ -50,7 +51,7 @@ const CollectionModal = ({ item }: { item: ICollection }) => {
               </div>
             ))}
           {activeTab === CollectionTabs.twitter &&
-            (hasSubscription ? (
+            (active ? (
               item.twitter.messages.map((msg, idx) => (
                 <div key={idx} className="mesg__item singleMessage">
                   <div className="singleMessage__header">
@@ -111,7 +112,7 @@ const CollectionModal = ({ item }: { item: ICollection }) => {
             <p className="colModalInfo__statTitle">
               Floor price
               <span>
-                <img src={etherBlue} alt="" />
+                <EtherBlue />
                 {item.floorPrice}
               </span>
             </p>
@@ -120,7 +121,7 @@ const CollectionModal = ({ item }: { item: ICollection }) => {
             <p className="colModalInfo__statTitle">
               Volume traded
               <span>
-                <img src={etherBlue} alt="" />
+                <EtherBlue />
                 {item.volumeTraded}
               </span>
             </p>

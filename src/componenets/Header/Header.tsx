@@ -16,6 +16,28 @@ function Header() {
   const [currentTab, setCurrentTab] = useState("/");
   const { toggle: openTransInProcessModal, hookModal } = useModal();
 
+  const renderProfileBtn = () => {
+    if (wallet && transactionState === "pending") {
+      return (
+        <Button icon="profile" variant="gradient" onClick={openTransInProcessModal}>
+          Transaction in progress
+        </Button>
+      );
+    } else if (wallet) {
+      return (
+        <Button icon="profile" onClick={() => navigate("/profile")}>
+          Profile
+        </Button>
+      );
+    } else {
+      return (
+        <Button icon="wallet" onClick={() => navigate("/profile")}>
+          Log in
+        </Button>
+      );
+    }
+  };
+
   // Observe tab change to add styling
   useEffect(() => {
     if (location.pathname.match(/^\/$/)) {
@@ -61,21 +83,7 @@ function Header() {
           </ul>
         </nav>
 
-        {wallet ? (
-          transactionState === "none" ? (
-            <Button icon="profile" onClick={() => navigate("/profile")}>
-              Profile
-            </Button>
-          ) : (
-            <Button icon="profile" variant="gradient" onClick={openTransInProcessModal}>
-              Transaction in progress
-            </Button>
-          )
-        ) : (
-          <Button icon="wallet" onClick={() => navigate("/profile")}>
-            Log in
-          </Button>
-        )}
+        {renderProfileBtn()}
 
         {hookModal(<TransactionProcessingModal />)}
       </div>
