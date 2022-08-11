@@ -1,7 +1,8 @@
 import React, { useCallback, useRef, useState } from "react";
-import BaseModal from "../componenets/UI/BaseModal/BaseModal";
+import BaseModal from "@UI/BaseModal/BaseModal";
 import ReactDOM from "react-dom";
-import { CSSTransition } from "react-transition-group";
+// import { CSSTransition } from "react-transition-group";
+import { AnimatePresence } from "framer-motion";
 
 export const useModal = () => {
   const [isShowing, setIsShowing] = useState(false);
@@ -20,21 +21,25 @@ export const useModal = () => {
       const portalElement = document.getElementById("portal")!;
 
       return ReactDOM.createPortal(
-        <CSSTransition
-          in={isShowing}
-          timeout={200}
-          unmountOnExit
-          classNames="modal"
-          nodeRef={nodeRef}
-        >
-          <BaseModal closeModal={toggle} ref={nodeRef}>
-            {children}
-          </BaseModal>
-        </CSSTransition>,
+        // <CSSTransition
+        //   in={isShowing}
+        //   timeout={200}
+        //   unmountOnExit
+        //   classNames="modal"
+        //   nodeRef={nodeRef}
+        // >
+        <AnimatePresence>
+          {isShowing && (
+            <BaseModal closeModal={toggle} ref={nodeRef}>
+              {children}
+            </BaseModal>
+          )}
+        </AnimatePresence>,
+        // </CSSTransition>,
         portalElement
       );
     },
-    [isShowing, toggle]
+    [toggle, isShowing]
   );
 
   return { toggle, hookModal };

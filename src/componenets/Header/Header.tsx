@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import "./header.scss";
-import logo from "../../assets/icons/logo.svg";
-import Button from "../UI/Button/Button";
+import Logo from "@assets/icons/logo.svg";
+import Button from "@UI/Button/Button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import classNames from "classnames";
-import { useModal } from "../../app/useModal";
-import TransactionProcessingModal from "../TransactionProcessingModal/TransactionProcessingModal";
-import { useAppSelector } from "../../app/hooks";
+import { useModal } from "@hooks/useModal";
+import TransactionProcessingModal from "@components/TransactionProcessingModal/TransactionProcessingModal";
+import { useAppSelector } from "@store/store.hook";
+import { selectUserData } from "@store/state/userSlice";
 
 function Header() {
-  const { wallet, transactionState } = useAppSelector(state => state.user);
+  const { wallet, transactionState } = useAppSelector(selectUserData);
   const location = useLocation();
   const navigate = useNavigate();
   const [currentTab, setCurrentTab] = useState("/");
-  const { toggle: openTransInProccessModal, hookModal } = useModal();
+  const { toggle: openTransInProcessModal, hookModal } = useModal();
 
   // Observe tab change to add styling
   useEffect(() => {
@@ -32,7 +33,7 @@ function Header() {
     <header className="header">
       <div className="container header__wrapper">
         <Link to="/" className="header__logo">
-          <img src={logo} alt="HoarderNest" />
+          <Logo />
         </Link>
         <nav className="header__nav">
           <ul>
@@ -66,7 +67,7 @@ function Header() {
               Profile
             </Button>
           ) : (
-            <Button icon="profile" variant="gradient" onClick={openTransInProccessModal}>
+            <Button icon="profile" variant="gradient" onClick={openTransInProcessModal}>
               Transaction in progress
             </Button>
           )

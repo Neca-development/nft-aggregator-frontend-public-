@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import { ICollection } from "../../models/collection";
+import { ICollection } from "@models/collection";
 import "./collectionModal.scss";
-import verifiedIcon from "../../assets/icons/verified.svg";
-import Heart from "../UI/Heart/Heart";
-import Button from "../UI/Button/Button";
-import etherBlue from "../../assets/icons/ether-blue.svg";
-import Gain from "../UI/Gain/Gain";
+import VerifiedIcon from "@assets/icons/verified.svg";
+import Heart from "@UI/Heart/Heart";
+import Button from "@UI/Button/Button";
+import etherBlue from "@assets/icons/ether-blue.svg";
+import Gain from "@UI/Gain/Gain";
 import classNames from "classnames";
-import SocialIcon from "../UI/SocialIcon/SocialIcon";
-import { formatDate, kFormatter } from "../../app/utils";
-import Tabs from "../UI/Tabs/Tabs";
-import ItemBannerBlock from "../UI/ItemBannerBlock/ItemBannerBlock";
+import SocialIcon from "@UI/SocialIcon/SocialIcon";
+import { formatDate, kFormatter } from "@utils/utils";
+import Tabs from "@UI/Tabs/Tabs";
+import ItemBannerBlock from "@UI/ItemBannerBlock/ItemBannerBlock";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../app/hooks";
+import { useAppSelector } from "@store/store.hook";
 
 enum CollectionTabs {
   discord = "Discord",
@@ -80,7 +80,7 @@ const CollectionModal = ({ item }: { item: ICollection }) => {
         <div className="colModalInfo__header">
           <div className="colModalInfo__headerText">
             <h3>
-              {item.name} <img src={verifiedIcon} alt="verified" />
+              {item.name} <VerifiedIcon />
             </h3>
             <span>created {formatDate(item.createdAt)}</span>
           </div>

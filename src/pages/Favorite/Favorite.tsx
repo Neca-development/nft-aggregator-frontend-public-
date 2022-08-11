@@ -1,13 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import FavoriteItem from "../../componenets/FavoriteItem/FavoriteItem";
-import Button from "../../componenets/UI/Button/Button";
-import { favoriteItemMock } from "../../mocks/favorite";
+import FavoriteItem from "@components/FavoriteItem/FavoriteItem";
+import Button from "@components/UI/Button/Button";
+import { favoriteItemMock } from "@mocks/favorite";
 import "./favorite.scss";
-import { useModal } from "../../app/useModal";
-import InfoModal from "../../componenets/InfoModal/InfoModal";
-import { useAppSelector } from "../../app/hooks";
-import FavoriteSkeleton from "../../componenets/UI/FavoriteSkeleton/FavoriteSkeleton";
+import { useModal } from "@hooks/useModal";
+import InfoModal from "@components/InfoModal/InfoModal";
+import { useAppSelector } from "@store/store.hook";
+import FavoriteSkeleton from "@UI/FavoriteSkeleton/FavoriteSkeleton";
+import { motion } from "framer-motion";
 
 const favoritesMock = [favoriteItemMock, favoriteItemMock, favoriteItemMock];
 
@@ -17,7 +18,13 @@ function Favorite() {
   const { toggle: openLimitModal, hookModal } = useModal();
 
   return (
-    <main className="container favorite">
+    <motion.main
+      className="container favorite"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.15 }}
+    >
       <div className="favorite__body">
         {favoritesMock.length > 0 ? (
           <>
@@ -48,7 +55,7 @@ function Favorite() {
           </div>
         )}
       </div>
-    </main>
+    </motion.main>
   );
 }
 

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { GivewaysFilterBy } from "../../models/filters";
 import TableFilterTitle from "../../componenets/UI/TableFilterTitle/TableFilterTitle";
 import Tabs from "../../componenets/UI/Tabs/Tabs";
+import { motion } from "framer-motion";
 
 enum GaaTabs {
   all = "All",
@@ -22,7 +23,13 @@ function Giveaways() {
   const [isSortAsc, setIsSortAsc] = useState(true);
 
   return (
-    <main className="container tableLayout">
+    <motion.main
+      className="container tableLayout"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.15 }}
+    >
       <Sidebar
         page="giveaways"
         collectionMax={GiveawaysAndAnnMock.ranges.sizeMax}
@@ -88,7 +95,7 @@ function Giveaways() {
           </div>
         )}
       </section>
-    </main>
+    </motion.main>
   );
 }
 

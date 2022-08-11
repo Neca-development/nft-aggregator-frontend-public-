@@ -16,6 +16,10 @@
     width: 10.625rem;
     display: flex;
     align-items: center;
+
+    & svg {
+      width: 100%;
+    }
   }
 
   &__nav {

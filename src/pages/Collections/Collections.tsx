@@ -6,13 +6,20 @@ import CollectionTableItem from "../../componenets/CollectionTableItem/Collectio
 import TableFilterTitle from "../../componenets/UI/TableFilterTitle/TableFilterTitle";
 import { CollectionsFilterBy } from "../../models/filters";
 import Button from "../../componenets/UI/Button/Button";
+import { motion } from "framer-motion";
 
 function Collections() {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [isSortAsc, setIsSortAsc] = useState(true);
 
   return (
-    <main className="container tableLayout">
+    <motion.main
+      className="container tableLayout"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.15 }}
+    >
       <Sidebar
         page="collections"
         collectionMax={collectionsDataMock.ranges.sizeMax}
@@ -91,7 +98,7 @@ function Collections() {
           </div>
         )}
       </section>
-    </main>
+    </motion.main>
   );
 }
 

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
-import { useModal } from "../../app/useModal";
-import AdminEditCollectionModal from "../../componenets/AdminEditCollectionModal/AdminEditCollectionModal";
-import Button from "../../componenets/UI/Button/Button";
-import TextInput from "../../componenets/UI/TextInput/TextInput";
+import { useModal } from "@hooks/useModal";
+import AdminEditCollectionModal from "@components/AdminEditCollectionModal/AdminEditCollectionModal";
+import Button from "@UI/Button/Button";
+import TextInput from "@UI/TextInput/TextInput";
 import "./admin.scss";
 
 const mockCollection = {

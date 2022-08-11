@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
-import Button from "../UI/Button/Button";
+import Button from "@UI/Button/Button";
 import "./adminEditCollectionModal.scss";
 
 const AdminEditCollectionModal = ({

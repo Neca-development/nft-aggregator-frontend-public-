@@ -1,9 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&display=swap");
+@import-normalize;
 
 @import "rc-slider/assets/index.css";
 
 @import "./style/reset.scss";
-@import "./style/normalize.css";
+// @import "./style/normalize.css";
 @import "./style/variables.scss";
 @import "./style/general.scss";
 @import "./style/mixins";

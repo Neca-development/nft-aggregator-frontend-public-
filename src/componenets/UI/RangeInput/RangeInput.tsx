@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, memo, SetStateAction } from "react";
 import "./rangeInput.scss";
 import Slider from "rc-slider";
 import EthereumIcon from "../EthereumIcon/EthereumIcon";
@@ -105,4 +105,4 @@ const RangeInput: React.FC<IRangeInputProps> = ({
   );
 };
 
-export default RangeInput;
+export default memo(RangeInput);

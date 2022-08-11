@@ -1,7 +1,7 @@
 import React from "react";
 import "./gain.scss";
-import arrowUp from "../../../assets/icons/arrow-up.svg";
-import arrowDown from "../../../assets/icons/arrow-down.svg";
+import ArrowUp from "@assets/icons/arrow-up.svg";
+import ArrowDown from "@assets/icons/arrow-down.svg";
 
 const Gain = ({ change }: { change: number }) => {
   if (change === 0) {
@@ -11,7 +11,7 @@ const Gain = ({ change }: { change: number }) => {
   if (change > 0) {
     return (
       <span className="gain gain_positive">
-        <img src={arrowUp} alt="change" />
+        <ArrowUp />
         {change}%
       </span>
     );
@@ -20,7 +20,7 @@ const Gain = ({ change }: { change: number }) => {
   if (change < 0) {
     return (
       <span className="gain gain_negative">
-        <img src={arrowDown} alt="change" />
+        <ArrowDown />
         {change.toString().slice(1)}%
       </span>
     );

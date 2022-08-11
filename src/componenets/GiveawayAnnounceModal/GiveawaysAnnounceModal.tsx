@@ -1,8 +1,8 @@
 import React from "react";
-import { formatDate } from "../../app/utils";
-import { IGaaMessage } from "../../models/gaa";
-import Button from "../UI/Button/Button";
+import { IGaaMessage } from "@models/gaa";
+import Button from "@UI/Button/Button";
 import "./gaModal.scss";
+import { formatDate } from "@utils/utils";
 
 const GiveawayAnnounceModal = ({ message }: { message: IGaaMessage }) => {
   return (

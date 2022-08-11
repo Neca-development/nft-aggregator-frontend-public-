@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react";
 import "./tableFilterTitle.scss";
-import sortAscIcon from "../../../assets/icons/sort-asc.svg";
-import sortDescIcon from "../../../assets/icons/sort-desc.svg";
+import sortAscIcon from "@assets/icons/sort-asc.svg";
+import sortDescIcon from "@assets/icons/sort-desc.svg";
 
 interface ITableFilterTitleProps {
   name: string;

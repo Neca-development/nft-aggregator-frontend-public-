@@ -1,13 +1,13 @@
 import React from "react";
 import "./collectionTableItem.scss";
-import linkIcon from "../../assets/icons/link.svg";
-import { kFormatter } from "../../app/utils";
-import { ICollection } from "../../models/collection";
-import Heart from "../UI/Heart/Heart";
-import { useModal } from "../../app/useModal";
-import CollectionModal from "../CollectionModal/CollectionModal";
-import Gain from "../UI/Gain/Gain";
-import EthereumIcon from "../UI/EthereumIcon/EthereumIcon";
+import LinkIcon from "@assets/icons/link.svg";
+import { kFormatter } from "@utils/utils";
+import { ICollection } from "@models/collection";
+import Heart from "@UI/Heart/Heart";
+import { useModal } from "@hooks/useModal";
+import CollectionModal from "@components/CollectionModal/CollectionModal";
+import Gain from "@UI/Gain/Gain";
+import EthereumIcon from "@components/UI/EthereumIcon/EthereumIcon";
 
 interface ICollectionTableItemProps {
   item: ICollection;
@@ -32,13 +32,13 @@ const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
         <p>
           {kFormatter(item.discordMembersCount)}
           <a href="/" target="_blank" rel="no-referrer" onClick={e => e.stopPropagation()}>
-            <img src={linkIcon} alt="discord" />
+            <LinkIcon />
           </a>
         </p>
         <p>
           {kFormatter(item.twitterFollowersCount)}
           <a href="/" target="_blank" rel="no-referrer" onClick={e => e.stopPropagation()}>
-            <img src={linkIcon} alt="twitter" />
+            <LinkIcon />
           </a>
         </p>
         <Heart isFavorite={item.isFavorite} />
