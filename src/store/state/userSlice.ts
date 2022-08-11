@@ -33,7 +33,7 @@ export const userSlice = createSlice({
   },
   extraReducers: builder => {
     builder.addMatcher(
-      // write subscription state to store
+      // write subscription status in the store
       paymentApi.endpoints.getSubscriptionState.matchFulfilled,
       (state, { payload }) => {
         state.active = payload.active;

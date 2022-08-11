@@ -47,7 +47,6 @@ const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
   const checkItemInLs = useCallback(() => {
     const favFromLs = getFavFromLs();
     const newItem = { ...item };
-    console.log(newItem);
     favFromLs.forEach((id: number) => {
       if (id === newItem.id) {
         newItem.isFavorite = true;

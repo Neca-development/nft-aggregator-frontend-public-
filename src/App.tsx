@@ -1,6 +1,6 @@
 import { AnimatePresence } from "framer-motion";
 import React, { useCallback, useEffect, useState } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Header from "@components/Header/Header";
 import InfoModal from "@components/InfoModal/InfoModal";
 import Admin from "@pages/Admin/Admin";
@@ -11,7 +11,7 @@ import Profile from "@pages/Profile/Profile";
 import { useDispatch } from "react-redux";
 import { useEthers } from "@usedapp/core";
 import { useCreateSignature } from "@hooks/useCreateSignature";
-import { clearUserState, setSignature, setWallet } from "@store/state/userSlice";
+import { clearUserState, setWallet } from "@store/state/userSlice";
 import { useGetSubscriptionStateQuery } from "@services/payment.api";
 import RequireSubscriptionGuard from "@pages/RequireSubscriptionGuard";
 
@@ -20,12 +20,15 @@ function App() {
   const dispatch = useDispatch();
   const { account, deactivate } = useEthers();
   const { signMessage } = useCreateSignature();
-  const { refetch: getSubState } = useGetSubscriptionStateQuery();
+  const { refetch: getSubState, isSuccess: isLoginSuccess } = useGetSubscriptionStateQuery(null, {
+    skip: !account,
+  });
   const [showNoSignModal, setShowNoSignModal] = useState(false);
 
   const askForSignature = useCallback(async () => {
-    const userHasSignature = localStorage.getItem("sign");
-    if (!userHasSignature) {
+    const userSignature = localStorage.getItem("agAuth");
+
+    if (!userSignature) {
       const signResult = await signMessage();
       if (!signResult?.signature) {
         deactivate();
@@ -33,19 +36,23 @@ function App() {
         setShowNoSignModal(true);
       } else {
         const signature = signResult.signature;
-        dispatch(setSignature(signature));
-        localStorage.setItem("sign", JSON.stringify(signature));
+        const timestamp = signResult.timestamp;
+        const agAuth = { signature, timestamp };
+        localStorage.setItem("agAuth", JSON.stringify(agAuth));
         getSubState();
       }
     }
-  }, [dispatch, getSubState, signMessage, deactivate]);
+  }, [signMessage, deactivate, dispatch, getSubState]);
 
   useEffect(() => {
     if (account) {
-      dispatch(setWallet(account));
       askForSignature();
+
+      if (isLoginSuccess) {
+        dispatch(setWallet(account));
+      }
     }
-  }, [account, askForSignature, dispatch]);
+  }, [account, askForSignature, dispatch, isLoginSuccess]);
 
   return (
     <div className="App">
@@ -65,6 +72,8 @@ function App() {
           <Route path="/profile" element={<Profile />} />
 
           <Route path="/admin" element={<Admin />} />
+
+          <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
       </AnimatePresence>
 

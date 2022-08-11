@@ -8,7 +8,7 @@ function RequireSubscriptionGuard({ children }: { children: JSX.Element }) {
   const { active } = useAppSelector(selectUserData);
   const navigate = useNavigate();
   const redirectFunc = () => {
-    return <InfoModal type="no-subscription" onClose={() => navigate(-1)} isOpen={true} />;
+    return <InfoModal type="no-subscription" onClose={() => navigate("/profile")} isOpen={true} />;
   };
   return active ? children : redirectFunc();
 }
