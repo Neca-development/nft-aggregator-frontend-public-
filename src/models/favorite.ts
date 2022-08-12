@@ -1,10 +1,10 @@
 export interface IFavorite {
-  collectionId: number;
+  collectionId: string;
   bannerImage: string;
   image: string;
   name: string;
-  floorPrice: number;
-  dailyChange: number;
+  floorPrice: string;
+  dailyChange: string;
   discordNewMessages: number;
   twitterNewMessages: number;
 }

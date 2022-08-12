@@ -23,7 +23,7 @@ export function formatDate(date: string) {
 
 export const convertToFavItem = (item: ICollection) => {
   const converted: IFavorite = {
-    collectionId: item.id,
+    collectionId: item.openseaId,
     name: item.name,
     bannerImage: item.banner,
     dailyChange: item.dailyChange,
@@ -42,4 +42,8 @@ export const userHasSignature = () => {
   } else {
     return true;
   }
+};
+
+export const roundNumber = (value: string | number) => {
+  return Number(value).toFixed(2);
 };

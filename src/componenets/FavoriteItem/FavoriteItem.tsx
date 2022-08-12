@@ -21,7 +21,7 @@ const FavoriteItem = ({ item }: { item: IFavorite }) => {
 
   // TEMP get collection info from backend
   const getItemFromCollection = useCallback(() => {
-    const finded = collectionsDataMock.collections.filter(c => c.id === item.collectionId);
+    const finded = collectionsDataMock.collections.filter(c => c.openseaId === item.collectionId);
     // finded[0].isFavorite = true;
     setFullItem(finded[0]);
   }, [item.collectionId]);

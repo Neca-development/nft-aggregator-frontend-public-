@@ -1,4 +1,4 @@
-import { ICollectionRequest } from "@models/collection";
+import { ICollection, ICollectionRequest } from "@models/collection";
 import { IBaseResponse } from "@models/response.interface";
 import { baseApi } from "./base.api";
 
@@ -11,7 +11,15 @@ export const collectionsApi = baseApi.injectEndpoints({
         body: filter,
       }),
     }),
+    getCollectionById: builder.query<ICollection, string>({
+      query: collectionId => `collections/${collectionId}`,
+      transformResponse: (response: IBaseResponse) => response.data,
+    }),
   }),
 });
 
-export const { useGetCollectionsMutation } = collectionsApi;
+export const {
+  useGetCollectionsMutation,
+  useGetCollectionByIdQuery,
+  useLazyGetCollectionByIdQuery,
+} = collectionsApi;
