@@ -1,20 +1,43 @@
 export enum CollectionsFilterBy {
-  name = "name",
-  size = "size",
-  change = "change",
-  floorPrice = "floorPrice",
-  twitterFollowersCount = "twitterFollowersCount",
-  discordMembersCount = "discordMembersCount",
+  name = 0,
+  size = 1,
+  floorPrice = 2,
+  change = 3,
+  twitterFollowersCount = 4,
+  discordMembersCount = 5,
 }
 
 export enum GivewaysFilterBy {
-  date = "date",
-  size = "size",
-  floorPrice = "floorPrice",
-  name = "name",
+  date = 0,
+  size = 1,
+  floorPrice = 2,
+  name = 3,
 }
 
 export enum FilterType {
-  asc = "inc",
-  desc = "dec",
+  asc = 0,
+  desc = 1,
+}
+
+export interface IFilterRequest {
+  filter: INftCollectionsFilter;
+  order: ICollectionOrder;
+}
+
+export interface ICollectionOrder {
+  orderBy: CollectionsFilterBy | GivewaysFilterBy;
+  orderType: FilterType;
+}
+
+export interface INftCollectionsFilter {
+  name: string;
+  size: IRange;
+  floorPrice: IRange;
+  twitterFollowersCount: IRange;
+  discordMembersCount: IRange;
+}
+
+interface IRange {
+  from: number;
+  to?: number;
 }

@@ -34,3 +34,12 @@ export const convertToFavItem = (item: ICollection) => {
   };
   return converted;
 };
+
+export const userHasSignature = () => {
+  const userSignature = localStorage.getItem("agAuth");
+  if (!userSignature) {
+    return false;
+  } else {
+    return true;
+  }
+};

@@ -2,7 +2,7 @@ import { selectUserData } from "@store/state/userSlice";
 import { useAppSelector } from "@store/store.hook";
 import { useCallback } from "react";
 
-const useFavorite = (itemId: number) => {
+const useFavorite = (itemId: number | string) => {
   const { wallet } = useAppSelector(selectUserData);
 
   const getFavFromLs = useCallback(() => {

@@ -1,10 +1,12 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { baseApi } from "@services/base.api";
+import filterSlice from "./state/filterSlice";
 import userSlice from "./state/userSlice";
 
 export const store = configureStore({
   reducer: {
     user: userSlice,
+    filterRequest: filterSlice,
     [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(baseApi.middleware),

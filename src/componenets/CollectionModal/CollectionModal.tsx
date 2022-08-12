@@ -49,6 +49,7 @@ const CollectionModal = ({ item, isOpen, onClose, handleClickFav }: ICollectionM
 
           <div className="mesg__body">
             {activeTab === CollectionTabs.discord &&
+              item.discordMessages &&
               item.discordMessages.map(msg => (
                 <div key={msg.id} className="mesg__item singleMessage">
                   <div className="singleMessage__header">
@@ -61,6 +62,7 @@ const CollectionModal = ({ item, isOpen, onClose, handleClickFav }: ICollectionM
               ))}
             {activeTab === CollectionTabs.twitter &&
               (active ? (
+                item.twitter &&
                 item.twitter.messages.map((msg, idx) => (
                   <div key={idx} className="mesg__item singleMessage">
                     <div className="singleMessage__header">
@@ -157,7 +159,7 @@ const CollectionModal = ({ item, isOpen, onClose, handleClickFav }: ICollectionM
             })}
           >
             <p>{item.description}</p>
-            {item.description.length > 100 && (
+            {item.description && item.description.length > 100 && (
               <button onClick={() => setShowFullDescr(!showFullDescr)}>
                 {showFullDescr ? "close" : "show more"}
               </button>

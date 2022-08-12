@@ -14,45 +14,53 @@ import { useCreateSignature } from "@hooks/useCreateSignature";
 import { clearUserState, setWallet } from "@store/state/userSlice";
 import { useGetSubscriptionStateQuery } from "@services/payment.api";
 import RequireSubscriptionGuard from "@pages/RequireSubscriptionGuard";
+import { userHasSignature } from "@utils/utils";
 
 function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const { account, deactivate } = useEthers();
   const { signMessage } = useCreateSignature();
-  const { refetch: getSubState, isSuccess: isLoginSuccess } = useGetSubscriptionStateQuery(null, {
-    skip: !account,
+  const {
+    refetch: getSubState,
+    isSuccess: isLoginSuccess,
+    error: loginError,
+  } = useGetSubscriptionStateQuery(null, {
+    skip: !account && userHasSignature() === false,
   });
   const [showNoSignModal, setShowNoSignModal] = useState(false);
 
   const askForSignature = useCallback(async () => {
-    const userSignature = localStorage.getItem("agAuth");
-
-    if (!userSignature) {
-      const signResult = await signMessage();
-      if (!signResult?.signature) {
-        deactivate();
-        dispatch(clearUserState());
-        setShowNoSignModal(true);
-      } else {
-        const signature = signResult.signature;
-        const timestamp = signResult.timestamp;
-        const agAuth = { signature, timestamp };
-        localStorage.setItem("agAuth", JSON.stringify(agAuth));
-        getSubState();
-      }
+    const signResult = await signMessage();
+    if (!signResult?.signature) {
+      deactivate();
+      dispatch(clearUserState());
+      setShowNoSignModal(true);
+    } else {
+      const signature = signResult.signature;
+      const timestamp = signResult.timestamp;
+      const agAuth = { signature, timestamp };
+      localStorage.setItem("agAuth", JSON.stringify(agAuth));
+      getSubState();
     }
   }, [signMessage, deactivate, dispatch, getSubState]);
 
   useEffect(() => {
     if (account) {
-      askForSignature();
+      if (userHasSignature() === false) {
+        askForSignature();
+      }
 
       if (isLoginSuccess) {
         dispatch(setWallet(account));
       }
+
+      // @ts-ignore
+      if (loginError && loginError.data.status === 401) {
+        askForSignature();
+      }
     }
-  }, [account, askForSignature, dispatch, isLoginSuccess]);
+  }, [account, askForSignature, dispatch, isLoginSuccess, loginError]);
 
   return (
     <div className="App">
