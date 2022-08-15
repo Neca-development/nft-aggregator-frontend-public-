@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FavoriteItem from "@components/FavoriteItem/FavoriteItem";
 import Button from "@components/UI/Button/Button";
 import { favoriteItemMock } from "@mocks/favorite";
 import "./favorite.scss";
-import { useModal } from "@hooks/useModal";
 import InfoModal from "@components/InfoModal/InfoModal";
 import FavoriteSkeleton from "@UI/FavoriteSkeleton/FavoriteSkeleton";
 import { motion } from "framer-motion";
@@ -16,7 +15,7 @@ const favoritesMock = [favoriteItemMock, favoriteItemMock, favoriteItemMock];
 function Favorite() {
   const { active } = useAppSelector(selectUserData);
   const navigate = useNavigate();
-  const { toggle: openLimitModal, hookModal } = useModal();
+  const [showLimitModal, setShowLimitModal] = useState(false);
 
   return (
     <motion.main
@@ -39,13 +38,17 @@ function Favorite() {
             </section>
             {active === false && favoritesMock.length >= 3 && (
               <div className="favorite__loadMoreBtn">
-                <Button size="large" variant="gradient" onClick={openLimitModal}>
+                <Button size="large" variant="gradient" onClick={() => setShowLimitModal(true)}>
                   Load more
                 </Button>
               </div>
             )}
 
-            {hookModal(<InfoModal type="expired" />)}
+            <InfoModal
+              type="expired"
+              isOpen={showLimitModal}
+              onClose={() => setShowLimitModal(false)}
+            />
           </>
         ) : (
           <div className="favorite__empty">

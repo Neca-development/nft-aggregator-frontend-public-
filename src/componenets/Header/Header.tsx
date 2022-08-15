@@ -4,7 +4,6 @@ import Logo from "@assets/icons/logo.svg";
 import Button from "@UI/Button/Button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import classNames from "classnames";
-import { useModal } from "@hooks/useModal";
 import TransactionProcessingModal from "@components/TransactionProcessingModal/TransactionProcessingModal";
 import { useAppSelector } from "@store/store.hook";
 import { selectUserData } from "@store/state/userSlice";
@@ -14,12 +13,12 @@ function Header() {
   const location = useLocation();
   const navigate = useNavigate();
   const [currentTab, setCurrentTab] = useState("/");
-  const { toggle: openTransInProcessModal, hookModal } = useModal();
+  const [showTransInProcessModal, setShowTransInProcessModal] = useState(false);
 
   const renderProfileBtn = () => {
     if (wallet && transactionState === "pending") {
       return (
-        <Button icon="profile" variant="gradient" onClick={openTransInProcessModal}>
+        <Button icon="profile" variant="gradient" onClick={() => setShowTransInProcessModal(true)}>
           Transaction in progress
         </Button>
       );
@@ -85,7 +84,10 @@ function Header() {
 
         {renderProfileBtn()}
 
-        {hookModal(<TransactionProcessingModal />)}
+        <TransactionProcessingModal
+          isOpen={showTransInProcessModal}
+          onClose={() => setShowTransInProcessModal(false)}
+        />
       </div>
     </header>
   );

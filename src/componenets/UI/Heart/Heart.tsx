@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useModal } from "@hooks/useModal";
 import InfoModal from "@components/InfoModal/InfoModal";
 import "./heart.scss";
 import { useAppSelector } from "@store/store.hook";
@@ -10,7 +9,7 @@ let mockFavSize = 1;
 
 const Heart = ({ isFavorite }: { isFavorite: boolean }) => {
   const { active } = useAppSelector(selectUserData);
-  const { toggle: openLimitModal, hookModal } = useModal();
+  const [showLimitModal, setShowLimitModal] = useState(false);
   const [isFav, setIsFav] = useState(isFavorite);
 
   const handleFavoriteClick = (e: React.SyntheticEvent) => {
@@ -23,7 +22,7 @@ const Heart = ({ isFavorite }: { isFavorite: boolean }) => {
     }
     // // WARN >=1 just for testing, set to 3 later
     if (mockFavSize >= 1 && active === false) {
-      openLimitModal(e);
+      setShowLimitModal(true);
     } else {
       // add to favorites here
       setIsFav(true);
@@ -59,7 +58,15 @@ const Heart = ({ isFavorite }: { isFavorite: boolean }) => {
         )}
       </svg>
 
-      {hookModal(<InfoModal type="reached-limit" />)}
+      <InfoModal
+        type="reached-limit"
+        isOpen={showLimitModal}
+        onClose={() => setShowLimitModal(false)}
+      />
+
+      {/* <Modal isOpen={showLimitModal} onRequestClose={() => setShowLimitModal(false)}>
+        <div>Limit</div>
+      </Modal> */}
     </>
   );
 };
