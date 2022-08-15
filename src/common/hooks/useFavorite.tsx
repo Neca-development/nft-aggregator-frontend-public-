@@ -49,7 +49,7 @@ const useFavorite = (itemId: string) => {
   };
 
   const serverAddToFav = async () => {
-    if (active === false && userFavorites.length >= freeFavoritesSize) {
+    if (active === false && userFavorites.items.length >= freeFavoritesSize) {
       return FavoriteFunctionStatus.limit;
     }
     const response = await putToFavorites(itemId).unwrap();

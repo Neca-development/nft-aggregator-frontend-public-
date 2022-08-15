@@ -56,10 +56,10 @@ function Favorite() {
     }
   };
 
+  // Initial data loading
   useEffect(() => {
-    console.log(paginatedData);
-    if (paginatedData) {
-      setFavorites([...favorites, paginatedData]);
+    if (paginatedData?.items) {
+      setFavorites(paginatedData.items);
     }
   }, [paginatedData]);
 
@@ -75,6 +75,8 @@ function Favorite() {
 
   // TODO add page loader
 
+  // TODO add lazy pagination
+
   return (
     <PagePresenceWrapper>
       <div className="container favorite">
@@ -84,15 +86,16 @@ function Favorite() {
               <section className="favorite__wrapper">
                 <AnimatePresence>
                   {favorites.map((fav: IFavorite) => (
-                    <FavoriteItem key={fav.collectionId} item={fav} />
+                    <FavoriteItem key={fav.openseaId} item={fav} />
                   ))}
                 </AnimatePresence>
-                {/* Check later: show skeletons if favorites size=3? */}
-                {favorites.length >= freeFavoritesSize &&
+
+                {active === false &&
+                  paginatedData?.meta.totalPages > 1 &&
                   Array.from(Array(3).keys()).map(i => <FavoriteSkeleton key={i} />)}
               </section>
 
-              {favorites.length >= freeFavoritesSize && (
+              {active === false && favorites.length >= freeFavoritesSize && (
                 <div className="favorite__loadMoreBtn">{renderFooterBtn()}</div>
               )}
             </>

@@ -1,5 +1,7 @@
+import { IMeta } from "./response.interface";
+
 export interface IFavorite {
-  collectionId: string;
+  openseaId: string;
   bannerImage: string;
   image: string;
   name: string;
@@ -7,4 +9,9 @@ export interface IFavorite {
   dailyChange: string;
   discordNewMessages: number;
   twitterNewMessages: number;
+}
+
+export interface IFavoritesResponse {
+  items: IFavorite[];
+  meta: IMeta;
 }
