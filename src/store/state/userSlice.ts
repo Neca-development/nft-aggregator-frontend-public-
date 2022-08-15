@@ -1,16 +1,14 @@
 import { ISubscriptionState } from "@models/payment.interface";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { paymentApi } from "@services/payment.api";
 import { RootState } from "../store";
 
 interface IUserSlice extends ISubscriptionState {
-  wallet: string;
-  signature: string;
+  isLoggedIn: boolean;
 }
 
 const initialState: IUserSlice = {
-  wallet: null,
-  signature: null,
+  isLoggedIn: false,
   active: false,
   expiresAt: "",
   newUser: true,
@@ -21,11 +19,11 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setWallet: (state, action: PayloadAction<string>) => {
-      state.wallet = action.payload;
+    setLoggedIn: state => {
+      state.isLoggedIn = true;
     },
-    setSignature: (state, action: PayloadAction<string>) => {
-      state.signature = action.payload;
+    setLoggedOut: state => {
+      state.isLoggedIn = false;
     },
     clearUserState: () => {
       return initialState;
@@ -45,7 +43,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setWallet, setSignature, clearUserState } = userSlice.actions;
+export const { clearUserState, setLoggedIn, setLoggedOut } = userSlice.actions;
 
 export const selectUserData = (state: RootState) => state.user;
 

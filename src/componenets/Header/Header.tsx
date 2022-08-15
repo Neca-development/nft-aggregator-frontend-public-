@@ -9,20 +9,20 @@ import { useAppSelector } from "@store/store.hook";
 import { selectUserData } from "@store/state/userSlice";
 
 function Header() {
-  const { wallet, transactionState } = useAppSelector(selectUserData);
+  const { transactionState, isLoggedIn } = useAppSelector(selectUserData);
   const location = useLocation();
   const navigate = useNavigate();
   const [currentTab, setCurrentTab] = useState("/");
   const [showTransInProcessModal, setShowTransInProcessModal] = useState(false);
 
   const renderProfileBtn = () => {
-    if (wallet && transactionState === "pending") {
+    if (isLoggedIn && transactionState === "pending") {
       return (
         <Button icon="profile" variant="gradient" onClick={() => setShowTransInProcessModal(true)}>
           Transaction in progress
         </Button>
       );
-    } else if (wallet) {
+    } else if (isLoggedIn) {
       return (
         <Button icon="profile" onClick={() => navigate("/profile")}>
           Profile

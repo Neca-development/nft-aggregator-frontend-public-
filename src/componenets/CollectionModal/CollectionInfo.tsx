@@ -15,24 +15,11 @@ import Linkify from "react-linkify";
 interface ICollectionInfoProps {
   data: ICollection;
   handleClickFav: () => void;
+  isFavorite: boolean;
 }
 
-const CollectionInfo = ({ data, handleClickFav }: ICollectionInfoProps) => {
+const CollectionInfo = ({ data, handleClickFav, isFavorite }: ICollectionInfoProps) => {
   const [showFullDescr, setShowFullDescr] = useState(false);
-
-  const customLinkDecorator = (
-    decoratedHref: string,
-    decoratedText: string,
-    linkTarget: string,
-    key: number
-  ): React.ReactNode => {
-    console.log("fdfdgf");
-    return (
-      <a href={decoratedHref} key={key} target="_blank" rel="noreferrer">
-        {decoratedText}
-      </a>
-    );
-  };
 
   return (
     <div className="colModal__info colModalInfo">
@@ -46,7 +33,7 @@ const CollectionInfo = ({ data, handleClickFav }: ICollectionInfoProps) => {
           </h3>
           <span>created {formatDate(data.createdAt)}</span>
         </div>
-        <Heart isFavorite={data.isFavorite} onClick={handleClickFav} />
+        <Heart isFavorite={isFavorite} onClick={handleClickFav} />
       </div>
 
       <div className="colModalInfo__mainNumbers">
