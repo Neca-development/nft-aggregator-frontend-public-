@@ -12,6 +12,7 @@ import PagePresenceWrapper from "@components/UI/PagePresenceWrapper";
 import { ICollection, ICollectionRequest, IMaxRanges } from "@models/collection";
 import { useDidMountEffect } from "@hooks/useDidMountEffect";
 import { motion } from "framer-motion";
+import CollectionItemSkeleton from "@components/UI/CollectionItemSkeleton/CollectionItemSkeleton";
 
 function Collections() {
   const [activeFilter, setActiveFilter] = useState(CollectionsFilterBy.name);
@@ -137,28 +138,26 @@ function Collections() {
           </div>
 
           {isLoading ? (
-            // TODO skeleton here
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
-            >
-              <div>Loading...</div>
-            </motion.div>
-          ) : localData && localData.length > 0 ? (
+            <CollectionItemSkeleton />
+          ) : localData.length > 0 ? (
             <div className="collections__body">
               {localData.map(item => (
                 <CollectionTableItem key={item.openseaId} item={item} />
               ))}
             </div>
           ) : (
-            <div className="collections__empty">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.15 }}
+              key="empty"
+              className="collections__empty"
+            >
               <h2>No items found for this search</h2>
               <Button size="large" variant="gradient" onClick={handleResetSearch}>
                 Back to all items
               </Button>
-            </div>
+            </motion.div>
           )}
         </section>
       </div>

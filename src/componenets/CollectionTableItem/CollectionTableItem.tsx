@@ -11,6 +11,7 @@ import useFavorite, { FavoriteFunctionStatus } from "@hooks/useFavorite";
 import { useAppSelector } from "@store/store.hook";
 import { selectUserData } from "@store/state/userSlice";
 import InfoModal from "@components/InfoModal/InfoModal";
+import { motion } from "framer-motion";
 
 interface ICollectionTableItemProps {
   item: ICollection;
@@ -73,7 +74,13 @@ const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
 
   return (
     <>
-      <article className="collectionTableItem" onClick={() => setShowCollectionModal(true)}>
+      <motion.article
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.15 }}
+        className="collectionTableItem"
+        onClick={() => setShowCollectionModal(true)}
+      >
         <div className="collectionTableItem__itemName">
           <img src={item.image} alt="" className="collectionTableItem__itemImage" />
           <p>{item.name}</p>
@@ -97,7 +104,7 @@ const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
           </a>
         </p>
         <Heart isFavorite={localItem.isFavorite} onClick={handleClickFav} />
-      </article>
+      </motion.article>
 
       <CollectionModal
         collectionId={localItem.openseaId}
