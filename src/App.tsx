@@ -57,7 +57,7 @@ function App() {
       }
 
       // @ts-ignore
-      if (loginError && loginError.data.status === (403 || 401)) {
+      if (loginError && (loginError.data.status === 403 || loginError.data.status === 401)) {
         askForSignature();
       }
     }

@@ -20,18 +20,8 @@ interface ICollectionInfoProps {
 const CollectionInfo = ({ data, handleClickFav }: ICollectionInfoProps) => {
   const [showFullDescr, setShowFullDescr] = useState(false);
 
-  const customLinkDecorator = (
-    decoratedHref: string,
-    decoratedText: string,
-    linkTarget: string,
-    key: number
-  ): React.ReactNode => {
-    console.log("fdfdgf");
-    return (
-      <a href={decoratedHref} key={key} target="_blank" rel="noreferrer">
-        {decoratedText}
-      </a>
-    );
+  const toggleShowFullDescr = () => {
+    setShowFullDescr(!showFullDescr);
   };
 
   return (
@@ -118,9 +108,7 @@ const CollectionInfo = ({ data, handleClickFav }: ICollectionInfoProps) => {
         </Linkify>
 
         {data.description.length > 100 && (
-          <button onClick={() => setShowFullDescr(!showFullDescr)}>
-            {showFullDescr ? "close" : "show more"}
-          </button>
+          <button onClick={toggleShowFullDescr}>{showFullDescr ? "close" : "show more"}</button>
         )}
       </div>
 
