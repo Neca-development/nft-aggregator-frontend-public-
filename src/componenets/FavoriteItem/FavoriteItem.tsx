@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { IFavorite } from "@models/favorite";
 import "./favoriteItem.scss";
 import Button from "@UI/Button/Button";
@@ -19,7 +19,7 @@ interface IFavoriteItemProps {
 
 const FavoriteItem = ({ item }: IFavoriteItemProps) => {
   const [showCollectionModal, setShowCollectionModal] = useState(false);
-  const { removeFromFavorite } = useFavorite(item.collectionId);
+  const { removeFromFavorite } = useFavorite(item.openseaId);
 
   const handleRemoveFromFav = async () => {
     await removeFromFavorite();
@@ -66,7 +66,7 @@ const FavoriteItem = ({ item }: IFavoriteItemProps) => {
       </motion.article>
 
       <CollectionModal
-        collectionId={item.collectionId}
+        collectionId={item.openseaId}
         isFavorite={true}
         isOpen={showCollectionModal}
         onClose={() => setShowCollectionModal(false)}

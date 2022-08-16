@@ -11,7 +11,7 @@ const initialState: IUserSlice = {
   isLoggedIn: false,
   active: false,
   expiresAt: "",
-  newUser: true,
+  isNewUser: true,
   transactionState: "none",
 };
 
@@ -34,9 +34,10 @@ export const userSlice = createSlice({
       // write subscription status in the store
       paymentApi.endpoints.getSubscriptionState.matchFulfilled,
       (state, { payload }) => {
+        console.log(payload);
         state.active = payload.active;
         state.expiresAt = payload.expiresAt;
-        state.newUser = payload.newUser;
+        state.isNewUser = payload.isNewUser;
         state.transactionState = payload.transactionState;
       }
     );

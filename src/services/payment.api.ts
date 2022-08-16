@@ -1,4 +1,5 @@
 import { ISubscriptionState } from "@models/payment.interface";
+import { IBaseResponse } from "@models/response.interface";
 import { baseApi } from "./base.api";
 
 export const paymentApi = baseApi.injectEndpoints({
@@ -6,6 +7,7 @@ export const paymentApi = baseApi.injectEndpoints({
     getSubscriptionState: builder.query<ISubscriptionState, void>({
       query: () => "payment/subscription/state",
       providesTags: ["Subscription"],
+      transformResponse: (response: IBaseResponse) => response.data,
     }),
   }),
 });

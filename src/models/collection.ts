@@ -1,4 +1,5 @@
 import { IFilterRequest } from "./filters";
+import { IMeta } from "./response.interface";
 
 export interface ICollection {
   openseaId: string;
@@ -61,12 +62,6 @@ export interface ICollectionRequest {
 export interface ICollectionResponse {
   items: ICollectionData;
   meta: IMeta;
-}
-
-interface IMeta {
-  currentPage: number;
-  perPage: number;
-  totalPages: number;
 }
 
 export interface IMaxRanges {
