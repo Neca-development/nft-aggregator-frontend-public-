@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IFavorite } from "@models/favorite";
 import "./favoriteItem.scss";
 import Button from "@UI/Button/Button";
@@ -19,16 +19,16 @@ const FavoriteItem = ({ item }: { item: IFavorite }) => {
   const { removeFromFavorite } = useFavorite(item.collectionId);
   const [fullItem, setFullItem] = useState(collectionItemMock);
 
-  // TEMP get collection info from backend
-  const getItemFromCollection = useCallback(() => {
-    const finded = collectionsDataMock.collections.filter(c => c.openseaId === item.collectionId);
-    // finded[0].isFavorite = true;
-    setFullItem(finded[0]);
-  }, [item.collectionId]);
-
   useEffect(() => {
+    // TEMP get collection info from backend
+    const getItemFromCollection = () => {
+      const finded = collectionsDataMock.collections.filter(c => c.openseaId === item.collectionId);
+      // finded[0].isFavorite = true;
+      setFullItem(finded[0]);
+    };
+
     getItemFromCollection();
-  }, [getItemFromCollection]);
+  }, []);
 
   return (
     <>

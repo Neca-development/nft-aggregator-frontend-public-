@@ -23,9 +23,11 @@ const useFavorite = (itemId: number | string) => {
   const lsRemoveFromFav = () => {
     let favorites = getFavFromLs();
     const fIdx = favorites.findIndex((el: number) => el === itemId);
-    favorites.splice(fIdx, 1);
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-    window.dispatchEvent(new Event("storage"));
+    if (fIdx >= 0) {
+      favorites.splice(fIdx, 1);
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+      window.dispatchEvent(new Event("storage"));
+    }
   };
 
   const removeFromFavorite = () => {
