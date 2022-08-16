@@ -70,7 +70,7 @@ const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
     if (!isLoggedIn) {
       checkItemInLs();
     }
-  }, [isLoggedIn]);
+  }, [getFavFromLs, isLoggedIn, item]);
 
   return (
     <>

@@ -39,7 +39,7 @@ function Favorite() {
     }
 
     setFavorites(findedCollections);
-  }, [requestCollectionById, isLoggedIn]);
+  }, [isLoggedIn, getFavFromLs, requestCollectionById]);
 
   const renderFooterBtn = () => {
     if (!isLoggedIn) {
