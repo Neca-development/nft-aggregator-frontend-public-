@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./collectionTableItem.scss";
 import LinkIcon from "@assets/icons/link.svg";
 import { kFormatter } from "@utils/utils";
@@ -55,22 +55,22 @@ const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
     setLocalItem(newItem);
   };
 
-  const checkItemInLs = useCallback(() => {
-    const favFromLs = getFavFromLs();
-    const newItem = { ...item };
-    for (const openseaId of favFromLs) {
-      if (openseaId === newItem.openseaId) {
-        newItem.isFavorite = true;
-        setLocalItem(newItem);
-      }
-    }
-  }, [getFavFromLs, item]);
-
   useEffect(() => {
+    const checkItemInLs = () => {
+      const favFromLs = getFavFromLs();
+      const newItem = { ...item };
+      for (const openseaId of favFromLs) {
+        if (openseaId === newItem.openseaId) {
+          newItem.isFavorite = true;
+          setLocalItem(newItem);
+        }
+      }
+    };
+
     if (!isLoggedIn) {
       checkItemInLs();
     }
-  }, [checkItemInLs, isLoggedIn]);
+  }, [isLoggedIn]);
 
   return (
     <>

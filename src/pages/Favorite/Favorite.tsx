@@ -11,6 +11,7 @@ import { selectUserData } from "@store/state/userSlice";
 import { convertToFavItem } from "@utils/utils";
 import { IFavorite } from "@models/favorite";
 import { freeFavoritesSize } from "@constants/constant";
+import useFavorite from "@hooks/useFavorite";
 import PagePresenceWrapper from "@components/UI/PagePresenceWrapper";
 import { useGetUserFavoritesQuery } from "@services/users.api";
 import { useLazyGetCollectionByIdQuery } from "@services/collections.api";
@@ -23,12 +24,13 @@ function Favorite() {
   const [requestCollectionById] = useLazyGetCollectionByIdQuery();
   const [favorites, setFavorites] = useState([]);
   const [showLimitModal, setShowLimitModal] = useState(false);
+  const { getFavFromLs } = useFavorite(null);
 
   const importFavFromLs = useCallback(async () => {
     if (isLoggedIn) {
       return;
     }
-    const favFromLs = JSON.parse(localStorage.getItem("favorites"));
+    const favFromLs = getFavFromLs();
     const findedCollections = [];
     for (const openseaId of favFromLs) {
       const res = await requestCollectionById(openseaId).unwrap();
@@ -81,7 +83,7 @@ function Favorite() {
     <PagePresenceWrapper>
       <div className="container favorite">
         <div className="favorite__body">
-          {favorites.length > 0 ? (
+          {favorites?.length > 0 ? (
             <>
               <section className="favorite__wrapper">
                 <AnimatePresence>

@@ -42,10 +42,12 @@ const useFavorite = (itemId: string) => {
   const lsRemoveFromFav = () => {
     let favorites = getFavFromLs();
     const fIdx = favorites.findIndex((el: string) => el === itemId);
-    favorites.splice(fIdx, 1);
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-    window.dispatchEvent(new Event("storage"));
-    return FavoriteFunctionStatus.success;
+    if (fIdx >= 0) {
+      favorites.splice(fIdx, 1);
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+      window.dispatchEvent(new Event("storage"));
+      return FavoriteFunctionStatus.success;
+    }
   };
 
   const serverAddToFav = async () => {
