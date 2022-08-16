@@ -9,12 +9,13 @@ import { shortenAddress, useEthers } from "@usedapp/core";
 import { clearUserState, selectUserData } from "@store/state/userSlice";
 import EthereumIcon from "@UI/EthereumIcon/EthereumIcon";
 import { useGetSubscriptionStateQuery } from "@services/payment.api";
+import { userHasSignature } from "@utils/utils";
 
 function Profile() {
   const { wallet, active, expiresAt } = useAppSelector(selectUserData);
   const { account } = useEthers();
   const { isLoading, isError } = useGetSubscriptionStateQuery(null, {
-    skip: !account,
+    skip: !account && userHasSignature() === false,
   });
   const dispatch = useAppDispatch();
   const { activateBrowserWallet, deactivate } = useEthers();
@@ -52,8 +53,16 @@ function Profile() {
             MetaMask <MetamaskIcon />
           </button>
 
-          {isLoading && <strong>Getting the account information...</strong>}
-          {isError && <strong>Something went wrong.</strong>}
+          {isLoading && (
+            <div className="profile__error">
+              <strong>Getting the account information...</strong>
+            </div>
+          )}
+          {isError && (
+            <div className="profile__error">
+              <strong>Something went wrong</strong>
+            </div>
+          )}
         </div>
       </motion.section>
     );

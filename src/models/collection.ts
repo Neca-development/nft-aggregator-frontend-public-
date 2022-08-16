@@ -1,3 +1,5 @@
+import { IFilterRequest } from "./filters";
+
 export interface ICollection {
   id: number;
   openseaId: string;
@@ -42,10 +44,29 @@ interface ITwitterMessage {
 
 export interface ICollectionData {
   collections: ICollection[];
-  ranges: {
-    sizeMax: number;
-    floorPriceMax: number;
-    twitterFollowersCountMax: number;
-    discordMembersCountMax: number;
-  };
+  ranges: IMaxRanges;
+}
+
+export interface ICollectionRequest {
+  filter: IFilterRequest;
+  page?: number;
+  perPage?: number;
+}
+
+export interface ICollectionResponse {
+  items: ICollectionData;
+  meta: IMeta;
+}
+
+interface IMeta {
+  currentPage: number;
+  perPage: number;
+  totalPages: number;
+}
+
+export interface IMaxRanges {
+  discordMembersCountMax: number;
+  floorPriceMax: number;
+  sizeMax: number;
+  twitterFollowersCountMax: number;
 }

@@ -46,7 +46,7 @@ function Admin() {
 
       <section className="admin__table">
         <div className="admin__header">
-          <TextInput placeholder="Search collection" />
+          <TextInput placeholder="Search collection" value="" setValue={null} />
           <label className="admin__selectWrapper">
             <span>Include giveaways channels</span>
             <select name="giveaways" id="">

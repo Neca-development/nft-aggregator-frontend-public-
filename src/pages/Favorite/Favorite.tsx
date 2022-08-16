@@ -13,6 +13,7 @@ import { collectionsDataMock } from "@mocks/collection";
 import { IFavorite } from "@models/favorite";
 import { freeFavoritesSize } from "@constants/constant";
 import useFavorite from "@hooks/useFavorite";
+import PagePresenceWrapper from "@components/UI/PagePresenceWrapper";
 
 function Favorite() {
   const { active, wallet } = useAppSelector(selectUserData);
@@ -30,11 +31,11 @@ function Favorite() {
     // request /api/collection/id here by each fav id
 
     // TEMP
-    favFromLs.forEach((id: number) => {
-      const finded = collectionsDataMock.collections.find(c => c.id === id);
-      const converted = convertToFavItem(finded);
-      findedCollections.push(converted);
-    });
+    // favFromLs.forEach((id: number) => {
+    //   const finded = collectionsDataMock.collections.find(c => c.id === id);
+    //   const converted = convertToFavItem(finded);
+    //   findedCollections.push(converted);
+    // });
 
     setFavorites(findedCollections);
   }, [wallet]);
@@ -67,43 +68,43 @@ function Favorite() {
   }, [importFavFromLs]);
 
   return (
-    <motion.main
-      className="container favorite"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
-    >
-      <div className="favorite__body">
-        {favorites?.length > 0 ? (
-          <>
-            <section className="favorite__wrapper">
-              <AnimatePresence>
-                {favorites.map((fav: IFavorite) => (
-                  <FavoriteItem key={fav.collectionId} item={fav} />
-                ))}
-              </AnimatePresence>
-              {/* Check later: show skeletons if favorites size=3? */}
-              {favorites.length >= freeFavoritesSize &&
-                Array.from(Array(3).keys()).map(i => <FavoriteSkeleton key={i} />)}
-            </section>
+    <PagePresenceWrapper>
+      <div className="container favorite">
+        <div className="favorite__body">
+          {favorites?.length > 0 ? (
+            <>
+              <section className="favorite__wrapper">
+                <AnimatePresence>
+                  {favorites.map((fav: IFavorite) => (
+                    <FavoriteItem key={fav.collectionId} item={fav} />
+                  ))}
+                </AnimatePresence>
+                {/* Check later: show skeletons if favorites size=3? */}
+                {favorites.length >= freeFavoritesSize &&
+                  Array.from(Array(3).keys()).map(i => <FavoriteSkeleton key={i} />)}
+              </section>
 
-            {favorites.length >= freeFavoritesSize && (
-              <div className="favorite__loadMoreBtn">{renderFooterBtn()}</div>
-            )}
-          </>
-        ) : (
-          <div className="favorite__empty">
-            <h2>No collections in favorites</h2>
-            <Button size="large" variant="gradient" onClick={() => navigate("/")}>
-              Back to all items
-            </Button>
-          </div>
-        )}
+              {favorites.length >= freeFavoritesSize && (
+                <div className="favorite__loadMoreBtn">{renderFooterBtn()}</div>
+              )}
+            </>
+          ) : (
+            <div className="favorite__empty">
+              <h2>No collections in favorites</h2>
+              <Button size="large" variant="gradient" onClick={() => navigate("/")}>
+                Back to all items
+              </Button>
+            </div>
+          )}
+        </div>
+
+        <InfoModal
+          type="expired"
+          isOpen={showLimitModal}
+          onClose={() => setShowLimitModal(false)}
+        />
       </div>
-
-      <InfoModal type="expired" isOpen={showLimitModal} onClose={() => setShowLimitModal(false)} />
-    </motion.main>
+    </PagePresenceWrapper>
   );
 }
 

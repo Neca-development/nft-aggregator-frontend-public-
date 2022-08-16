@@ -21,7 +21,7 @@ const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
   const { wallet } = useAppSelector(selectUserData);
   const [showCollectionModal, setShowCollectionModal] = useState(false);
   const [localItem, setLocalItem] = useState(item);
-  const { addToFavorite, removeFromFavorite, getFavFromLs } = useFavorite(item.id);
+  const { addToFavorite, removeFromFavorite, getFavFromLs } = useFavorite(item.openseaId);
   const [showLimitModal, setShowLimitModal] = useState(false);
 
   const handleClickFav = () => {

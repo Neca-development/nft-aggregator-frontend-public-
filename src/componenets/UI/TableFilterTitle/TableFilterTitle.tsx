@@ -1,15 +1,19 @@
 import React, { Dispatch, SetStateAction } from "react";
 import "./tableFilterTitle.scss";
-import sortAscIcon from "@assets/icons/sort-asc.svg";
-import sortDescIcon from "@assets/icons/sort-desc.svg";
+import SortAscIcon from "@assets/icons/sort-asc.svg";
+import SortDescIcon from "@assets/icons/sort-desc.svg";
+import { useAppDispatch } from "@store/store.hook";
+import { updateOrder } from "@store/state/filterSlice";
+import { FilterType, ICollectionOrder } from "@models/filters";
+import { useDidMountEffect } from "@hooks/useDidMountEffect";
 
 interface ITableFilterTitleProps {
   name: string;
   isSortAsc: boolean;
-  setActiveFilter: Dispatch<SetStateAction<string | null>>;
+  setActiveFilter: Dispatch<SetStateAction<number>>;
   setIsSortAsc: Dispatch<SetStateAction<boolean>>;
-  activeFilter: string | null;
-  filter: string;
+  activeFilter: number;
+  filter: number;
 }
 
 const TableFilterTitle = ({
@@ -20,21 +24,32 @@ const TableFilterTitle = ({
   activeFilter,
   filter,
 }: ITableFilterTitleProps) => {
+  const dispatch = useAppDispatch();
+
   const handleActiveFilter = () => {
     setActiveFilter(filter);
     if (filter === activeFilter) {
       setIsSortAsc(!isSortAsc);
     } else {
-      setIsSortAsc(true);
+      setIsSortAsc(false);
     }
   };
+
+  useDidMountEffect(() => {
+    if (activeFilter === filter) {
+      const newOrder: ICollectionOrder = {
+        orderBy: activeFilter,
+        orderType: isSortAsc ? FilterType.asc : FilterType.desc,
+      };
+      dispatch(updateOrder(newOrder));
+    }
+  }, [activeFilter, isSortAsc]);
 
   return (
     <button className="tableFilterTitle" onClick={handleActiveFilter}>
       <span>
         {name}
-        {activeFilter === filter &&
-          (isSortAsc ? <img src={sortAscIcon} alt="asc" /> : <img src={sortDescIcon} alt="desc" />)}
+        {activeFilter === filter && (isSortAsc ? <SortAscIcon /> : <SortDescIcon />)}
       </span>
     </button>
   );
