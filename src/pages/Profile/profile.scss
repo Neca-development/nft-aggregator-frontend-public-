@@ -98,6 +98,12 @@
       line-height: 1.5rem;
     }
 
+    & > strong {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 1rem;
+    }
+
     & > button {
       margin-top: 2.5rem;
       width: 100%;

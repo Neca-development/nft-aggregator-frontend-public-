@@ -7,7 +7,14 @@ export const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${serverUrl}/api`,
     prepareHeaders: headers => {
-      // put metamask signature here
+      const agAuth = JSON.parse(localStorage.getItem("agAuth"));
+
+      if (!agAuth) {
+        return headers;
+      }
+
+      headers.set("timestamp", agAuth.timestamp);
+      headers.set("signature", agAuth.signature);
       return headers;
     },
   }),

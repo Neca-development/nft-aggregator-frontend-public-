@@ -6,11 +6,16 @@ import dayjs from "dayjs";
 import { useAppDispatch, useAppSelector } from "@store/store.hook";
 import { motion } from "framer-motion";
 import { shortenAddress, useEthers } from "@usedapp/core";
-import { selectUserData, setWallet } from "@store/state/userSlice";
+import { clearUserState, selectUserData } from "@store/state/userSlice";
 import EthereumIcon from "@UI/EthereumIcon/EthereumIcon";
+import { useGetSubscriptionStateQuery } from "@services/payment.api";
 
 function Profile() {
   const { wallet, active, expiresAt } = useAppSelector(selectUserData);
+  const { account } = useEthers();
+  const { isLoading, isError } = useGetSubscriptionStateQuery(null, {
+    skip: !account,
+  });
   const dispatch = useAppDispatch();
   const { activateBrowserWallet, deactivate } = useEthers();
 
@@ -28,8 +33,8 @@ function Profile() {
 
   const disconnectWallet = () => {
     deactivate();
-    dispatch(setWallet(null));
-    localStorage.removeItem("sign");
+    dispatch(clearUserState());
+    localStorage.removeItem("agAuth");
   };
 
   if (!wallet) {
@@ -46,6 +51,9 @@ function Profile() {
           <button onClick={connectWallet}>
             MetaMask <MetamaskIcon />
           </button>
+
+          {isLoading && <strong>Getting the account information...</strong>}
+          {isError && <strong>Something went wrong.</strong>}
         </div>
       </motion.section>
     );
