@@ -7,8 +7,8 @@ export const favoriteItemMock: IFavorite = {
   bannerImage: mockBg,
   image: mockLogo,
   name: "Arcade Land",
-  floorPrice: 28.89,
-  dailyChange: 44,
+  floorPrice: "28.89",
+  dailyChange: "44",
   discordNewMessages: 36,
   twitterNewMessages: 156,
 };

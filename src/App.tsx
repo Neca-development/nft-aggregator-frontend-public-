@@ -31,6 +31,7 @@ function App() {
   const [showNoSignModal, setShowNoSignModal] = useState(false);
 
   const askForSignature = useCallback(async () => {
+    console.log("call");
     const signResult = await signMessage();
     if (!signResult?.signature) {
       deactivate();
@@ -43,20 +44,20 @@ function App() {
       localStorage.setItem("agAuth", JSON.stringify(agAuth));
       getSubState();
     }
-  }, [signMessage, deactivate, dispatch, getSubState]);
+  }, [deactivate, dispatch, getSubState, signMessage]);
 
   useEffect(() => {
     if (account) {
-      if (userHasSignature() === false) {
-        askForSignature();
-      }
+      // if (userHasSignature() === false) {
+      //   askForSignature();
+      // }
 
       if (isLoginSuccess) {
         dispatch(setWallet(account));
       }
 
       // @ts-ignore
-      if (loginError && loginError.data.status === 401) {
+      if (loginError && (loginError.data.status === 403 || loginError.data.status === 401)) {
         askForSignature();
       }
     }

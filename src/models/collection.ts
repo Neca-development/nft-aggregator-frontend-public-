@@ -1,24 +1,23 @@
 import { IFilterRequest } from "./filters";
 
 export interface ICollection {
-  id: number;
   openseaId: string;
-  image: any;
+  image: string;
   name: string;
   size: number;
-  floorPrice: number;
-  dailyChange: number;
+  floorPrice: string;
+  dailyChange: string;
   discordMembersCount: number;
   twitterFollowersCount: number;
   isFavorite: boolean;
   createdAt: string;
-  ownersCount: number;
-  volumeTraded: number;
-  weeklyChange: number;
-  monthlyChange: number;
+  owners: number;
+  volumeTraded: string;
+  weeklyChange: string;
+  monthlyChange: string;
   description: string;
   discordMessages: IDiscordMessage[];
-  twitter: ITwitterMessage;
+  twitter: ITwitterMessages;
   banner: string;
 }
 
@@ -34,12 +33,18 @@ interface IDiscordMessage {
   channelType: string;
 }
 
-interface ITwitterMessage {
+interface ITwitterMessages {
   author: {
     name: string;
     image: string;
   };
-  messages: string[];
+  messages: ITweet[];
+}
+
+interface ITweet {
+  message: string;
+  createdAt: string;
+  id: string;
 }
 
 export interface ICollectionData {

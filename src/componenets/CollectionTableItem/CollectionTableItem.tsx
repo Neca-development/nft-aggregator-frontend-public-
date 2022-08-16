@@ -49,7 +49,7 @@ const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
       const favFromLs = getFavFromLs();
       const newItem = { ...item };
       for (const id of favFromLs) {
-        if (id === newItem.id) {
+        if (id === newItem.openseaId) {
           newItem.isFavorite = true;
           setLocalItem(newItem);
         }

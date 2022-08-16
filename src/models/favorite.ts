@@ -3,8 +3,8 @@ export interface IFavorite {
   bannerImage: string;
   image: string;
   name: string;
-  floorPrice: number;
-  dailyChange: number;
+  floorPrice: string;
+  dailyChange: string;
   discordNewMessages: number;
   twitterNewMessages: number;
 }

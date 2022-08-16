@@ -43,3 +43,7 @@ export const userHasSignature = () => {
     return true;
   }
 };
+
+export const roundNumber = (value: string | number) => {
+  return Number(value).toFixed(2);
+};
