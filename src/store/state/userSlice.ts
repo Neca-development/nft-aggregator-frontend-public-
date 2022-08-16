@@ -1,5 +1,5 @@
-import { ISubscriptionState } from "@models/payment.interface";
-import { createSlice } from "@reduxjs/toolkit";
+import { ISubscriptionState, TransactionState } from "@models/payment.interface";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { paymentApi } from "@services/payment.api";
 import { RootState } from "../store";
 
@@ -12,7 +12,7 @@ const initialState: IUserSlice = {
   active: false,
   expiresAt: "",
   isNewUser: true,
-  transactionState: "none",
+  transactionState: TransactionState.none,
 };
 
 export const userSlice = createSlice({
@@ -27,6 +27,9 @@ export const userSlice = createSlice({
     },
     clearUserState: () => {
       return initialState;
+    },
+    setTransactionStatus: (state, action: PayloadAction<TransactionState>) => {
+      state.transactionState = action.payload;
     },
   },
   extraReducers: builder => {
@@ -44,7 +47,8 @@ export const userSlice = createSlice({
   },
 });
 
-export const { clearUserState, setLoggedIn, setLoggedOut } = userSlice.actions;
+export const { clearUserState, setLoggedIn, setLoggedOut, setTransactionStatus } =
+  userSlice.actions;
 
 export const selectUserData = (state: RootState) => state.user;
 
