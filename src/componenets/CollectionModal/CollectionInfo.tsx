@@ -21,6 +21,10 @@ interface ICollectionInfoProps {
 const CollectionInfo = ({ data, handleClickFav, isFavorite }: ICollectionInfoProps) => {
   const [showFullDescr, setShowFullDescr] = useState(false);
 
+  const toggleShowFullDescr = () => {
+    setShowFullDescr(!showFullDescr);
+  };
+
   return (
     <div className="colModal__info colModalInfo">
       {/* NEED BANNER IMAGE */}
@@ -105,9 +109,7 @@ const CollectionInfo = ({ data, handleClickFav, isFavorite }: ICollectionInfoPro
         </Linkify>
 
         {data.description.length > 100 && (
-          <button onClick={() => setShowFullDescr(!showFullDescr)}>
-            {showFullDescr ? "close" : "show more"}
-          </button>
+          <button onClick={toggleShowFullDescr}>{showFullDescr ? "close" : "show more"}</button>
         )}
       </div>
 
