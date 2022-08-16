@@ -15,12 +15,14 @@ import { clearUserState, setLoggedIn } from "@store/state/userSlice";
 import { useGetSubscriptionStateQuery } from "@services/payment.api";
 import RequireSubscriptionGuard from "@pages/RequireSubscriptionGuard";
 import { userHasSignature } from "@utils/utils";
+import useCheckNetwork from "@hooks/useCheckNetwork";
 
 function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const { account, deactivate } = useEthers();
   const { signMessage } = useCreateSignature();
+  const { checkNetwork } = useCheckNetwork();
 
   const {
     refetch: getSubState,
@@ -52,6 +54,8 @@ function App() {
       // if (userHasSignature() === false) {
       //   askForSignature();
       // }
+
+      checkNetwork();
 
       if (isLoginSuccess) {
         dispatch(setLoggedIn());
