@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IFavorite } from "@models/favorite";
 import "./favoriteItem.scss";
 import Button from "@UI/Button/Button";
@@ -8,20 +8,39 @@ import Heart from "@UI/Heart/Heart";
 import Gain from "@UI/Gain/Gain";
 import ItemBannerBlock from "@UI/ItemBannerBlock/ItemBannerBlock";
 import CollectionModal from "@components/CollectionModal/CollectionModal";
-import { collectionItemMock } from "@mocks/collection";
+import { collectionItemMock, collectionsDataMock } from "@mocks/collection";
 import EthereumIcon from "@UI/EthereumIcon/EthereumIcon";
 import { hundredFormatter } from "@utils/utils";
+import useFavorite from "@hooks/useFavorite";
+import { motion } from "framer-motion";
 
 const FavoriteItem = ({ item }: { item: IFavorite }) => {
   const [showCollectionModal, setShowCollectionModal] = useState(false);
-  // TEMP get collection info from backend
-  const tempItem = collectionItemMock;
+  const { removeFromFavorite } = useFavorite(item.collectionId);
+  const [fullItem, setFullItem] = useState(collectionItemMock);
+
+  useEffect(() => {
+    // TEMP get collection info from backend
+    const getItemFromCollection = () => {
+      const finded = collectionsDataMock.collections.filter(c => c.openseaId === item.collectionId);
+      // finded[0].isFavorite = true;
+      setFullItem(finded[0]);
+    };
+
+    getItemFromCollection();
+  }, []);
 
   return (
     <>
-      <article className="favItem">
+      <motion.article
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.15 }}
+        className="favItem"
+      >
         <ItemBannerBlock banner={item.bannerImage} logo={item.image} />
-        <Heart isFavorite={true} />
+        <Heart isFavorite={true} onClick={removeFromFavorite} />
 
         <h4>{item.name}</h4>
         <div className="favItem__stats">
@@ -49,12 +68,13 @@ const FavoriteItem = ({ item }: { item: IFavorite }) => {
             )}
           </div>
         </div>
-      </article>
+      </motion.article>
 
       <CollectionModal
-        item={tempItem}
+        item={fullItem}
         isOpen={showCollectionModal}
         onClose={() => setShowCollectionModal(false)}
+        handleClickFav={removeFromFavorite}
       />
     </>
   );

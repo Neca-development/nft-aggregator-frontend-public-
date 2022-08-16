@@ -1,7 +1,7 @@
-import tempImg from "../assets/images/temp-item.jpg";
-import { ICollection, ICollectionData } from "../models/collection";
-import tempIcon from "../assets/images/arcade-land-logo.png";
-import tempBg from "../assets/images/arcade-land-bg.jpg";
+import tempImg from "@assets/images/temp-item.jpg";
+import { ICollection, ICollectionData } from "@models/collection";
+import tempIcon from "@assets/images/arcade-land-logo.png";
+import tempBg from "@assets/images/arcade-land-bg.jpg";
 
 export const collectionItemMock: ICollection = {
   id: 1,
@@ -110,7 +110,87 @@ const collectionItemMock2: ICollection = {
   dailyChange: -30,
   discordMembersCount: 9850,
   twitterFollowersCount: 16100,
-  isFavorite: true,
+  isFavorite: false,
+  createdAt: "2022-06-21T15:27:05.208Z",
+  ownersCount: 0,
+  volumeTraded: 0,
+  weeklyChange: 0,
+  monthlyChange: 0,
+  description: "string",
+  discordMessages: [
+    {
+      id: 0,
+      text: "string",
+      createdAt: "2022-06-21T15:27:05.208Z",
+      discordId: "string",
+      author: {
+        name: "string",
+        image: tempIcon,
+      },
+      channelType: "giveaway",
+    },
+  ],
+  twitter: {
+    author: {
+      name: "string",
+      image: tempIcon,
+    },
+    messages: ["string"],
+  },
+};
+
+const collectionItemMock3: ICollection = {
+  id: 3,
+  openseaId: "string",
+  image: tempImg,
+  banner: tempBg,
+  name: "Collection 2",
+  size: 11,
+  floorPrice: 6.405,
+  dailyChange: -30,
+  discordMembersCount: 9850,
+  twitterFollowersCount: 16100,
+  isFavorite: false,
+  createdAt: "2022-06-21T15:27:05.208Z",
+  ownersCount: 0,
+  volumeTraded: 0,
+  weeklyChange: 0,
+  monthlyChange: 0,
+  description: "string",
+  discordMessages: [
+    {
+      id: 0,
+      text: "string",
+      createdAt: "2022-06-21T15:27:05.208Z",
+      discordId: "string",
+      author: {
+        name: "string",
+        image: tempIcon,
+      },
+      channelType: "giveaway",
+    },
+  ],
+  twitter: {
+    author: {
+      name: "string",
+      image: tempIcon,
+    },
+    messages: ["string"],
+  },
+};
+
+const collectionItemMock4: ICollection = {
+  id: 4,
+  openseaId: "string",
+  image: tempImg,
+  banner: tempBg,
+  name: "Collection 4",
+  size: 11,
+  floorPrice: 6.405,
+  dailyChange: -30,
+  discordMembersCount: 9850,
+  twitterFollowersCount: 16100,
+  isFavorite: false,
   createdAt: "2022-06-21T15:27:05.208Z",
   ownersCount: 0,
   volumeTraded: 0,
@@ -140,7 +220,7 @@ const collectionItemMock2: ICollection = {
 };
 
 export const collectionsDataMock: ICollectionData = {
-  collections: [collectionItemMock, collectionItemMock2],
+  collections: [collectionItemMock, collectionItemMock2, collectionItemMock3, collectionItemMock4],
   ranges: {
     sizeMax: 10000,
     floorPriceMax: 100,

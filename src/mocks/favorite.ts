@@ -3,6 +3,7 @@ import mockLogo from "../assets/images/arcade-land-logo.png";
 import mockBg from "../assets/images/arcade-land-bg.jpg";
 
 export const favoriteItemMock: IFavorite = {
+  collectionId: "5632",
   bannerImage: mockBg,
   image: mockLogo,
   name: "Arcade Land",

@@ -1,3 +1,5 @@
+import { ICollection } from "@models/collection";
+import { IFavorite } from "@models/favorite";
 import dayjs from "dayjs";
 
 export function kFormatter(num: number) {
@@ -18,3 +20,17 @@ export function formatDate(date: string) {
     return dayjs(newDate).format("DD MMM YYYY");
   }
 }
+
+export const convertToFavItem = (item: ICollection) => {
+  const converted: IFavorite = {
+    collectionId: item.openseaId,
+    name: item.name,
+    bannerImage: item.banner,
+    dailyChange: item.dailyChange,
+    image: item.image,
+    floorPrice: item.floorPrice,
+    discordNewMessages: 0,
+    twitterNewMessages: 0,
+  };
+  return converted;
+};

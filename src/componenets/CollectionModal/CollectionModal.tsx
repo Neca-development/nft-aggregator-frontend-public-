@@ -21,15 +21,14 @@ enum CollectionTabs {
   twitter = "Twitter",
 }
 
-const CollectionModal = ({
-  item,
-  isOpen,
-  onClose,
-}: {
+interface ICollectionModalProps {
   item: ICollection;
   isOpen: boolean;
   onClose: () => void;
-}) => {
+  handleClickFav: () => void;
+}
+
+const CollectionModal = ({ item, isOpen, onClose, handleClickFav }: ICollectionModalProps) => {
   const navigate = useNavigate();
   const { active } = useAppSelector(selectUserData);
 
@@ -95,7 +94,7 @@ const CollectionModal = ({
               </h3>
               <span>created {formatDate(item.createdAt)}</span>
             </div>
-            <Heart isFavorite={item.isFavorite} />
+            <Heart isFavorite={item.isFavorite} onClick={handleClickFav} />
           </div>
 
           <div className="colModalInfo__mainNumbers">
