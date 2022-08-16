@@ -1,5 +1,5 @@
 export interface IFavorite {
-  collectionId: number;
+  collectionId: string;
   bannerImage: string;
   image: string;
   name: string;

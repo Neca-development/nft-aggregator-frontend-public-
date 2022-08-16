@@ -12,6 +12,7 @@ import { convertToFavItem } from "@utils/utils";
 import { collectionsDataMock } from "@mocks/collection";
 import { IFavorite } from "@models/favorite";
 import { freeFavoritesSize } from "@constants/constant";
+import useFavorite from "@hooks/useFavorite";
 import PagePresenceWrapper from "@components/UI/PagePresenceWrapper";
 
 function Favorite() {
@@ -19,12 +20,13 @@ function Favorite() {
   const navigate = useNavigate();
   const [showLimitModal, setShowLimitModal] = useState(false);
   const [favorites, setFavorites] = useState(null);
+  const { getFavFromLs } = useFavorite(null);
 
   const importFavFromLs = useCallback(() => {
     if (wallet) {
       return;
     }
-    const favFromLs = JSON.parse(localStorage.getItem("favorites"));
+    const favFromLs = getFavFromLs();
     const findedCollections = [];
     // request /api/collection/id here by each fav id
 
@@ -69,7 +71,7 @@ function Favorite() {
     <PagePresenceWrapper>
       <div className="container favorite">
         <div className="favorite__body">
-          {favorites && favorites.length > 0 ? (
+          {favorites?.length > 0 ? (
             <>
               <section className="favorite__wrapper">
                 <AnimatePresence>
