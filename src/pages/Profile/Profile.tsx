@@ -12,7 +12,7 @@ import { useGetSubscriptionStateQuery } from "@services/payment.api";
 import { userHasSignature } from "@utils/utils";
 
 function Profile() {
-  const { wallet, active, expiresAt } = useAppSelector(selectUserData);
+  const { active, expiresAt, isLoggedIn } = useAppSelector(selectUserData);
   const { account } = useEthers();
   const { isLoading, isError } = useGetSubscriptionStateQuery(null, {
     skip: !account && userHasSignature() === false,
@@ -38,7 +38,7 @@ function Profile() {
     localStorage.removeItem("agAuth");
   };
 
-  if (!wallet) {
+  if (!isLoggedIn) {
     return (
       <motion.section
         className="container profile"
@@ -60,7 +60,7 @@ function Profile() {
           )}
           {isError && (
             <div className="profile__error">
-              <strong>Something went wrong</strong>
+              <strong>Signature verification error</strong>
             </div>
           )}
         </div>
@@ -79,7 +79,7 @@ function Profile() {
       <div className="profile__body">
         <div className="profile__wallet">
           <EthereumIcon />
-          <p>{shortenAddress(wallet)}</p>
+          <p>{shortenAddress(account)}</p>
         </div>
 
         {active === true && (

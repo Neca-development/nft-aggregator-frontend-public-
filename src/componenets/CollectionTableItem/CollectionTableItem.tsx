@@ -7,39 +7,50 @@ import Heart from "@UI/Heart/Heart";
 import CollectionModal from "@components/CollectionModal/CollectionModal";
 import Gain from "@UI/Gain/Gain";
 import EthereumIcon from "@components/UI/EthereumIcon/EthereumIcon";
-import useFavorite from "@hooks/useFavorite";
+import useFavorite, { FavoriteFunctionStatus } from "@hooks/useFavorite";
 import { useAppSelector } from "@store/store.hook";
 import { selectUserData } from "@store/state/userSlice";
-import { freeFavoritesSize } from "@constants/constant";
 import InfoModal from "@components/InfoModal/InfoModal";
+import { motion } from "framer-motion";
 
 interface ICollectionTableItemProps {
   item: ICollection;
 }
 
 const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
-  const { wallet } = useAppSelector(selectUserData);
+  const { isLoggedIn } = useAppSelector(selectUserData);
   const [showCollectionModal, setShowCollectionModal] = useState(false);
   const [localItem, setLocalItem] = useState(item);
   const { addToFavorite, removeFromFavorite, getFavFromLs } = useFavorite(item.openseaId);
   const [showLimitModal, setShowLimitModal] = useState(false);
 
   const handleClickFav = () => {
-    const newItem = { ...localItem };
-    if (newItem.isFavorite) {
-      removeFromFavorite();
-      newItem.isFavorite = false;
+    if (localItem.isFavorite) {
+      handleRemoveFromFav();
     } else {
-      let currentFavorites;
-      if (!wallet) {
-        currentFavorites = getFavFromLs();
-      }
-      if (currentFavorites.length < freeFavoritesSize) {
-        addToFavorite();
+      handleAddToFav();
+    }
+  };
+
+  const handleAddToFav = async () => {
+    const newItem = { ...localItem };
+    switch (await addToFavorite()) {
+      case FavoriteFunctionStatus.success:
         newItem.isFavorite = true;
-      } else {
+        break;
+      case FavoriteFunctionStatus.limit:
         setShowLimitModal(true);
-      }
+        break;
+    }
+    setLocalItem(newItem);
+  };
+
+  const handleRemoveFromFav = async () => {
+    const newItem = { ...localItem };
+    switch (await removeFromFavorite()) {
+      case FavoriteFunctionStatus.success:
+        newItem.isFavorite = false;
+        break;
     }
     setLocalItem(newItem);
   };
@@ -48,22 +59,28 @@ const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
     const checkItemInLs = () => {
       const favFromLs = getFavFromLs();
       const newItem = { ...item };
-      for (const id of favFromLs) {
-        if (id === newItem.openseaId) {
+      for (const openseaId of favFromLs) {
+        if (openseaId === newItem.openseaId) {
           newItem.isFavorite = true;
           setLocalItem(newItem);
         }
       }
     };
 
-    if (!wallet) {
+    if (!isLoggedIn) {
       checkItemInLs();
     }
-  }, [wallet]);
+  }, [getFavFromLs, isLoggedIn, item]);
 
   return (
     <>
-      <article className="collectionTableItem" onClick={() => setShowCollectionModal(true)}>
+      <motion.article
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.15 }}
+        className="collectionTableItem"
+        onClick={() => setShowCollectionModal(true)}
+      >
         <div className="collectionTableItem__itemName">
           <img src={item.image} alt="" className="collectionTableItem__itemImage" />
           <p>{item.name}</p>
@@ -87,10 +104,11 @@ const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
           </a>
         </p>
         <Heart isFavorite={localItem.isFavorite} onClick={handleClickFav} />
-      </article>
+      </motion.article>
 
       <CollectionModal
-        item={localItem}
+        collectionId={localItem.openseaId}
+        isFavorite={localItem.isFavorite}
         isOpen={showCollectionModal}
         onClose={() => setShowCollectionModal(false)}
         handleClickFav={handleClickFav}

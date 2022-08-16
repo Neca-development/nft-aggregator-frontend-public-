@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { ICollection } from "@models/collection";
 import "./collectionModal.scss";
 import Button from "@UI/Button/Button";
 import Tabs from "@UI/Tabs/Tabs";
@@ -17,13 +16,20 @@ enum CollectionTabs {
 }
 
 interface ICollectionModalProps {
-  item: ICollection;
+  collectionId: string;
+  isFavorite: boolean;
   isOpen: boolean;
   onClose: () => void;
   handleClickFav: () => void;
 }
 
-const CollectionModal = ({ item, isOpen, onClose, handleClickFav }: ICollectionModalProps) => {
+const CollectionModal = ({
+  collectionId,
+  isFavorite,
+  isOpen,
+  onClose,
+  handleClickFav,
+}: ICollectionModalProps) => {
   const navigate = useNavigate();
   const { active } = useAppSelector(selectUserData);
   const [trigger, { data, isLoading, isError }] = useLazyGetCollectionByIdQuery();
@@ -66,9 +72,9 @@ const CollectionModal = ({ item, isOpen, onClose, handleClickFav }: ICollectionM
 
   useEffect(() => {
     if (isOpen) {
-      trigger(item.openseaId);
+      trigger(collectionId);
     }
-  }, [isOpen, item.openseaId, trigger]);
+  }, [isOpen, collectionId, trigger]);
 
   if (!data) {
     return;
@@ -89,7 +95,7 @@ const CollectionModal = ({ item, isOpen, onClose, handleClickFav }: ICollectionM
           <div className="mesg__body">
             {activeTab === CollectionTabs.discord && renderMessages()}
             {activeTab === CollectionTabs.twitter &&
-              (true ? (
+              (active ? (
                 renderMessages()
               ) : (
                 <div className="mesg__noAccess">
@@ -102,7 +108,7 @@ const CollectionModal = ({ item, isOpen, onClose, handleClickFav }: ICollectionM
           </div>
         </div>
 
-        <CollectionInfo data={data} handleClickFav={handleClickFav} />
+        <CollectionInfo data={data} isFavorite={isFavorite} handleClickFav={handleClickFav} />
       </section>
     </BaseModal>
   );

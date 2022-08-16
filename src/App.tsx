@@ -11,7 +11,7 @@ import Profile from "@pages/Profile/Profile";
 import { useDispatch } from "react-redux";
 import { useEthers } from "@usedapp/core";
 import { useCreateSignature } from "@hooks/useCreateSignature";
-import { clearUserState, setWallet } from "@store/state/userSlice";
+import { clearUserState, setLoggedIn } from "@store/state/userSlice";
 import { useGetSubscriptionStateQuery } from "@services/payment.api";
 import RequireSubscriptionGuard from "@pages/RequireSubscriptionGuard";
 import { userHasSignature } from "@utils/utils";
@@ -21,6 +21,7 @@ function App() {
   const dispatch = useDispatch();
   const { account, deactivate } = useEthers();
   const { signMessage } = useCreateSignature();
+
   const {
     refetch: getSubState,
     isSuccess: isLoginSuccess,
@@ -28,10 +29,10 @@ function App() {
   } = useGetSubscriptionStateQuery(null, {
     skip: !account && userHasSignature() === false,
   });
+
   const [showNoSignModal, setShowNoSignModal] = useState(false);
 
   const askForSignature = useCallback(async () => {
-    console.log("call");
     const signResult = await signMessage();
     if (!signResult?.signature) {
       deactivate();
@@ -53,11 +54,11 @@ function App() {
       // }
 
       if (isLoginSuccess) {
-        dispatch(setWallet(account));
+        dispatch(setLoggedIn());
       }
 
       // @ts-ignore
-      if (loginError && (loginError.data.status === 403 || loginError.data.status === 401)) {
+      if (loginError && (loginError.status === 401 || loginError.status === 403)) {
         askForSignature();
       }
     }

@@ -13,7 +13,7 @@ interface IInfoModalProps {
 }
 
 const InfoModal = ({ type, onClose, isOpen }: IInfoModalProps) => {
-  const { wallet, active } = useAppSelector(selectUserData);
+  const { active, isLoggedIn } = useAppSelector(selectUserData);
   const navigate = useNavigate();
 
   const renderInfoModal = () => {
@@ -68,7 +68,7 @@ const InfoModal = ({ type, onClose, isOpen }: IInfoModalProps) => {
       <div className="infoModal">
         {renderInfoModal()}
 
-        {wallet && active === false ? (
+        {isLoggedIn && active === false ? (
           <Button size="large" variant="gradient" onClick={closeAndNavigateToProfile}>
             Buy Subscription
           </Button>

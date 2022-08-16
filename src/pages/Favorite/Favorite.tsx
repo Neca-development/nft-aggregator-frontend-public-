@@ -9,39 +9,40 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useAppSelector } from "@store/store.hook";
 import { selectUserData } from "@store/state/userSlice";
 import { convertToFavItem } from "@utils/utils";
-import { collectionsDataMock } from "@mocks/collection";
 import { IFavorite } from "@models/favorite";
 import { freeFavoritesSize } from "@constants/constant";
 import useFavorite from "@hooks/useFavorite";
 import PagePresenceWrapper from "@components/UI/PagePresenceWrapper";
+import { useGetUserFavoritesQuery } from "@services/users.api";
+import { useLazyGetCollectionByIdQuery } from "@services/collections.api";
 
 function Favorite() {
-  const { active, wallet } = useAppSelector(selectUserData);
+  const { active, isLoggedIn } = useAppSelector(selectUserData);
   const navigate = useNavigate();
+  const [page, setPage] = useState(0);
+  const { data: paginatedData } = useGetUserFavoritesQuery({ page }, { skip: !isLoggedIn });
+  const [requestCollectionById] = useLazyGetCollectionByIdQuery();
+  const [favorites, setFavorites] = useState([]);
   const [showLimitModal, setShowLimitModal] = useState(false);
-  const [favorites, setFavorites] = useState(null);
   const { getFavFromLs } = useFavorite(null);
 
-  const importFavFromLs = useCallback(() => {
-    if (wallet) {
+  const importFavFromLs = useCallback(async () => {
+    if (isLoggedIn) {
       return;
     }
     const favFromLs = getFavFromLs();
     const findedCollections = [];
-    // request /api/collection/id here by each fav id
-
-    // TEMP
-    // favFromLs.forEach((id: number) => {
-    //   const finded = collectionsDataMock.collections.find(c => c.id === id);
-    //   const converted = convertToFavItem(finded);
-    //   findedCollections.push(converted);
-    // });
+    for (const openseaId of favFromLs) {
+      const res = await requestCollectionById(openseaId).unwrap();
+      const converted = convertToFavItem(res);
+      findedCollections.push(converted);
+    }
 
     setFavorites(findedCollections);
-  }, [wallet]);
+  }, [isLoggedIn, getFavFromLs, requestCollectionById]);
 
   const renderFooterBtn = () => {
-    if (!wallet) {
+    if (!isLoggedIn) {
       return (
         <Button size="large" variant="gradient" onClick={() => navigate("/profile")}>
           Connect wallet
@@ -57,7 +58,14 @@ function Favorite() {
     }
   };
 
-  // listen for deletion in ls
+  useEffect(() => {
+    console.log(paginatedData);
+    if (paginatedData) {
+      setFavorites([...favorites, paginatedData]);
+    }
+  }, [paginatedData]);
+
+  // Import favorites from ls and listen for their deletion
   useEffect(() => {
     importFavFromLs();
     window.addEventListener("storage", importFavFromLs);
@@ -66,6 +74,8 @@ function Favorite() {
       window.removeEventListener("storage", importFavFromLs);
     };
   }, [importFavFromLs]);
+
+  // TODO add page loader
 
   return (
     <PagePresenceWrapper>
@@ -89,12 +99,18 @@ function Favorite() {
               )}
             </>
           ) : (
-            <div className="favorite__empty">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="favorite__empty"
+            >
               <h2>No collections in favorites</h2>
               <Button size="large" variant="gradient" onClick={() => navigate("/")}>
                 Back to all items
               </Button>
-            </div>
+            </motion.div>
           )}
         </div>
 
