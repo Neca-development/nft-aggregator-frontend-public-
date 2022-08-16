@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IFavorite } from "@models/favorite";
 import "./favoriteItem.scss";
 import Button from "@UI/Button/Button";
