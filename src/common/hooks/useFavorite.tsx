@@ -2,7 +2,7 @@ import { selectUserData } from "@store/state/userSlice";
 import { useAppSelector } from "@store/store.hook";
 import { useCallback } from "react";
 
-const useFavorite = (itemId: number) => {
+const useFavorite = (itemId: number | string) => {
   const { wallet } = useAppSelector(selectUserData);
 
   const getFavFromLs = useCallback(() => {
@@ -23,9 +23,11 @@ const useFavorite = (itemId: number) => {
   const lsRemoveFromFav = () => {
     let favorites = getFavFromLs();
     const fIdx = favorites.findIndex((el: number) => el === itemId);
-    favorites.splice(fIdx, 1);
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-    window.dispatchEvent(new Event("storage"));
+    if (fIdx >= 0) {
+      favorites.splice(fIdx, 1);
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+      window.dispatchEvent(new Event("storage"));
+    }
   };
 
   const removeFromFavorite = () => {

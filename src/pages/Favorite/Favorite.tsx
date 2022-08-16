@@ -12,18 +12,20 @@ import { convertToFavItem } from "@utils/utils";
 import { collectionsDataMock } from "@mocks/collection";
 import { IFavorite } from "@models/favorite";
 import { freeFavoritesSize } from "@constants/constant";
+import useFavorite from "@hooks/useFavorite";
 
 function Favorite() {
   const { active, wallet } = useAppSelector(selectUserData);
   const navigate = useNavigate();
   const [showLimitModal, setShowLimitModal] = useState(false);
   const [favorites, setFavorites] = useState(null);
+  const { getFavFromLs } = useFavorite(null);
 
   const importFavFromLs = useCallback(() => {
     if (wallet) {
       return;
     }
-    const favFromLs = JSON.parse(localStorage.getItem("favorites"));
+    const favFromLs = getFavFromLs();
     const findedCollections = [];
     // request /api/collection/id here by each fav id
 
@@ -73,7 +75,7 @@ function Favorite() {
       transition={{ duration: 0.2 }}
     >
       <div className="favorite__body">
-        {favorites && favorites.length > 0 ? (
+        {favorites?.length > 0 ? (
           <>
             <section className="favorite__wrapper">
               <AnimatePresence>
