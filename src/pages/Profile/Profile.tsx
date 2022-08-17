@@ -10,10 +10,14 @@ import { clearUserState, selectUserData } from "@store/state/userSlice";
 import EthereumIcon from "@UI/EthereumIcon/EthereumIcon";
 import { useGetSubscriptionStateQuery } from "@services/payment.api";
 import { userHasSignature } from "@utils/utils";
-import useBuySubscription from "@hooks/useBuySubscription";
 import { TransactionState } from "@models/payment.interface";
 
-function Profile() {
+interface IProfileProps {
+  buySubscription: () => void;
+}
+
+function Profile(props: IProfileProps) {
+  const { buySubscription } = props;
   const { active, expiresAt, isLoggedIn, transactionState } = useAppSelector(selectUserData);
   const { account } = useEthers();
   const { isLoading, isError } = useGetSubscriptionStateQuery(null, {
@@ -21,7 +25,6 @@ function Profile() {
   });
   const dispatch = useAppDispatch();
   const { activateBrowserWallet, deactivate } = useEthers();
-  const { buySubscription } = useBuySubscription();
 
   const convertExpireDate = (date: string) => {
     return dayjs(new Date(date)).format("DD.MM.YYYY");

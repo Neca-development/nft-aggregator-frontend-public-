@@ -1,14 +1,19 @@
 import { TransactionState } from "@models/payment.interface";
-import { useSendTransactionHashMutation } from "@services/payment.api";
+import {
+  useLazyGetSubscriptionStateQuery,
+  useSendTransactionHashMutation,
+} from "@services/payment.api";
 import { setTransactionStatus } from "@store/state/userSlice";
 import { useAppDispatch } from "@store/store.hook";
 import { useSendTransaction } from "@usedapp/core";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const useBuySubscription = () => {
   const { sendTransaction, state: transactionStatus } = useSendTransaction();
   const [sendTransactionHash] = useSendTransactionHashMutation();
+  const [getSubscriptionState] = useLazyGetSubscriptionStateQuery();
   const dispatch = useAppDispatch();
+  const timer = useRef(null);
 
   const buySubscription = () => {
     sendTransaction({
@@ -26,17 +31,24 @@ const useBuySubscription = () => {
         sendTransactionHash(transactionStatus.transaction.hash);
         break;
       case "Success":
-        dispatch(setTransactionStatus(TransactionState.success));
+        timer.current = setTimeout(() => {
+          getSubscriptionState();
+          dispatch(setTransactionStatus(TransactionState.success));
+        }, 10000);
         break;
       case "Exception":
       case "Fail":
         dispatch(setTransactionStatus(TransactionState.failed));
         break;
-      // default:
-      // case "None":
-      //   dispatch(setTransactionStatus(TransactionState.none));
+      default:
+      case "None":
+        dispatch(setTransactionStatus(TransactionState.none));
     }
-  }, [dispatch, sendTransactionHash, transactionStatus]);
+
+    return () => {
+      clearTimeout(timer.current);
+    };
+  }, [dispatch, getSubscriptionState, sendTransactionHash, transactionStatus]);
 
   return { buySubscription };
 };

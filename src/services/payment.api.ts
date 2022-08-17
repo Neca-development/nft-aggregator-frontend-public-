@@ -4,7 +4,7 @@ import { baseApi } from "./base.api";
 
 export const paymentApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    getSubscriptionState: builder.query<ISubscriptionState, ISubscriptionState>({
+    getSubscriptionState: builder.query<ISubscriptionState, void>({
       query: () => "payment/subscription/state",
       providesTags: ["Subscription"],
       transformResponse: (response: IBaseResponse) => response.data,
@@ -15,9 +15,12 @@ export const paymentApi = baseApi.injectEndpoints({
         method: "POST",
         body: { hash },
       }),
-      invalidatesTags: ["Subscription"],
     }),
   }),
 });
 
-export const { useGetSubscriptionStateQuery, useSendTransactionHashMutation } = paymentApi;
+export const {
+  useGetSubscriptionStateQuery,
+  useLazyGetSubscriptionStateQuery,
+  useSendTransactionHashMutation,
+} = paymentApi;
