@@ -6,6 +6,7 @@ import {
 import { setTransactionStatus } from "@store/state/userSlice";
 import { useAppDispatch } from "@store/store.hook";
 import { useSendTransaction } from "@usedapp/core";
+import { utils } from "ethers";
 import { useEffect, useRef } from "react";
 
 const useBuySubscription = () => {
@@ -18,7 +19,7 @@ const useBuySubscription = () => {
   const buySubscription = () => {
     sendTransaction({
       to: "0xd771008E6f496317De65aa7D56701F9383fa6a07",
-      value: 1,
+      value: utils.parseEther("0.02"),
     });
   };
 

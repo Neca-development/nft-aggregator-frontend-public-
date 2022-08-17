@@ -25,7 +25,7 @@ export const convertToFavItem = (item: ICollection) => {
   const converted: IFavorite = {
     openseaId: item.openseaId,
     name: item.name,
-    bannerImage: item.banner,
+    bannerImage: item.bannerImage,
     dailyChange: item.dailyChange,
     image: item.image,
     floorPrice: item.floorPrice,

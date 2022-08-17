@@ -40,7 +40,7 @@ const CollectionModal = ({
   const renderMessages = () => {
     switch (activeTab) {
       case CollectionTabs.discord:
-        if (data.discordMessages.length > 0) {
+        if (data.discordMessages?.length > 0) {
           return data.discordMessages.map(msg => (
             <SingleMessage
               key={msg.id}
@@ -54,7 +54,7 @@ const CollectionModal = ({
           return <div>No messages from discord</div>;
         }
       case CollectionTabs.twitter:
-        if (data.twitter.messages.length > 0) {
+        if (data.twitter?.messages.length > 0) {
           return data.twitter.messages.map(msg => (
             <SingleMessage
               key={msg.id}
@@ -93,18 +93,17 @@ const CollectionModal = ({
           </div>
 
           <div className="mesg__body">
-            {activeTab === CollectionTabs.discord && renderMessages()}
-            {activeTab === CollectionTabs.twitter &&
-              (active ? (
-                renderMessages()
-              ) : (
-                <div className="mesg__noAccess">
-                  <p>Viewing tweets is only available with a paid subscription</p>
-                  <Button variant="gradient" size="large" onClick={() => navigate("/profile")}>
-                    Buy Subscription
-                  </Button>
-                </div>
-              ))}
+            {active ? (
+              // TODO check pagination
+              renderMessages()
+            ) : (
+              <div className="mesg__noAccess">
+                <p>Viewing messages is only available with a paid subscription</p>
+                <Button variant="gradient" size="large" onClick={() => navigate("/profile")}>
+                  Buy Subscription
+                </Button>
+              </div>
+            )}
           </div>
         </div>
 

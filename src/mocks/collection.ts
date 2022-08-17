@@ -6,7 +6,7 @@ import tempBg from "@assets/images/arcade-land-bg.jpg";
 export const collectionItemMock: ICollection = {
   openseaId: "c1",
   image: tempImg,
-  banner: tempBg,
+  bannerImage: tempBg,
   name: "Moonbirds",
   size: 10000,
   floorPrice: "28.89",
@@ -21,6 +21,7 @@ export const collectionItemMock: ICollection = {
   monthlyChange: "0",
   description:
     "FLOOR MIGHT NOT BE ACCURATE! Lowest listings could be locked in staking and not purchasable. The Impostors Genesis Aliens represent the foundational NFT collection of the Impostors ecosystem, and serve as passes the Impostors Genesis Season which will play host to seven unique events. Only 10,420 of these intergalactic creatures will ever exist! Each Genesis Character has a combination of over 200 traits and will provide stat-based advantages in various metaverse game modes. Impostors is a social gaming metaverse that bridges the gap between today's Twitch culture and the future of immersive metaverses. The game is built in Unreal Engine and the team consists of over 30 world-class engineers and builders with experience working at AAA studios including Epic Games, Roblox, Pixar, and more. Impostors brings a breath of fresh air into the gaming and crypto world by creating a social gaming metaverse that is truly player-owned and powered.",
+  link: null,
   discordMessages: [
     {
       id: 0,
@@ -101,7 +102,8 @@ export const collectionItemMock: ICollection = {
 const collectionItemMock2: ICollection = {
   openseaId: "c2",
   image: tempImg,
-  banner: tempBg,
+  bannerImage: tempBg,
+  link: null,
   name: "Murakami.Flowers Seed",
   size: 11,
   floorPrice: "6.405",
@@ -140,7 +142,8 @@ const collectionItemMock2: ICollection = {
 const collectionItemMock3: ICollection = {
   openseaId: "c3",
   image: tempImg,
-  banner: tempBg,
+  bannerImage: tempBg,
+  link: null,
   name: "Collection 2",
   size: 11,
   floorPrice: "6.405",
@@ -179,7 +182,8 @@ const collectionItemMock3: ICollection = {
 const collectionItemMock4: ICollection = {
   openseaId: "c4",
   image: tempImg,
-  banner: tempBg,
+  bannerImage: tempBg,
+  link: null,
   name: "Collection 4",
   size: 11,
   floorPrice: "6.405",

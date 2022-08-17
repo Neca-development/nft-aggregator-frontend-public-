@@ -66,7 +66,9 @@ function Profile(props: IProfileProps) {
           )}
           {isError && (
             <div className="profile__error">
-              <strong>Signature verification error</strong>
+              <strong>To continue you need to send a signature.</strong>
+              <br />
+              <strong>This is so that we can ensure the security of your requests.</strong>
             </div>
           )}
         </div>
@@ -110,7 +112,7 @@ function Profile(props: IProfileProps) {
           </li>
         </ul>
         <div className="profile__bottom">
-          <p>Subscription cost: 0.03 ETH</p>
+          <p>Subscription cost: 0.02 ETH</p>
           {transactionState === TransactionState.pending ? (
             <Button variant="gradient" size="large">
               Sending transaction....

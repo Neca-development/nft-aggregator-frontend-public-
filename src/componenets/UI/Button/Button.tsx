@@ -8,10 +8,11 @@ interface IButtonProps {
   variant?: "primary" | "secondary" | "gradient" | "link";
   size?: "normal" | "large";
   onClick?: (arg?: any) => void;
+  type?: "submit" | "button";
 }
 
 const Button = (props: IButtonProps) => {
-  const { children, icon, variant, size, onClick } = props;
+  const { children, icon, variant, size, onClick, type = "button" } = props;
   return (
     <button
       className={classnames(
@@ -22,6 +23,7 @@ const Button = (props: IButtonProps) => {
         { btn_large: size === "large" }
       )}
       onClick={onClick}
+      type={type}
     >
       {children}
       {icon === "wallet" && (
