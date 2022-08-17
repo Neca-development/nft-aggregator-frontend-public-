@@ -15,12 +15,16 @@ import { clearUserState, setLoggedIn } from "@store/state/userSlice";
 import { useGetSubscriptionStateQuery } from "@services/payment.api";
 import RequireSubscriptionGuard from "@pages/RequireSubscriptionGuard";
 import { userHasSignature } from "@utils/utils";
+import useCheckNetwork from "@hooks/useCheckNetwork";
+import useBuySubscription from "@hooks/useBuySubscription";
 
 function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const { account, deactivate } = useEthers();
   const { signMessage } = useCreateSignature();
+  const { checkNetwork } = useCheckNetwork();
+  const { buySubscription } = useBuySubscription();
 
   const {
     refetch: getSubState,
@@ -53,6 +57,8 @@ function App() {
       //   askForSignature();
       // }
 
+      checkNetwork();
+
       if (isLoginSuccess) {
         dispatch(setLoggedIn());
       }
@@ -79,7 +85,7 @@ function App() {
               </RequireSubscriptionGuard>
             }
           />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<Profile buySubscription={buySubscription} />} />
 
           <Route path="/admin" element={<Admin />} />
 

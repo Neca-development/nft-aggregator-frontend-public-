@@ -9,7 +9,18 @@ export const paymentApi = baseApi.injectEndpoints({
       providesTags: ["Subscription"],
       transformResponse: (response: IBaseResponse) => response.data,
     }),
+    sendTransactionHash: builder.mutation<IBaseResponse, string>({
+      query: hash => ({
+        url: "payment/transaction",
+        method: "POST",
+        body: { hash },
+      }),
+    }),
   }),
 });
 
-export const { useGetSubscriptionStateQuery } = paymentApi;
+export const {
+  useGetSubscriptionStateQuery,
+  useLazyGetSubscriptionStateQuery,
+  useSendTransactionHashMutation,
+} = paymentApi;

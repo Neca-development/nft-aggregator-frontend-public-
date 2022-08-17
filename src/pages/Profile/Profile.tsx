@@ -10,9 +10,15 @@ import { clearUserState, selectUserData } from "@store/state/userSlice";
 import EthereumIcon from "@UI/EthereumIcon/EthereumIcon";
 import { useGetSubscriptionStateQuery } from "@services/payment.api";
 import { userHasSignature } from "@utils/utils";
+import { TransactionState } from "@models/payment.interface";
 
-function Profile() {
-  const { active, expiresAt, isLoggedIn } = useAppSelector(selectUserData);
+interface IProfileProps {
+  buySubscription: () => void;
+}
+
+function Profile(props: IProfileProps) {
+  const { buySubscription } = props;
+  const { active, expiresAt, isLoggedIn, transactionState } = useAppSelector(selectUserData);
   const { account } = useEthers();
   const { isLoading, isError } = useGetSubscriptionStateQuery(null, {
     skip: !account && userHasSignature() === false,
@@ -105,13 +111,13 @@ function Profile() {
         </ul>
         <div className="profile__bottom">
           <p>Subscription cost: 0.03 ETH</p>
-          {active ? (
+          {transactionState === TransactionState.pending ? (
             <Button variant="gradient" size="large">
-              Renew subscription
+              Sending transaction....
             </Button>
           ) : (
-            <Button variant="gradient" size="large">
-              Buy a subscription
+            <Button variant="gradient" size="large" onClick={buySubscription}>
+              {active ? "Renew subscription" : "Buy a subscription"}
             </Button>
           )}
         </div>
