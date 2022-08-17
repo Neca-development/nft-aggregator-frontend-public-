@@ -1,50 +1,130 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./giveaways.scss";
-import Sidebar from "@components/Sidebar/Sidebar";
-import { GiveawaysAndAnnMock } from "@mocks/gaa";
-import GaATableItem from "@components/GaATableItem/GaATableItem";
-import Button from "@UI/Button/Button";
 import { useNavigate } from "react-router-dom";
-import { GivewaysFilterBy } from "@models/filters";
+
+import GaATableItem from "@components/GaATableItem/GaATableItem";
+import Sidebar from "@components/Sidebar/Sidebar";
+import PagePresenceWrapper from "@components/UI/PagePresenceWrapper";
+import { useDidMountEffect } from "@hooks/useDidMountEffect";
+import {
+  CollectionsFilterBy,
+  FilterType,
+  GiveawaysFilterBy,
+  IFilterRequest,
+} from "@models/filters";
+import { GaaChannelTypes, IGaaItem, IGaaRequest, IMaxRangesGaa } from "@models/gaa";
+import { useGetGiveawaysAndAnnouncementsMutation } from "@services/collections.api";
+import { selectFilterRequest } from "@store/state/filterSlice";
+import { useAppSelector } from "@store/store.hook";
+import Button from "@UI/Button/Button";
 import TableFilterTitle from "@UI/TableFilterTitle/TableFilterTitle";
 import Tabs from "@UI/Tabs/Tabs";
-import PagePresenceWrapper from "@components/UI/PagePresenceWrapper";
 
-enum GaaTabs {
-  all = "All",
-  giveaway = "Giveaways",
-  announce = "Announcements",
-}
+const gaaTabs = [
+  { name: "All", type: GaaChannelTypes.all },
+  { name: "Giveaways", type: GaaChannelTypes.giveaways },
+  { name: "Announcements", type: GaaChannelTypes.announcement },
+];
 
 function Giveaways() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState(GaaTabs.all);
-  const [activeFilter, setActiveFilter] = useState(null);
-  const [isSortAsc, setIsSortAsc] = useState(true);
+  const [activeTab, setActiveTab] = useState(gaaTabs[0]);
+  const [activeFilter, setActiveFilter] = useState(GiveawaysFilterBy.date);
+  const [isSortAsc, setIsSortAsc] = useState(false);
+  const filterRequest = useAppSelector(selectFilterRequest);
+  const [fetchGaa, { data }] = useGetGiveawaysAndAnnouncementsMutation();
+  const [page, setPage] = useState(0);
+  const [localData, setLocalData] = useState<IGaaItem[]>(null);
+  const [rangeData, setRangeData] = useState<IMaxRangesGaa>(null);
+
+  const initialRender = useRef(true);
+  const sidebarRef = useRef(null);
+
+  // Get filter max ranges
+  useEffect(() => {
+    const getMaxRanges = async () => {
+      const initialFilter: IFilterRequest = {
+        filter: {
+          name: "",
+          size: {
+            from: 0,
+          },
+          membersCount: {
+            from: 0,
+          },
+        },
+        order: {
+          orderBy: CollectionsFilterBy.name,
+          orderType: FilterType.asc,
+        },
+      };
+      const res = await fetchGaa({
+        filter: initialFilter,
+        type: activeTab.type,
+        page: 0,
+      }).unwrap();
+      setRangeData(res.data.items.ranges);
+      initialRender.current = false;
+    };
+    getMaxRanges();
+  }, [activeTab.type, fetchGaa]);
+
+  // TODO pagination here
+  useEffect(() => {
+    if (data?.data.items) {
+      setLocalData(data.data.items.collections);
+    }
+  }, [data]);
+
+  // Observe filter change
+  useDidMountEffect(() => {
+    const requestCollections = async () => {
+      const req: IGaaRequest = {
+        filter: filterRequest,
+        type: activeTab.type,
+        page,
+      };
+      try {
+        const res = await fetchGaa(req).unwrap();
+        setLocalData(res.data.items.collections);
+        // TODO get range data on tabs change
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    requestCollections();
+  }, [filterRequest]);
+
+  if (initialRender.current) {
+    return (
+      <PagePresenceWrapper>
+        <div className="container">Loading...</div>
+      </PagePresenceWrapper>
+    );
+  }
 
   return (
     <PagePresenceWrapper>
       <div className="container tableLayout">
-        {/* <Sidebar
-          page="giveaways"
-          collectionMax={GiveawaysAndAnnMock.ranges.sizeMax}
-          discordMax={GiveawaysAndAnnMock.ranges.membersCountMax}
-          searchPlaceholder="Search"
-        /> */}
+        {rangeData && (
+          <Sidebar
+            page="giveaways"
+            sizeMax={rangeData.sizeMax}
+            discordMembersCountMax={rangeData.membersCountMax}
+            searchPlaceholder="Search"
+            ref={sidebarRef}
+          />
+        )}
 
         <section className="giveaways">
           <div className="giveaways__header">
-            <Tabs
-              tabsArray={[GaaTabs.all, GaaTabs.giveaway, GaaTabs.announce]}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-            />
+            <Tabs tabs={gaaTabs} activeTab={activeTab} setActiveTab={setActiveTab} />
             <div className="giveaways__colNames">
               <TableFilterTitle
                 name="Date"
                 isSortAsc={isSortAsc}
                 activeFilter={activeFilter}
-                filter={GivewaysFilterBy.date}
+                filter={GiveawaysFilterBy.date}
                 setActiveFilter={setActiveFilter}
                 setIsSortAsc={setIsSortAsc}
               />
@@ -52,7 +132,7 @@ function Giveaways() {
                 name="Collection size"
                 isSortAsc={isSortAsc}
                 activeFilter={activeFilter}
-                filter={GivewaysFilterBy.size}
+                filter={GiveawaysFilterBy.size}
                 setActiveFilter={setActiveFilter}
                 setIsSortAsc={setIsSortAsc}
               />
@@ -60,7 +140,7 @@ function Giveaways() {
                 name="Floor price"
                 isSortAsc={isSortAsc}
                 activeFilter={activeFilter}
-                filter={GivewaysFilterBy.floorPrice}
+                filter={GiveawaysFilterBy.floorPrice}
                 setActiveFilter={setActiveFilter}
                 setIsSortAsc={setIsSortAsc}
               />
@@ -68,16 +148,16 @@ function Giveaways() {
                 name="Collection name"
                 isSortAsc={isSortAsc}
                 activeFilter={activeFilter}
-                filter={GivewaysFilterBy.name}
+                filter={GiveawaysFilterBy.name}
                 setActiveFilter={setActiveFilter}
                 setIsSortAsc={setIsSortAsc}
               />
             </div>
           </div>
 
-          {GiveawaysAndAnnMock.collections.length > 0 ? (
+          {localData?.length > 0 ? (
             <div className="giveaways__body">
-              {GiveawaysAndAnnMock.collections.map((item, idx) => (
+              {localData.map((item, idx) => (
                 <GaATableItem key={idx} item={item} />
               ))}
             </div>

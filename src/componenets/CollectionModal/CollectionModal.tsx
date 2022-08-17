@@ -10,10 +10,11 @@ import { useLazyGetCollectionByIdQuery } from "@services/collections.api";
 import CollectionInfo from "./CollectionInfo";
 import SingleMessage from "./SingleMessage";
 
-enum CollectionTabs {
-  discord = "Discord",
-  twitter = "Twitter",
-}
+// TODO rewrite better
+const collectionTabs = [
+  { name: "Discord", type: 0 },
+  { name: "Twitter", type: 1 },
+];
 
 interface ICollectionModalProps {
   collectionId: string;
@@ -34,12 +35,12 @@ const CollectionModal = ({
   const { active } = useAppSelector(selectUserData);
   const [trigger, { data, isLoading, isError }] = useLazyGetCollectionByIdQuery();
 
-  const [activeTab, setActiveTab] = useState(CollectionTabs.discord);
+  const [activeTab, setActiveTab] = useState(collectionTabs[0]);
 
   // TODO maybe move to component
   const renderMessages = () => {
     switch (activeTab) {
-      case CollectionTabs.discord:
+      case collectionTabs[0]:
         if (data.discordMessages?.length > 0) {
           return data.discordMessages.map(msg => (
             <SingleMessage
@@ -53,7 +54,7 @@ const CollectionModal = ({
         } else {
           return <div>No messages from discord</div>;
         }
-      case CollectionTabs.twitter:
+      case collectionTabs[1]:
         if (data.twitter?.messages.length > 0) {
           return data.twitter.messages.map(msg => (
             <SingleMessage
@@ -85,11 +86,7 @@ const CollectionModal = ({
       <section className="colModal">
         <div className="colModal__messages mesg">
           <div className="mesg__tabs">
-            <Tabs
-              tabsArray={[CollectionTabs.discord, CollectionTabs.twitter]}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-            />
+            <Tabs tabs={collectionTabs} activeTab={activeTab} setActiveTab={setActiveTab} />
           </div>
 
           <div className="mesg__body">

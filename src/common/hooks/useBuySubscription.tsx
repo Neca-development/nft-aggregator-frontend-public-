@@ -1,3 +1,7 @@
+import { useSendTransaction } from "@usedapp/core";
+import { utils } from "ethers";
+import { useEffect, useRef } from "react";
+
 import { TransactionState } from "@models/payment.interface";
 import {
   useLazyGetSubscriptionStateQuery,
@@ -5,9 +9,6 @@ import {
 } from "@services/payment.api";
 import { setTransactionStatus } from "@store/state/userSlice";
 import { useAppDispatch } from "@store/store.hook";
-import { useSendTransaction } from "@usedapp/core";
-import { utils } from "ethers";
-import { useEffect, useRef } from "react";
 
 const useBuySubscription = () => {
   const { sendTransaction, state: transactionStatus } = useSendTransaction();

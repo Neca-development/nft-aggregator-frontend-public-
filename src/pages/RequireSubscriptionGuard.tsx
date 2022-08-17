@@ -1,8 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 import InfoModal from "@components/InfoModal/InfoModal";
 import { selectUserData } from "@store/state/userSlice";
 import { useAppSelector } from "@store/store.hook";
-import { useNavigate } from "react-router-dom";
 
 function RequireSubscriptionGuard({ children }: { children: JSX.Element }) {
   const { active } = useAppSelector(selectUserData);

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IGaaItem } from "@models/gaa";
+import { GaaChannelTypes, IGaaItem } from "@models/gaa";
 import "./gaaTableItem.scss";
 import Button from "@UI/Button/Button";
 import SocialIcon from "@UI/SocialIcon/SocialIcon";
@@ -26,13 +26,13 @@ const GaATableItem = ({ item }: { item: IGaaItem }) => {
               {item.floorPrice}
             </p>
           </div>
-          {item.discordMessage.channelType === "giveaway" && (
+          {item.discordMessage.channelType === GaaChannelTypes.giveaways && (
             <h4 style={{ color: "#00B6A0" }}>Giveaway:</h4>
           )}
-          {item.discordMessage.channelType === "announcement" && (
+          {item.discordMessage.channelType === GaaChannelTypes.announcement && (
             <h4 style={{ color: "#219CFB" }}>Announcement:</h4>
           )}
-          <p className="gaaItem__text">{item.discordMessage.text}</p>
+          <p className="gaaItem__text">{item.discordMessage.message}</p>
         </div>
 
         <div className="gaaItem__controls">

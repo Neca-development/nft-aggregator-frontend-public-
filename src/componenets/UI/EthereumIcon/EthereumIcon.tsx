@@ -1,4 +1,5 @@
 import React from "react";
+
 import "./ethereumIcon.scss";
 import EtherGray from "@assets/icons/Ethereum.svg";
 

@@ -1,18 +1,19 @@
+import { motion } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
+
+import CollectionTableItem from "@components/CollectionTableItem/CollectionTableItem";
 import Sidebar from "@components/Sidebar/Sidebar";
 import "./collections.scss";
-import CollectionTableItem from "@components/CollectionTableItem/CollectionTableItem";
-import TableFilterTitle from "@UI/TableFilterTitle/TableFilterTitle";
-import { CollectionsFilterBy } from "@models/filters";
-import Button from "@UI/Button/Button";
-import { useAppSelector } from "@store/store.hook";
-import { selectFilterRequest } from "@store/state/filterSlice";
-import { useGetCollectionsMutation } from "@services/collections.api";
-import PagePresenceWrapper from "@components/UI/PagePresenceWrapper";
-import { ICollection, ICollectionRequest, IMaxRanges } from "@models/collection";
-import { useDidMountEffect } from "@hooks/useDidMountEffect";
-import { motion } from "framer-motion";
 import CollectionItemSkeleton from "@components/UI/CollectionItemSkeleton/CollectionItemSkeleton";
+import PagePresenceWrapper from "@components/UI/PagePresenceWrapper";
+import { useDidMountEffect } from "@hooks/useDidMountEffect";
+import { ICollection, ICollectionRequest, IMaxRanges } from "@models/collection";
+import { CollectionsFilterBy, FilterType, IFilterRequest } from "@models/filters";
+import { useGetCollectionsMutation } from "@services/collections.api";
+import { selectFilterRequest } from "@store/state/filterSlice";
+import { useAppSelector } from "@store/store.hook";
+import Button from "@UI/Button/Button";
+import TableFilterTitle from "@UI/TableFilterTitle/TableFilterTitle";
 
 function Collections() {
   const [activeFilter, setActiveFilter] = useState(CollectionsFilterBy.name);
@@ -33,12 +34,33 @@ function Collections() {
   // Get max ranges at first render
   useEffect(() => {
     const getMaxRanges = async () => {
-      const res = await fetchCollections({ filter: filterRequest, page: 0 }).unwrap();
+      const initialFilter: IFilterRequest = {
+        filter: {
+          name: "",
+          size: {
+            from: 0,
+          },
+          floorPrice: {
+            from: 0,
+          },
+          discordMembersCount: {
+            from: 0,
+          },
+          twitterFollowersCount: {
+            from: 0,
+          },
+        },
+        order: {
+          orderBy: CollectionsFilterBy.name,
+          orderType: FilterType.asc,
+        },
+      };
+      const res = await fetchCollections({ filter: initialFilter, page: 0 }).unwrap();
       setRangeData(res.data.items.ranges);
       initialRender.current = false;
     };
     getMaxRanges();
-  }, []);
+  }, [fetchCollections]);
 
   // TODO pagination here
   useEffect(() => {
@@ -78,7 +100,10 @@ function Collections() {
         {rangeData && (
           <Sidebar
             page="collections"
-            rangeData={rangeData}
+            sizeMax={rangeData.sizeMax}
+            discordMembersCountMax={rangeData.discordMembersCountMax}
+            floorPriceMax={rangeData.floorPriceMax}
+            twitterFollowersCountMax={rangeData.twitterFollowersCountMax}
             searchPlaceholder="Collection name"
             ref={sidebarRef}
           />
