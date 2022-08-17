@@ -44,7 +44,8 @@ const Sidebar = forwardRef((props: ISidebarProps, ref) => {
     });
   };
 
-  const updateFilterRequest = () => {
+  const updateFilterRequest = (e: React.SyntheticEvent) => {
+    e.preventDefault();
     const newFilter = { ...filterRequest.filter };
     newFilter.name = searchValue;
     newFilter.size = convertToRange("size", collectionSizeFilter);
@@ -78,55 +79,57 @@ const Sidebar = forwardRef((props: ISidebarProps, ref) => {
 
   return (
     <aside className="sidebar">
-      <TextInput placeholder={searchPlaceholder} value={searchValue} setValue={setSearchValue} />
+      <form onSubmit={updateFilterRequest}>
+        <TextInput placeholder={searchPlaceholder} value={searchValue} setValue={setSearchValue} />
 
-      <div className="sidebar__ranges">
-        <RangeInput
-          name="Collection size"
-          min={0}
-          max={rangeData.sizeMax}
-          value={collectionSizeFilter}
-          setValue={setCollectionSizeFilter}
-          showEtherIcon={true}
-        />
+        <div className="sidebar__ranges">
+          <RangeInput
+            name="Collection size"
+            min={0}
+            max={rangeData.sizeMax}
+            value={collectionSizeFilter}
+            setValue={setCollectionSizeFilter}
+            showEtherIcon={false}
+          />
 
-        {page === "collections" && (
-          <>
-            <RangeInput
-              name="Floor Price"
-              min={0}
-              max={rangeData.floorPriceMax}
-              value={priceFilter}
-              setValue={setPriceFilter}
-              showEtherIcon={true}
-            />
-            <RangeInput
-              name="Twitter Followers"
-              min={0}
-              max={rangeData.twitterFollowersCountMax}
-              value={twitterFolFilter}
-              setValue={setTwitterFolFilter}
-              showEtherIcon={false}
-            />
-          </>
-        )}
+          {page === "collections" && (
+            <>
+              <RangeInput
+                name="Floor Price"
+                min={0}
+                max={rangeData.floorPriceMax}
+                value={priceFilter}
+                setValue={setPriceFilter}
+                showEtherIcon={true}
+              />
+              <RangeInput
+                name="Twitter Followers"
+                min={0}
+                max={rangeData.twitterFollowersCountMax}
+                value={twitterFolFilter}
+                setValue={setTwitterFolFilter}
+                showEtherIcon={false}
+              />
+            </>
+          )}
 
-        <RangeInput
-          name="Discord Members"
-          min={0}
-          max={rangeData.discordMembersCountMax}
-          value={discordFolFilter}
-          setValue={setDiscordFolFilter}
-          showEtherIcon={false}
-        />
-      </div>
+          <RangeInput
+            name="Discord Members"
+            min={0}
+            max={rangeData.discordMembersCountMax}
+            value={discordFolFilter}
+            setValue={setDiscordFolFilter}
+            showEtherIcon={false}
+          />
+        </div>
 
-      <div className="sidebar__buttons">
-        <Button onClick={updateFilterRequest}>Apply</Button>
-        <Button variant="secondary" onClick={resetBtn}>
-          Reset
-        </Button>
-      </div>
+        <div className="sidebar__buttons">
+          <Button type="submit">Apply</Button>
+          <Button variant="secondary" onClick={resetBtn}>
+            Reset
+          </Button>
+        </div>
+      </form>
     </aside>
   );
 });

@@ -27,8 +27,7 @@ const CollectionInfo = ({ data, handleClickFav, isFavorite }: ICollectionInfoPro
 
   return (
     <div className="colModal__info colModalInfo">
-      {/* NEED BANNER IMAGE */}
-      <ItemBannerBlock banner={data.banner} logo={data.image} />
+      <ItemBannerBlock banner={data.bannerImage} logo={data.image} />
 
       <div className="colModalInfo__header">
         <div className="colModalInfo__headerText">
@@ -126,10 +125,11 @@ const CollectionInfo = ({ data, handleClickFav, isFavorite }: ICollectionInfoPro
           link="/"
           showLinkIcon={true}
         />
-        {/* NEED LINK TO COLLECTION SITE */}
-        <a href="/" target="_blank" rel="no-referrer">
-          docs.impostors.gg
-        </a>
+        {data.link && (
+          <a href={data.link} target="_blank" rel="noreferrer">
+            {data.link}
+          </a>
+        )}
       </div>
     </div>
   );

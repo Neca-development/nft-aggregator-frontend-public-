@@ -68,7 +68,7 @@ const RangeInput: React.FC<IRangeInputProps> = ({
             name="min"
             min={min}
             max={max}
-            value={value[0].toString()}
+            value={value[0]}
             onChange={handleInputChange}
           />
         </label>
@@ -85,10 +85,11 @@ const RangeInput: React.FC<IRangeInputProps> = ({
             name="max"
             min={min}
             max={max}
-            value={value[1].toString()}
+            value={value[1]}
             onChange={handleInputChange}
             style={showEtherIcon ? { paddingRight: "2rem" } : {}}
             onBlur={correctValuesOnBlur}
+            step={0.0001}
           />
         </label>
       </div>

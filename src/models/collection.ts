@@ -4,6 +4,7 @@ import { IMeta } from "./response.interface";
 export interface ICollection {
   openseaId: string;
   image: string;
+  bannerImage: string;
   name: string;
   size: number;
   floorPrice: string;
@@ -17,9 +18,9 @@ export interface ICollection {
   weeklyChange: string;
   monthlyChange: string;
   description: string;
-  discordMessages: IDiscordMessage[];
-  twitter: ITwitterMessages;
-  banner: string;
+  discordMessages?: IDiscordMessage[];
+  twitter?: ITwitterMessages;
+  link: string;
 }
 
 interface IDiscordMessage {
