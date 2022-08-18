@@ -10,6 +10,7 @@ interface IRangeInputProps {
   value: number[];
   setValue: Dispatch<SetStateAction<number[]>>;
   showEtherIcon: boolean;
+  step: number;
 }
 
 const RangeInput: React.FC<IRangeInputProps> = ({
@@ -19,24 +20,27 @@ const RangeInput: React.FC<IRangeInputProps> = ({
   value,
   showEtherIcon,
   setValue,
+  step,
 }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = +e.target.value;
+    const inputValue = e.target.value;
     const inputName = e.target.name;
     const newValue = [...value];
 
     switch (inputName) {
       case "min":
-        if (inputValue > newValue[1]) {
+        if (+inputValue > newValue[1]) {
           newValue[0] = newValue[1];
         } else {
+          //@ts-ignore
           newValue[0] = inputValue;
         }
         break;
       case "max":
-        if (inputValue > max) {
+        if (+inputValue > max) {
           newValue[1] = max;
         } else {
+          //@ts-ignore
           newValue[1] = inputValue;
         }
     }
@@ -45,6 +49,16 @@ const RangeInput: React.FC<IRangeInputProps> = ({
 
   const correctValuesOnBlur = () => {
     const newValue = [...value];
+    //@ts-ignore
+    if (newValue[0] === "") {
+      newValue[0] = min;
+      setValue(newValue);
+    }
+    //@ts-ignore
+    if (newValue[1] === "") {
+      newValue[1] = max;
+      setValue(newValue);
+    }
     if (newValue[1] < newValue[0]) {
       newValue.reverse();
       setValue(newValue);
@@ -70,6 +84,8 @@ const RangeInput: React.FC<IRangeInputProps> = ({
             max={max}
             value={value[0]}
             onChange={handleInputChange}
+            step={step}
+            onBlur={correctValuesOnBlur}
           />
         </label>
 
@@ -89,7 +105,7 @@ const RangeInput: React.FC<IRangeInputProps> = ({
             onChange={handleInputChange}
             style={showEtherIcon ? { paddingRight: "2rem" } : {}}
             onBlur={correctValuesOnBlur}
-            step={0.0001}
+            step={step}
           />
         </label>
       </div>
@@ -101,6 +117,7 @@ const RangeInput: React.FC<IRangeInputProps> = ({
         value={value}
         //@ts-ignore
         onChange={(val: number[]) => setValue(val)}
+        step={step}
       />
     </div>
   );
