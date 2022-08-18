@@ -10,10 +10,12 @@ import { useLazyGetCollectionByIdQuery } from "@services/collections.api";
 import CollectionInfo from "./CollectionInfo";
 import SingleMessage from "./SingleMessage";
 
-enum CollectionTabs {
-  discord = "Discord",
-  twitter = "Twitter",
-}
+// export enum CollectionTabs {
+//   discord = "Discord",
+//   twitter = "Twitter",
+// }
+
+export type CollectionTabs = "discord" | "twitter";
 
 interface ICollectionModalProps {
   collectionId: string;
@@ -21,6 +23,7 @@ interface ICollectionModalProps {
   isOpen: boolean;
   onClose: () => void;
   handleClickFav: () => void;
+  initialTab?: CollectionTabs;
 }
 
 const CollectionModal = ({
@@ -29,17 +32,22 @@ const CollectionModal = ({
   isOpen,
   onClose,
   handleClickFav,
+  initialTab = "discord",
 }: ICollectionModalProps) => {
   const navigate = useNavigate();
   const { active } = useAppSelector(selectUserData);
   const [trigger, { data, isLoading, isError }] = useLazyGetCollectionByIdQuery();
 
-  const [activeTab, setActiveTab] = useState(CollectionTabs.discord);
+  const [activeTab, setActiveTab] = useState(initialTab);
+
+  useEffect(() => {
+    setActiveTab(initialTab);
+  }, [initialTab]);
 
   // TODO maybe move to component
   const renderMessages = () => {
     switch (activeTab) {
-      case CollectionTabs.discord:
+      case "discord":
         if (data.discordMessages?.length > 0) {
           return data.discordMessages.map(msg => (
             <SingleMessage
@@ -53,7 +61,7 @@ const CollectionModal = ({
         } else {
           return <div>No messages from discord</div>;
         }
-      case CollectionTabs.twitter:
+      case "twitter":
         if (data.twitter?.messages.length > 0) {
           return data.twitter.messages.map(msg => (
             <SingleMessage
@@ -86,7 +94,7 @@ const CollectionModal = ({
         <div className="colModal__messages mesg">
           <div className="mesg__tabs">
             <Tabs
-              tabsArray={[CollectionTabs.discord, CollectionTabs.twitter]}
+              tabsArray={["discord", "twitter"]}
               activeTab={activeTab}
               setActiveTab={setActiveTab}
             />

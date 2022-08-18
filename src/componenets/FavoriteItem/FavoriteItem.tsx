@@ -7,7 +7,7 @@ import TwitterIcon from "@assets/icons/twitter.svg";
 import Heart from "@UI/Heart/Heart";
 import Gain from "@UI/Gain/Gain";
 import ItemBannerBlock from "@UI/ItemBannerBlock/ItemBannerBlock";
-import CollectionModal from "@components/CollectionModal/CollectionModal";
+import CollectionModal, { CollectionTabs } from "@components/CollectionModal/CollectionModal";
 import EthereumIcon from "@UI/EthereumIcon/EthereumIcon";
 import { hundredFormatter } from "@utils/utils";
 import useFavorite from "@hooks/useFavorite";
@@ -20,9 +20,15 @@ interface IFavoriteItemProps {
 const FavoriteItem = ({ item }: IFavoriteItemProps) => {
   const [showCollectionModal, setShowCollectionModal] = useState(false);
   const { removeFromFavorite } = useFavorite(item.openseaId);
+  const [desiredTab, setDesiredTab] = useState<CollectionTabs>("discord");
 
   const handleRemoveFromFav = async () => {
     await removeFromFavorite();
+  };
+
+  const openModalWithDesiredTab = (tab: CollectionTabs) => {
+    setDesiredTab(tab);
+    setShowCollectionModal(true);
   };
 
   return (
@@ -50,13 +56,13 @@ const FavoriteItem = ({ item }: IFavoriteItemProps) => {
         </div>
         <div className="favItem__stats favItem__stats_bottom">
           <Button onClick={() => setShowCollectionModal(true)}>View more details</Button>
-          <div className="favItem__socialIcon">
+          <div className="favItem__socialIcon" onClick={() => openModalWithDesiredTab("discord")}>
             <DiscordIcon />
             {item.discordNewMessages > 0 && (
               <span>{hundredFormatter(item.discordNewMessages)}</span>
             )}
           </div>
-          <div className="favItem__socialIcon">
+          <div className="favItem__socialIcon" onClick={() => openModalWithDesiredTab("twitter")}>
             <TwitterIcon />
             {item.twitterNewMessages > 0 && (
               <span>{hundredFormatter(item.twitterNewMessages)}</span>
@@ -71,6 +77,7 @@ const FavoriteItem = ({ item }: IFavoriteItemProps) => {
         isOpen={showCollectionModal}
         onClose={() => setShowCollectionModal(false)}
         handleClickFav={handleRemoveFromFav}
+        initialTab={desiredTab}
       />
     </>
   );
