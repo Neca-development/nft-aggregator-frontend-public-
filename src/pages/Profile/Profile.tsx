@@ -9,7 +9,6 @@ import { shortenAddress, useEthers } from "@usedapp/core";
 import { clearUserState, selectUserData } from "@store/state/userSlice";
 import EthereumIcon from "@UI/EthereumIcon/EthereumIcon";
 import { useGetSubscriptionStateQuery } from "@services/payment.api";
-import { userHasSignature } from "@utils/utils";
 import { TransactionState } from "@models/payment.interface";
 
 interface IProfileProps {
@@ -21,7 +20,7 @@ function Profile(props: IProfileProps) {
   const { active, expiresAt, isLoggedIn, transactionState } = useAppSelector(selectUserData);
   const { account } = useEthers();
   const { isLoading, isError } = useGetSubscriptionStateQuery(null, {
-    skip: !account && userHasSignature() === false,
+    skip: !account,
   });
   const dispatch = useAppDispatch();
   const { activateBrowserWallet, deactivate } = useEthers();

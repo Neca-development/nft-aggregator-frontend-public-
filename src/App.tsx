@@ -11,7 +11,7 @@ import Profile from "@pages/Profile/Profile";
 import { useDispatch } from "react-redux";
 import { useEthers } from "@usedapp/core";
 import { useCreateSignature } from "@hooks/useCreateSignature";
-import { clearUserState, setLoggedIn } from "@store/state/userSlice";
+import { clearUserState } from "@store/state/userSlice";
 import { useGetSubscriptionStateQuery } from "@services/payment.api";
 import RequireSubscriptionGuard from "@pages/RequireSubscriptionGuard";
 import { userHasSignature } from "@utils/utils";
@@ -26,12 +26,8 @@ function App() {
   const { checkNetwork } = useCheckNetwork();
   const { buySubscription } = useBuySubscription();
 
-  const {
-    refetch: getSubState,
-    isSuccess: isLoginSuccess,
-    error: loginError,
-  } = useGetSubscriptionStateQuery(null, {
-    skip: !account && userHasSignature() === false,
+  const { refetch: getSubState, error: loginError } = useGetSubscriptionStateQuery(null, {
+    skip: !account,
   });
 
   const [showNoSignModal, setShowNoSignModal] = useState(false);
@@ -53,22 +49,18 @@ function App() {
 
   useEffect(() => {
     if (account) {
-      // if (userHasSignature() === false) {
-      //   askForSignature();
-      // }
-
-      checkNetwork();
-
-      if (isLoginSuccess) {
-        dispatch(setLoggedIn());
+      if (userHasSignature() === false && !loginError) {
+        askForSignature();
       }
 
       // @ts-ignore
-      if (loginError && (loginError.status === 401 || loginError.status === 403)) {
+      if (userHasSignature() && (loginError?.status === 401 || loginError?.status === 403)) {
         askForSignature();
       }
+
+      checkNetwork();
     }
-  }, [account, askForSignature, dispatch, isLoginSuccess, loginError]);
+  }, [account, askForSignature, dispatch, loginError]);
 
   return (
     <div className="App">
