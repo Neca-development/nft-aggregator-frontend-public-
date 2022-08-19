@@ -50,6 +50,10 @@ export const roundNumber = (value: string | number) => {
   return Number(value).toFixed(2);
 };
 
+export const createTwitterLink = (twitterAccountId: string) => {
+  return `https://twitter.com/${twitterAccountId}`;
+};
+
 export const calculateInputStep = (maxValue: number) => {
   const calculatedPercent = (RANGE_INPUT_STEP_PERCENT / 100) * maxValue;
 

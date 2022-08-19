@@ -21,6 +21,8 @@ export interface ICollection {
   discordMessages?: IDiscordMessage[];
   twitter?: ITwitterMessages;
   link: string;
+  discordInviteLink: string;
+  twitterUsername: string;
 }
 
 interface IDiscordMessage {

@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import classNames from "classnames";
 import "./tabs.scss";
 
-interface ITab {
+export interface ITab {
   name: string;
   type: number;
 }

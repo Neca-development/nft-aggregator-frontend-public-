@@ -3,21 +3,22 @@ import "./collectionModal.scss";
 import { useNavigate } from "react-router-dom";
 
 import Button from "@UI/Button/Button";
-import Tabs from "@UI/Tabs/Tabs";
+import Tabs, { ITab } from "@UI/Tabs/Tabs";
 import { useAppSelector } from "@store/store.hook";
 import { selectUserData } from "@store/state/userSlice";
 import BaseModal from "@components/UI/BaseModal/BaseModal";
 import { useLazyGetCollectionByIdQuery } from "@services/collections.api";
 import Loader from "@components/UI/Loader/Loader";
+import { collectionTabs } from "@constants/constant";
 
 import CollectionInfo from "./CollectionInfo";
 import SingleMessage from "./SingleMessage";
 
 // TODO rewrite better
-const collectionTabs = [
-  { name: "Discord", type: 0 },
-  { name: "Twitter", type: 1 },
-];
+// const collectionTabs = [
+//   { name: "Discord", type: 0 },
+//   { name: "Twitter", type: 1 },
+// ];
 
 interface ICollectionModalProps {
   collectionId: string;
@@ -25,6 +26,7 @@ interface ICollectionModalProps {
   isOpen: boolean;
   onClose: () => void;
   handleClickFav: () => void;
+  initialTab?: ITab;
 }
 
 const CollectionModal = ({
@@ -33,12 +35,17 @@ const CollectionModal = ({
   isOpen,
   onClose,
   handleClickFav,
+  initialTab = collectionTabs[0],
 }: ICollectionModalProps) => {
   const navigate = useNavigate();
   const { active } = useAppSelector(selectUserData);
   const [trigger, { data, isLoading, isSuccess }] = useLazyGetCollectionByIdQuery();
 
-  const [activeTab, setActiveTab] = useState(collectionTabs[0]);
+  const [activeTab, setActiveTab] = useState(initialTab);
+
+  useEffect(() => {
+    setActiveTab(initialTab);
+  }, [initialTab]);
 
   // TODO maybe move to component
   const renderMessages = () => {

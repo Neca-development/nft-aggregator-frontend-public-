@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
+
 import "./collectionTableItem.scss";
+import { motion } from "framer-motion";
+
 import LinkIcon from "@assets/icons/link.svg";
-import { kFormatter } from "@utils/utils";
+import { createTwitterLink, kFormatter } from "@utils/utils";
 import { ICollection } from "@models/collection";
 import Heart from "@UI/Heart/Heart";
 import CollectionModal from "@components/CollectionModal/CollectionModal";
@@ -11,7 +14,6 @@ import useFavorite, { FavoriteFunctionStatus } from "@hooks/useFavorite";
 import { useAppSelector } from "@store/store.hook";
 import { selectUserData } from "@store/state/userSlice";
 import InfoModal from "@components/InfoModal/InfoModal";
-import { motion } from "framer-motion";
 
 interface ICollectionTableItemProps {
   item: ICollection;
@@ -93,13 +95,23 @@ const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
         <Gain change={item.dailyChange} />
         <p>
           {kFormatter(item.discordMembersCount)}
-          <a href="/" target="_blank" rel="no-referrer" onClick={e => e.stopPropagation()}>
+          <a
+            href={item.discordInviteLink}
+            target="_blank"
+            rel="noreferrer"
+            onClick={e => e.stopPropagation()}
+          >
             <LinkIcon />
           </a>
         </p>
         <p>
           {kFormatter(item.twitterFollowersCount)}
-          <a href="/" target="_blank" rel="no-referrer" onClick={e => e.stopPropagation()}>
+          <a
+            href={createTwitterLink(item.twitterUsername)}
+            target="_blank"
+            rel="noreferrer"
+            onClick={e => e.stopPropagation()}
+          >
             <LinkIcon />
           </a>
         </p>
