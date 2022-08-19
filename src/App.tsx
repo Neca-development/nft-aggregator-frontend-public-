@@ -14,9 +14,9 @@ import Collections from "@pages/Collections/Collections";
 import Favorite from "@pages/Favorite/Favorite";
 import Giveaways from "@pages/Giveaways/Giveaways";
 import Profile from "@pages/Profile/Profile";
-import RequireSubscriptionGuard from "@pages/RequireSubscriptionGuard";
+import { clearUserState } from "@store/state/userSlice";
 import { useGetSubscriptionStateQuery } from "@services/payment.api";
-import { clearUserState, setLoggedIn } from "@store/state/userSlice";
+import RequireSubscriptionGuard from "@pages/RequireSubscriptionGuard";
 import { userHasSignature } from "@utils/utils";
 
 function App() {
@@ -27,12 +27,8 @@ function App() {
   const { checkNetwork } = useCheckNetwork();
   const { buySubscription } = useBuySubscription();
 
-  const {
-    refetch: getSubState,
-    isSuccess: isLoginSuccess,
-    error: loginError,
-  } = useGetSubscriptionStateQuery(null, {
-    skip: !account && userHasSignature() === false,
+  const { refetch: getSubState, error: loginError } = useGetSubscriptionStateQuery(null, {
+    skip: !account,
   });
 
   const [showNoSignModal, setShowNoSignModal] = useState(false);
@@ -54,18 +50,18 @@ function App() {
 
   useEffect(() => {
     if (account) {
-      checkNetwork();
-
-      if (isLoginSuccess) {
-        dispatch(setLoggedIn());
+      if (userHasSignature() === false && !loginError) {
+        askForSignature();
       }
 
       // @ts-ignore
-      if (loginError && (loginError.status === 401 || loginError.status === 403)) {
+      if (userHasSignature() && (loginError?.status === 401 || loginError?.status === 403)) {
         askForSignature();
       }
+
+      checkNetwork();
     }
-  }, [account, askForSignature, checkNetwork, dispatch, isLoginSuccess, loginError]);
+  }, [account, askForSignature, checkNetwork, dispatch, loginError]);
 
   return (
     <div className="App">
