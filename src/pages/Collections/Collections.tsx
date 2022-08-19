@@ -14,6 +14,7 @@ import { selectFilterRequest } from "@store/state/filterSlice";
 import { useAppSelector } from "@store/store.hook";
 import Button from "@UI/Button/Button";
 import TableFilterTitle from "@UI/TableFilterTitle/TableFilterTitle";
+import Loader from "@components/UI/Loader/Loader";
 
 function Collections() {
   const [activeFilter, setActiveFilter] = useState(CollectionsFilterBy.name);
@@ -89,7 +90,7 @@ function Collections() {
   if (initialRender.current) {
     return (
       <PagePresenceWrapper>
-        <div className="container">Loading...</div>
+        <Loader variant="logo" />
       </PagePresenceWrapper>
     );
   }

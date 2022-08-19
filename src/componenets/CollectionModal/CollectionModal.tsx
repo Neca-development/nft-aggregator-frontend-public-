@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./collectionModal.scss";
+import { useNavigate } from "react-router-dom";
+
 import Button from "@UI/Button/Button";
 import Tabs from "@UI/Tabs/Tabs";
-import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "@store/store.hook";
 import { selectUserData } from "@store/state/userSlice";
 import BaseModal from "@components/UI/BaseModal/BaseModal";
 import { useLazyGetCollectionByIdQuery } from "@services/collections.api";
+import Loader from "@components/UI/Loader/Loader";
+
 import CollectionInfo from "./CollectionInfo";
 import SingleMessage from "./SingleMessage";
 
@@ -33,7 +36,7 @@ const CollectionModal = ({
 }: ICollectionModalProps) => {
   const navigate = useNavigate();
   const { active } = useAppSelector(selectUserData);
-  const [trigger, { data, isLoading, isError }] = useLazyGetCollectionByIdQuery();
+  const [trigger, { data, isLoading, isSuccess }] = useLazyGetCollectionByIdQuery();
 
   const [activeTab, setActiveTab] = useState(collectionTabs[0]);
 
@@ -77,8 +80,14 @@ const CollectionModal = ({
     }
   }, [isOpen, collectionId, trigger]);
 
-  if (!data) {
-    return;
+  if (isLoading) {
+    return (
+      <BaseModal isOpen={true} closeModal={onClose}>
+        <section className="colModal">
+          <Loader variant="spinner" />
+        </section>
+      </BaseModal>
+    );
   }
 
   return (
@@ -104,7 +113,9 @@ const CollectionModal = ({
           </div>
         </div>
 
-        <CollectionInfo data={data} isFavorite={isFavorite} handleClickFav={handleClickFav} />
+        {isSuccess && (
+          <CollectionInfo data={data} isFavorite={isFavorite} handleClickFav={handleClickFav} />
+        )}
       </section>
     </BaseModal>
   );
