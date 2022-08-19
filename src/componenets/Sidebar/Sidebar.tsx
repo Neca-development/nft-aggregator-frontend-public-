@@ -6,6 +6,7 @@ import TextInput from "@UI/TextInput/TextInput";
 import "./sidebar.scss";
 import { useAppDispatch, useAppSelector } from "@store/store.hook";
 import { selectFilterRequest, updateFilter, resetFilter } from "@store/state/filterSlice";
+import { calculateInputStep, calculateMaxRange } from "@utils/utils";
 
 interface ISidebarProps {
   page: "collections" | "giveaways";
@@ -31,19 +32,19 @@ const Sidebar = forwardRef((props: ISidebarProps, ref) => {
 
   const [collectionSizeFilter, setCollectionSizeFilter] = useState([
     filterRequest.filter.size.from,
-    sizeMax,
+    calculateMaxRange(sizeMax),
   ]);
   const [priceFilter, setPriceFilter] = useState([
     filterRequest.filter.floorPrice.from,
-    floorPriceMax,
+    calculateMaxRange(floorPriceMax),
   ]);
   const [twitterFolFilter, setTwitterFolFilter] = useState([
     filterRequest.filter.twitterFollowersCount.from,
-    twitterFollowersCountMax,
+    calculateMaxRange(twitterFollowersCountMax),
   ]);
   const [discordFolFilter, setDiscordFolFilter] = useState([
     filterRequest.filter.discordMembersCount.from,
-    discordMembersCountMax,
+    calculateMaxRange(discordMembersCountMax),
   ]);
   const [searchValue, setSearchValue] = useState(filterRequest.filter.name);
 
@@ -74,10 +75,10 @@ const Sidebar = forwardRef((props: ISidebarProps, ref) => {
   const resetBtn = () => {
     dispatch(resetFilter());
     setSearchValue("");
-    setCollectionSizeFilter([0, sizeMax]);
-    setPriceFilter([0, floorPriceMax]);
-    setTwitterFolFilter([0, twitterFollowersCountMax]);
-    setDiscordFolFilter([0, discordMembersCountMax]);
+    setCollectionSizeFilter([0, calculateMaxRange(sizeMax)]);
+    setPriceFilter([0, calculateMaxRange(floorPriceMax)]);
+    setTwitterFolFilter([0, calculateMaxRange(twitterFollowersCountMax)]);
+    setDiscordFolFilter([0, calculateMaxRange(discordMembersCountMax)]);
   };
 
   useImperativeHandle(ref, () => ({
@@ -102,10 +103,11 @@ const Sidebar = forwardRef((props: ISidebarProps, ref) => {
           <RangeInput
             name="Collection size"
             min={0}
-            max={sizeMax}
+            max={calculateMaxRange(sizeMax)}
             value={collectionSizeFilter}
             setValue={setCollectionSizeFilter}
-            showEtherIcon={true}
+            showEtherIcon={false}
+            step={calculateInputStep(sizeMax)}
           />
 
           {page === "collections" && (
@@ -113,18 +115,20 @@ const Sidebar = forwardRef((props: ISidebarProps, ref) => {
               <RangeInput
                 name="Floor Price"
                 min={0}
-                max={floorPriceMax}
+                max={calculateMaxRange(floorPriceMax)}
                 value={priceFilter}
                 setValue={setPriceFilter}
-                showEtherIcon={false}
+                showEtherIcon={true}
+                step={calculateInputStep(floorPriceMax)}
               />
               <RangeInput
                 name="Twitter Followers"
                 min={0}
-                max={twitterFollowersCountMax}
+                max={calculateMaxRange(twitterFollowersCountMax)}
                 value={twitterFolFilter}
                 setValue={setTwitterFolFilter}
                 showEtherIcon={false}
+                step={calculateInputStep(twitterFollowersCountMax)}
               />
             </>
           )}
@@ -132,10 +136,11 @@ const Sidebar = forwardRef((props: ISidebarProps, ref) => {
           <RangeInput
             name="Discord Members"
             min={0}
-            max={discordMembersCountMax}
+            max={calculateMaxRange(discordMembersCountMax)}
             value={discordFolFilter}
             setValue={setDiscordFolFilter}
             showEtherIcon={false}
+            step={calculateInputStep(discordMembersCountMax)}
           />
         </div>
 

@@ -1,6 +1,8 @@
+import dayjs from "dayjs";
+
+import { RANGE_INPUT_STEP_PERCENT } from "@constants/constant";
 import { ICollection } from "@models/collection";
 import { IFavorite } from "@models/favorite";
-import dayjs from "dayjs";
 
 export function kFormatter(num: number) {
   return Math.abs(num) > 999
@@ -46,4 +48,19 @@ export const userHasSignature = () => {
 
 export const roundNumber = (value: string | number) => {
   return Number(value).toFixed(2);
+};
+
+export const calculateInputStep = (maxValue: number) => {
+  const calculatedPercent = (RANGE_INPUT_STEP_PERCENT / 100) * maxValue;
+
+  if (maxValue > 1) {
+    return Math.floor(calculatedPercent);
+  } else {
+    return +calculatedPercent.toFixed(4);
+  }
+};
+
+export const calculateMaxRange = (maxValue: number) => {
+  const oneStepValue = calculateInputStep(maxValue);
+  return +(oneStepValue * (100 / RANGE_INPUT_STEP_PERCENT) + oneStepValue).toFixed(4);
 };
