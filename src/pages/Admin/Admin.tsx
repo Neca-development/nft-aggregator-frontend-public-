@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
+
 import { useModal } from "@hooks/useModal";
 import AdminEditCollectionModal from "@components/AdminEditCollectionModal/AdminEditCollectionModal";
 import Button from "@UI/Button/Button";

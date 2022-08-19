@@ -1,22 +1,23 @@
+import { useEthers } from "@usedapp/core";
 import { AnimatePresence } from "framer-motion";
 import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+
 import Header from "@components/Header/Header";
 import InfoModal from "@components/InfoModal/InfoModal";
+import useBuySubscription from "@hooks/useBuySubscription";
+import useCheckNetwork from "@hooks/useCheckNetwork";
+import { useCreateSignature } from "@hooks/useCreateSignature";
 import Admin from "@pages/Admin/Admin";
 import Collections from "@pages/Collections/Collections";
 import Favorite from "@pages/Favorite/Favorite";
 import Giveaways from "@pages/Giveaways/Giveaways";
 import Profile from "@pages/Profile/Profile";
-import { useDispatch } from "react-redux";
-import { useEthers } from "@usedapp/core";
-import { useCreateSignature } from "@hooks/useCreateSignature";
 import { clearUserState } from "@store/state/userSlice";
 import { useGetSubscriptionStateQuery } from "@services/payment.api";
 import RequireSubscriptionGuard from "@pages/RequireSubscriptionGuard";
 import { userHasSignature } from "@utils/utils";
-import useCheckNetwork from "@hooks/useCheckNetwork";
-import useBuySubscription from "@hooks/useBuySubscription";
 
 function App() {
   const location = useLocation();
@@ -60,7 +61,7 @@ function App() {
 
       checkNetwork();
     }
-  }, [account, askForSignature, dispatch, loginError]);
+  }, [account, askForSignature, checkNetwork, dispatch, loginError]);
 
   return (
     <div className="App">

@@ -1,13 +1,17 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
-import { store } from "@store/store";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
+import { ErrorBoundary } from "react-error-boundary";
 import "./index.scss";
 import { BrowserRouter } from "react-router-dom";
 import { ChainId, Config, DAppProvider } from "@usedapp/core";
 import { ethers } from "ethers";
+
+import { store } from "@store/store";
+import ErrorFallback from "@components/UI/ErrorFallback/ErrorFallback";
+
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 
 const infuraId = process.env.REACT_APP_INFURA_PROJECT_ID;
 const infuraRpc = process.env.REACT_APP_INFURA_RPC_URL;
@@ -34,7 +38,9 @@ root.render(
   <DAppProvider config={config}>
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <App />
+        </ErrorBoundary>
       </BrowserRouter>
     </Provider>
   </DAppProvider>

@@ -1,15 +1,15 @@
 import React from "react";
+import dayjs from "dayjs";
+import { motion } from "framer-motion";
+import { shortenAddress, useEthers } from "@usedapp/core";
+
 import Button from "@UI/Button/Button";
 import "./profile.scss";
 import MetamaskIcon from "@assets/icons/metamask.svg";
-import dayjs from "dayjs";
 import { useAppDispatch, useAppSelector } from "@store/store.hook";
-import { motion } from "framer-motion";
-import { shortenAddress, useEthers } from "@usedapp/core";
 import { clearUserState, selectUserData } from "@store/state/userSlice";
 import EthereumIcon from "@UI/EthereumIcon/EthereumIcon";
 import { useGetSubscriptionStateQuery } from "@services/payment.api";
-import { TransactionState } from "@models/payment.interface";
 
 interface IProfileProps {
   buySubscription: () => void;
@@ -112,7 +112,7 @@ function Profile(props: IProfileProps) {
         </ul>
         <div className="profile__bottom">
           <p>Subscription cost: 0.02 ETH</p>
-          {transactionState === TransactionState.pending ? (
+          {transactionState === "pending" ? (
             <Button variant="gradient" size="large">
               Sending transaction....
             </Button>
