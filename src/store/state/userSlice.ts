@@ -39,11 +39,12 @@ export const userSlice = createSlice({
       // write subscription status in the store
       paymentApi.endpoints.getSubscriptionState.matchFulfilled,
       (state, { payload }) => {
-        console.log(payload);
         state.active = payload.active;
         state.expiresAt = payload.expiresAt;
         state.isNewUser = payload.isNewUser;
         state.transactionState = payload.transactionState;
+
+        state.isLoggedIn = true;
       }
     );
   },

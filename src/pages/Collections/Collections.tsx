@@ -165,7 +165,7 @@ function Collections() {
 
           {isLoading ? (
             <CollectionItemSkeleton />
-          ) : localData.length > 0 ? (
+          ) : localData?.length > 0 ? (
             <div className="collections__body">
               {localData.map(item => (
                 <CollectionTableItem key={item.openseaId} item={item} />
