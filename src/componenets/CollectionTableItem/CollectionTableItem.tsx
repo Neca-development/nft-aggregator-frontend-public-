@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./collectionTableItem.scss";
 import LinkIcon from "@assets/icons/link.svg";
-import { kFormatter } from "@utils/utils";
+import { createTwitterLink, kFormatter } from "@utils/utils";
 import { ICollection } from "@models/collection";
 import Heart from "@UI/Heart/Heart";
 import CollectionModal from "@components/CollectionModal/CollectionModal";
@@ -93,13 +93,23 @@ const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
         <Gain change={item.dailyChange} />
         <p>
           {kFormatter(item.discordMembersCount)}
-          <a href="/" target="_blank" rel="no-referrer" onClick={e => e.stopPropagation()}>
+          <a
+            href={item.discordInviteLink}
+            target="_blank"
+            rel="noreferrer"
+            onClick={e => e.stopPropagation()}
+          >
             <LinkIcon />
           </a>
         </p>
         <p>
           {kFormatter(item.twitterFollowersCount)}
-          <a href="/" target="_blank" rel="no-referrer" onClick={e => e.stopPropagation()}>
+          <a
+            href={createTwitterLink(item.twitterAccountId)}
+            target="_blank"
+            rel="noreferrer"
+            onClick={e => e.stopPropagation()}
+          >
             <LinkIcon />
           </a>
         </p>

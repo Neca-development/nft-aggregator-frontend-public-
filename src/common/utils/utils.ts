@@ -47,3 +47,7 @@ export const userHasSignature = () => {
 export const roundNumber = (value: string | number) => {
   return Number(value).toFixed(2);
 };
+
+export const createTwitterLink = (twitterAccountId: string) => {
+  return `https://twitter.com/${twitterAccountId}`;
+};

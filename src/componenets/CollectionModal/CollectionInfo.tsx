@@ -8,7 +8,7 @@ import EtherBlue from "@assets/icons/ether-blue.svg";
 import Gain from "@UI/Gain/Gain";
 import classNames from "classnames";
 import SocialIcon from "@UI/SocialIcon/SocialIcon";
-import { formatDate, kFormatter, roundNumber } from "@utils/utils";
+import { createTwitterLink, formatDate, kFormatter, roundNumber } from "@utils/utils";
 import { ICollection } from "@models/collection";
 import Linkify from "react-linkify";
 
@@ -116,14 +116,14 @@ const CollectionInfo = ({ data, handleClickFav, isFavorite }: ICollectionInfoPro
         <SocialIcon
           community="discord"
           number={data.discordMembersCount}
-          link="/"
-          showLinkIcon={true}
+          link={data.discordInviteLink}
+          showLinkIcon={data.discordInviteLink ? true : false}
         />
         <SocialIcon
           community="twitter"
           number={data.twitterFollowersCount}
-          link="/"
-          showLinkIcon={true}
+          link={createTwitterLink(data.twitterAccountId)}
+          showLinkIcon={data.twitterAccountId ? true : false}
         />
         {data.link && (
           <a href={data.link} target="_blank" rel="noreferrer">
