@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+
 import { freeFavoritesSize } from "@constants/constant";
 import {
   useAddToFavoriteMutation,
@@ -6,7 +8,6 @@ import {
 } from "@services/users.api";
 import { selectUserData } from "@store/state/userSlice";
 import { useAppSelector } from "@store/store.hook";
-import { useCallback } from "react";
 
 export enum FavoriteFunctionStatus {
   success = "success",
@@ -30,7 +31,7 @@ const useFavorite = (itemId: string) => {
   }, []);
 
   const lsAddToFav = () => {
-    let favorites = getFavFromLs();
+    const favorites = getFavFromLs();
     if (favorites.length >= freeFavoritesSize) {
       return FavoriteFunctionStatus.limit;
     }
@@ -40,7 +41,7 @@ const useFavorite = (itemId: string) => {
   };
 
   const lsRemoveFromFav = () => {
-    let favorites = getFavFromLs();
+    const favorites = getFavFromLs();
     const fIdx = favorites.findIndex((el: string) => el === itemId);
     if (fIdx >= 0) {
       favorites.splice(fIdx, 1);

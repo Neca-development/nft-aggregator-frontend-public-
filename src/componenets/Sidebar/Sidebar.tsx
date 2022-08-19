@@ -1,22 +1,33 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+
 import Button from "@UI/Button/Button";
 import RangeInput from "@UI/RangeInput/RangeInput";
 import TextInput from "@UI/TextInput/TextInput";
 import "./sidebar.scss";
 import { useAppDispatch, useAppSelector } from "@store/store.hook";
 import { selectFilterRequest, updateFilter, resetFilter } from "@store/state/filterSlice";
-import { IMaxRanges } from "@models/collection";
 
 interface ISidebarProps {
   page: "collections" | "giveaways";
   searchPlaceholder: string;
-  rangeData: IMaxRanges;
+  sizeMax: number;
+  floorPriceMax?: number;
+  twitterFollowersCountMax?: number;
+  discordMembersCountMax: number;
 }
 
 const PERCENT = 1;
 
 const Sidebar = forwardRef((props: ISidebarProps, ref) => {
-  const { page, searchPlaceholder, rangeData } = props;
+  const {
+    page,
+    searchPlaceholder,
+    sizeMax,
+    floorPriceMax,
+    discordMembersCountMax,
+    twitterFollowersCountMax,
+  } = props;
+
   const filterRequest = useAppSelector(selectFilterRequest);
   const dispatch = useAppDispatch();
 
@@ -36,7 +47,7 @@ const Sidebar = forwardRef((props: ISidebarProps, ref) => {
 
   const [collectionSizeFilter, setCollectionSizeFilter] = useState([
     filterRequest.filter.size.from,
-    rangeData.sizeMax,
+    sizeMax,
   ]);
   const [priceFilter, setPriceFilter] = useState([
     filterRequest.filter.floorPrice.from!,
@@ -64,10 +75,15 @@ const Sidebar = forwardRef((props: ISidebarProps, ref) => {
     e.preventDefault();
     const newFilter = { ...filterRequest.filter };
     newFilter.name = searchValue;
+
     newFilter.size = convertToRange("size", collectionSizeFilter);
-    newFilter.floorPrice = convertToRange("floorPrice", priceFilter);
-    newFilter.discordMembersCount = convertToRange("discordMembersCount", discordFolFilter);
-    newFilter.twitterFollowersCount = convertToRange("twitterFollowersCount", twitterFolFilter);
+    if (page === "collections") {
+      newFilter.floorPrice = convertToRange("floorPrice", priceFilter);
+      newFilter.discordMembersCount = convertToRange("discordMembersCount", discordFolFilter);
+      newFilter.twitterFollowersCount = convertToRange("twitterFollowersCount", twitterFolFilter);
+    } else {
+      newFilter.membersCount = convertToRange("membersCount", discordFolFilter);
+    }
     dispatch(updateFilter(newFilter));
   };
 

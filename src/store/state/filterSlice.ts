@@ -1,3 +1,5 @@
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 import {
   CollectionsFilterBy,
   FilterType,
@@ -5,7 +7,6 @@ import {
   IFilterRequest,
   INftCollectionsFilter,
 } from "@models/filters";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "@store/store";
 
 const initialState: IFilterRequest = {
@@ -21,6 +22,9 @@ const initialState: IFilterRequest = {
       from: 0,
     },
     twitterFollowersCount: {
+      from: 0,
+    },
+    membersCount: {
       from: 0,
     },
   },

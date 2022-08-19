@@ -1,6 +1,8 @@
-import { ISubscriptionState, TransactionState } from "@models/payment.interface";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+import { ISubscriptionState, TransactionState } from "@models/payment.interface";
 import { paymentApi } from "@services/payment.api";
+
 import { RootState } from "../store";
 
 interface IUserSlice extends ISubscriptionState {
@@ -12,7 +14,7 @@ const initialState: IUserSlice = {
   active: false,
   expiresAt: "",
   isNewUser: true,
-  transactionState: TransactionState.none,
+  transactionState: "none",
 };
 
 export const userSlice = createSlice({
