@@ -1,6 +1,7 @@
 import React, { Dispatch, memo, SetStateAction } from "react";
 import "./rangeInput.scss";
 import Slider from "rc-slider";
+
 import EthereumIcon from "../EthereumIcon/EthereumIcon";
 
 interface IRangeInputProps {
