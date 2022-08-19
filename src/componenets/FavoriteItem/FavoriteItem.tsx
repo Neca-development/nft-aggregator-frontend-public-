@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
+
 import { IFavorite } from "@models/favorite";
 import "./favoriteItem.scss";
 import Button from "@UI/Button/Button";
@@ -7,11 +9,12 @@ import TwitterIcon from "@assets/icons/twitter.svg";
 import Heart from "@UI/Heart/Heart";
 import Gain from "@UI/Gain/Gain";
 import ItemBannerBlock from "@UI/ItemBannerBlock/ItemBannerBlock";
-import CollectionModal, { CollectionTabs } from "@components/CollectionModal/CollectionModal";
+import CollectionModal from "@components/CollectionModal/CollectionModal";
 import EthereumIcon from "@UI/EthereumIcon/EthereumIcon";
 import { hundredFormatter } from "@utils/utils";
 import useFavorite from "@hooks/useFavorite";
-import { motion } from "framer-motion";
+import { collectionTabs } from "@constants/constant";
+import { ITab } from "@components/UI/Tabs/Tabs";
 
 interface IFavoriteItemProps {
   item: IFavorite;
@@ -20,13 +23,13 @@ interface IFavoriteItemProps {
 const FavoriteItem = ({ item }: IFavoriteItemProps) => {
   const [showCollectionModal, setShowCollectionModal] = useState(false);
   const { removeFromFavorite } = useFavorite(item.openseaId);
-  const [desiredTab, setDesiredTab] = useState<CollectionTabs>("discord");
+  const [desiredTab, setDesiredTab] = useState(collectionTabs[0]);
 
   const handleRemoveFromFav = async () => {
     await removeFromFavorite();
   };
 
-  const openModalWithDesiredTab = (tab: CollectionTabs) => {
+  const openModalWithDesiredTab = (tab: ITab) => {
     setDesiredTab(tab);
     setShowCollectionModal(true);
   };
@@ -56,13 +59,19 @@ const FavoriteItem = ({ item }: IFavoriteItemProps) => {
         </div>
         <div className="favItem__stats favItem__stats_bottom">
           <Button onClick={() => setShowCollectionModal(true)}>View more details</Button>
-          <div className="favItem__socialIcon" onClick={() => openModalWithDesiredTab("discord")}>
+          <div
+            className="favItem__socialIcon"
+            onClick={() => openModalWithDesiredTab(collectionTabs[0])}
+          >
             <DiscordIcon />
             {item.discordNewMessages > 0 && (
               <span>{hundredFormatter(item.discordNewMessages)}</span>
             )}
           </div>
-          <div className="favItem__socialIcon" onClick={() => openModalWithDesiredTab("twitter")}>
+          <div
+            className="favItem__socialIcon"
+            onClick={() => openModalWithDesiredTab(collectionTabs[1])}
+          >
             <TwitterIcon />
             {item.twitterNewMessages > 0 && (
               <span>{hundredFormatter(item.twitterNewMessages)}</span>

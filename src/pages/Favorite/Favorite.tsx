@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+
 import FavoriteItem from "@components/FavoriteItem/FavoriteItem";
 import Button from "@components/UI/Button/Button";
 import "./favorite.scss";
 import InfoModal from "@components/InfoModal/InfoModal";
 import FavoriteSkeleton from "@UI/FavoriteSkeleton/FavoriteSkeleton";
-import { AnimatePresence, motion } from "framer-motion";
 import { useAppSelector } from "@store/store.hook";
 import { selectUserData } from "@store/state/userSlice";
 import { convertToFavItem } from "@utils/utils";
@@ -20,9 +21,12 @@ function Favorite() {
   const { active, isLoggedIn } = useAppSelector(selectUserData);
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
-  const { data: paginatedData } = useGetUserFavoritesQuery({ page }, { skip: !isLoggedIn });
+  const { data: paginatedData, isLoading } = useGetUserFavoritesQuery(
+    { page },
+    { skip: !isLoggedIn }
+  );
   const [requestCollectionById] = useLazyGetCollectionByIdQuery();
-  const [favorites, setFavorites] = useState([]);
+  const [favorites, setFavorites] = useState(null);
   const [showLimitModal, setShowLimitModal] = useState(false);
   const { getFavFromLs } = useFavorite(null);
 
@@ -39,7 +43,7 @@ function Favorite() {
     }
 
     setFavorites(findedCollections);
-  }, [isLoggedIn, getFavFromLs, requestCollectionById]);
+  }, [getFavFromLs, isLoggedIn, requestCollectionById]);
 
   const renderFooterBtn = () => {
     if (!isLoggedIn) {
@@ -75,15 +79,21 @@ function Favorite() {
     };
   }, [importFavFromLs]);
 
-  // TODO add page loader
-
   // TODO add lazy pagination
 
   return (
     <PagePresenceWrapper>
       <div className="container favorite">
         <div className="favorite__body">
-          {favorites?.length > 0 ? (
+          {favorites === null && (
+            <section className="favorite__wrapper">
+              <FavoriteSkeleton />
+              <FavoriteSkeleton />
+              <FavoriteSkeleton />
+            </section>
+          )}
+
+          {favorites?.length > 0 && (
             <>
               <section className="favorite__wrapper">
                 <AnimatePresence>
@@ -91,6 +101,8 @@ function Favorite() {
                     <FavoriteItem key={fav.openseaId} item={fav} />
                   ))}
                 </AnimatePresence>
+
+                {isLoading && <FavoriteSkeleton />}
 
                 {active === false &&
                   paginatedData?.meta.totalPages > 1 &&
@@ -101,7 +113,9 @@ function Favorite() {
                 <div className="favorite__loadMoreBtn">{renderFooterBtn()}</div>
               )}
             </>
-          ) : (
+          )}
+
+          {favorites?.length === 0 && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
+
 import "./collectionTableItem.scss";
+import { motion } from "framer-motion";
+
 import LinkIcon from "@assets/icons/link.svg";
 import { createTwitterLink, kFormatter } from "@utils/utils";
 import { ICollection } from "@models/collection";
@@ -11,7 +14,6 @@ import useFavorite, { FavoriteFunctionStatus } from "@hooks/useFavorite";
 import { useAppSelector } from "@store/store.hook";
 import { selectUserData } from "@store/state/userSlice";
 import InfoModal from "@components/InfoModal/InfoModal";
-import { motion } from "framer-motion";
 
 interface ICollectionTableItemProps {
   item: ICollection;
@@ -105,7 +107,7 @@ const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
         <p>
           {kFormatter(item.twitterFollowersCount)}
           <a
-            href={createTwitterLink(item.twitterAccountId)}
+            href={createTwitterLink(item.twitterUsername)}
             target="_blank"
             rel="noreferrer"
             onClick={e => e.stopPropagation()}

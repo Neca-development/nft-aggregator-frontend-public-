@@ -2,16 +2,21 @@ import React, { Dispatch, SetStateAction } from "react";
 import classNames from "classnames";
 import "./tabs.scss";
 
-interface ITabsProps {
-  tabsArray: string[];
-  activeTab: string;
-  setActiveTab: Dispatch<SetStateAction<any>>;
+export interface ITab {
+  name: string;
+  type: number;
 }
 
-const Tabs = ({ tabsArray, activeTab, setActiveTab }: ITabsProps) => {
+interface ITabsProps {
+  tabs: ITab[];
+  activeTab: ITab;
+  setActiveTab: Dispatch<SetStateAction<ITab>>;
+}
+
+const Tabs = ({ activeTab, setActiveTab, tabs }: ITabsProps) => {
   return (
     <div className="tabs">
-      {tabsArray.map((tab: string, idx: number) => (
+      {tabs.map((tab: ITab, idx: number) => (
         <button
           key={idx}
           className={classNames("tabs__button", {
@@ -19,7 +24,7 @@ const Tabs = ({ tabsArray, activeTab, setActiveTab }: ITabsProps) => {
           })}
           onClick={() => setActiveTab(tab)}
         >
-          {tab}
+          {tab.name}
         </button>
       ))}
     </div>

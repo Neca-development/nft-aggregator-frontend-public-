@@ -1,13 +1,13 @@
-import { TransactionState } from "@models/payment.interface";
+import { useSendTransaction } from "@usedapp/core";
+import { utils } from "ethers";
+import { useEffect, useRef } from "react";
+
 import {
   useLazyGetSubscriptionStateQuery,
   useSendTransactionHashMutation,
 } from "@services/payment.api";
 import { setTransactionStatus } from "@store/state/userSlice";
 import { useAppDispatch } from "@store/store.hook";
-import { useSendTransaction } from "@usedapp/core";
-import { utils } from "ethers";
-import { useEffect, useRef } from "react";
 
 const useBuySubscription = () => {
   const { sendTransaction, state: transactionStatus } = useSendTransaction();
@@ -26,7 +26,7 @@ const useBuySubscription = () => {
   useEffect(() => {
     switch (transactionStatus.status) {
       case "PendingSignature":
-        dispatch(setTransactionStatus(TransactionState.pending));
+        dispatch(setTransactionStatus("pending"));
         break;
       case "Mining":
         sendTransactionHash(transactionStatus.transaction.hash);
@@ -34,16 +34,16 @@ const useBuySubscription = () => {
       case "Success":
         timer.current = setTimeout(() => {
           getSubscriptionState();
-          dispatch(setTransactionStatus(TransactionState.success));
+          dispatch(setTransactionStatus("success"));
         }, 10000);
         break;
       case "Exception":
       case "Fail":
-        dispatch(setTransactionStatus(TransactionState.failed));
+        dispatch(setTransactionStatus("failed"));
         break;
       default:
       case "None":
-        dispatch(setTransactionStatus(TransactionState.none));
+        dispatch(setTransactionStatus("none"));
     }
 
     return () => {

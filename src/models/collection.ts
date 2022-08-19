@@ -22,7 +22,7 @@ export interface ICollection {
   twitter?: ITwitterMessages;
   link: string;
   discordInviteLink: string;
-  twitterAccountId: string;
+  twitterUsername: string;
 }
 
 interface IDiscordMessage {

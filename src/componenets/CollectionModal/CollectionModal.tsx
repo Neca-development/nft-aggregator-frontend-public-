@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from "react";
 import "./collectionModal.scss";
-import Button from "@UI/Button/Button";
-import Tabs from "@UI/Tabs/Tabs";
 import { useNavigate } from "react-router-dom";
+
+import Button from "@UI/Button/Button";
+import Tabs, { ITab } from "@UI/Tabs/Tabs";
 import { useAppSelector } from "@store/store.hook";
 import { selectUserData } from "@store/state/userSlice";
 import BaseModal from "@components/UI/BaseModal/BaseModal";
 import { useLazyGetCollectionByIdQuery } from "@services/collections.api";
+import Loader from "@components/UI/Loader/Loader";
+import { collectionTabs } from "@constants/constant";
+
 import CollectionInfo from "./CollectionInfo";
 import SingleMessage from "./SingleMessage";
 
-// export enum CollectionTabs {
-//   discord = "Discord",
-//   twitter = "Twitter",
-// }
-
-export type CollectionTabs = "discord" | "twitter";
+// TODO rewrite better
+// const collectionTabs = [
+//   { name: "Discord", type: 0 },
+//   { name: "Twitter", type: 1 },
+// ];
 
 interface ICollectionModalProps {
   collectionId: string;
@@ -23,7 +26,7 @@ interface ICollectionModalProps {
   isOpen: boolean;
   onClose: () => void;
   handleClickFav: () => void;
-  initialTab?: CollectionTabs;
+  initialTab?: ITab;
 }
 
 const CollectionModal = ({
@@ -32,11 +35,11 @@ const CollectionModal = ({
   isOpen,
   onClose,
   handleClickFav,
-  initialTab = "discord",
+  initialTab = collectionTabs[0],
 }: ICollectionModalProps) => {
   const navigate = useNavigate();
   const { active } = useAppSelector(selectUserData);
-  const [trigger, { data, isLoading, isError }] = useLazyGetCollectionByIdQuery();
+  const [trigger, { data, isLoading, isSuccess }] = useLazyGetCollectionByIdQuery();
 
   const [activeTab, setActiveTab] = useState(initialTab);
 
@@ -47,7 +50,7 @@ const CollectionModal = ({
   // TODO maybe move to component
   const renderMessages = () => {
     switch (activeTab) {
-      case "discord":
+      case collectionTabs[0]:
         if (data.discordMessages?.length > 0) {
           return data.discordMessages.map(msg => (
             <SingleMessage
@@ -61,7 +64,7 @@ const CollectionModal = ({
         } else {
           return <div>No messages from discord</div>;
         }
-      case "twitter":
+      case collectionTabs[1]:
         if (data.twitter?.messages.length > 0) {
           return data.twitter.messages.map(msg => (
             <SingleMessage
@@ -84,8 +87,14 @@ const CollectionModal = ({
     }
   }, [isOpen, collectionId, trigger]);
 
-  if (!data) {
-    return;
+  if (isLoading) {
+    return (
+      <BaseModal isOpen={true} closeModal={onClose}>
+        <section className="colModal">
+          <Loader variant="spinner" />
+        </section>
+      </BaseModal>
+    );
   }
 
   return (
@@ -93,11 +102,7 @@ const CollectionModal = ({
       <section className="colModal">
         <div className="colModal__messages mesg">
           <div className="mesg__tabs">
-            <Tabs
-              tabsArray={["discord", "twitter"]}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-            />
+            <Tabs tabs={collectionTabs} activeTab={activeTab} setActiveTab={setActiveTab} />
           </div>
 
           <div className="mesg__body">
@@ -115,7 +120,9 @@ const CollectionModal = ({
           </div>
         </div>
 
-        <CollectionInfo data={data} isFavorite={isFavorite} handleClickFav={handleClickFav} />
+        {isSuccess && (
+          <CollectionInfo data={data} isFavorite={isFavorite} handleClickFav={handleClickFav} />
+        )}
       </section>
     </BaseModal>
   );

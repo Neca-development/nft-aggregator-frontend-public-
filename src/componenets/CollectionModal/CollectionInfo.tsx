@@ -1,16 +1,17 @@
-import ItemBannerBlock from "@components/UI/ItemBannerBlock/ItemBannerBlock";
 import React, { useState } from "react";
+import classNames from "classnames";
+import Linkify from "react-linkify";
+
+import ItemBannerBlock from "@components/UI/ItemBannerBlock/ItemBannerBlock";
 import "./collectionModal.scss";
 import VerifiedIcon from "@assets/icons/verified.svg";
 import Heart from "@UI/Heart/Heart";
 import Button from "@UI/Button/Button";
 import EtherBlue from "@assets/icons/ether-blue.svg";
 import Gain from "@UI/Gain/Gain";
-import classNames from "classnames";
 import SocialIcon from "@UI/SocialIcon/SocialIcon";
 import { createTwitterLink, formatDate, kFormatter, roundNumber } from "@utils/utils";
 import { ICollection } from "@models/collection";
-import Linkify from "react-linkify";
 
 interface ICollectionInfoProps {
   data: ICollection;
@@ -122,8 +123,8 @@ const CollectionInfo = ({ data, handleClickFav, isFavorite }: ICollectionInfoPro
         <SocialIcon
           community="twitter"
           number={data.twitterFollowersCount}
-          link={createTwitterLink(data.twitterAccountId)}
-          showLinkIcon={data.twitterAccountId ? true : false}
+          link={createTwitterLink(data.twitterUsername)}
+          showLinkIcon={data.twitterUsername ? true : false}
         />
         {data.link && (
           <a href={data.link} target="_blank" rel="noreferrer">
