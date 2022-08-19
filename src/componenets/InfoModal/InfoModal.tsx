@@ -1,16 +1,17 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "@store/store.hook";
+
 import Button from "@UI/Button/Button";
 import "./infoModal.scss";
 import { selectUserData } from "@store/state/userSlice";
+import { useAppSelector } from "@store/store.hook";
 import BaseModal from "@components/UI/BaseModal/BaseModal";
 
-interface IInfoModalProps {
+type IInfoModalProps = {
   type: "no-subscription" | "reached-limit" | "expired" | "no-signature";
   onClose: () => void;
   isOpen: boolean;
-}
+};
 
 const InfoModal = ({ type, onClose, isOpen }: IInfoModalProps) => {
   const { active, isLoggedIn } = useAppSelector(selectUserData);

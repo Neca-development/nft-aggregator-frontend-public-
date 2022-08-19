@@ -7,7 +7,7 @@ export enum CollectionsFilterBy {
   discordMembersCount = 5,
 }
 
-export enum GivewaysFilterBy {
+export enum GiveawaysFilterBy {
   date = 0,
   size = 1,
   floorPrice = 2,
@@ -25,16 +25,17 @@ export interface IFilterRequest {
 }
 
 export interface ICollectionOrder {
-  orderBy: CollectionsFilterBy | GivewaysFilterBy;
+  orderBy: CollectionsFilterBy | GiveawaysFilterBy;
   orderType: FilterType;
 }
 
 export interface INftCollectionsFilter {
   name: string;
   size: IRange;
-  floorPrice: IRange;
-  twitterFollowersCount: IRange;
-  discordMembersCount: IRange;
+  floorPrice?: IRange;
+  twitterFollowersCount?: IRange;
+  discordMembersCount?: IRange;
+  membersCount?: IRange;
 }
 
 interface IRange {

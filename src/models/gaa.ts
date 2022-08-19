@@ -1,3 +1,12 @@
+import { IFilterRequest } from "./filters";
+import { IMeta } from "./response.interface";
+
+export enum GaaChannelTypes {
+  giveaways = 0,
+  announcement = 1,
+  all = 2,
+}
+
 export interface IGiveawaysAndAnn {
   collections: IGaaItem[];
   ranges: {
@@ -11,18 +20,40 @@ export interface IGaaItem {
   image: string;
   name: string;
   size: number;
-  floorPrice: number;
+  floorPrice?: number;
   discordMessage: IGaaMessage;
+  discordMembersCount: number;
 }
 
 export interface IGaaMessage {
   id: number;
-  text: string;
+  message: string;
   createdAt: string;
-  discordId: string;
   author: {
     name: string;
     image: string;
   };
-  channelType: string;
+  channelType: GaaChannelTypes;
+}
+
+export interface IGaaData {
+  collections: IGaaItem[];
+  ranges: IMaxRangesGaa;
+}
+
+export interface IMaxRangesGaa {
+  sizeMax: number;
+  membersCountMax: number;
+}
+
+export interface IGaaRequest {
+  filter: IFilterRequest;
+  type: GaaChannelTypes;
+  page: number;
+  perPage?: number;
+}
+
+export interface IGaaResponse {
+  items: IGaaData;
+  meta: IMeta;
 }

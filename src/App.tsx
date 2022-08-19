@@ -1,22 +1,23 @@
+import { useEthers } from "@usedapp/core";
 import { AnimatePresence } from "framer-motion";
 import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+
 import Header from "@components/Header/Header";
 import InfoModal from "@components/InfoModal/InfoModal";
+import useBuySubscription from "@hooks/useBuySubscription";
+import useCheckNetwork from "@hooks/useCheckNetwork";
+import { useCreateSignature } from "@hooks/useCreateSignature";
 import Admin from "@pages/Admin/Admin";
 import Collections from "@pages/Collections/Collections";
 import Favorite from "@pages/Favorite/Favorite";
 import Giveaways from "@pages/Giveaways/Giveaways";
 import Profile from "@pages/Profile/Profile";
-import { useDispatch } from "react-redux";
-import { useEthers } from "@usedapp/core";
-import { useCreateSignature } from "@hooks/useCreateSignature";
-import { clearUserState, setLoggedIn } from "@store/state/userSlice";
-import { useGetSubscriptionStateQuery } from "@services/payment.api";
 import RequireSubscriptionGuard from "@pages/RequireSubscriptionGuard";
+import { useGetSubscriptionStateQuery } from "@services/payment.api";
+import { clearUserState, setLoggedIn } from "@store/state/userSlice";
 import { userHasSignature } from "@utils/utils";
-import useCheckNetwork from "@hooks/useCheckNetwork";
-import useBuySubscription from "@hooks/useBuySubscription";
 
 function App() {
   const location = useLocation();
@@ -53,10 +54,6 @@ function App() {
 
   useEffect(() => {
     if (account) {
-      // if (userHasSignature() === false) {
-      //   askForSignature();
-      // }
-
       checkNetwork();
 
       if (isLoginSuccess) {
@@ -68,7 +65,7 @@ function App() {
         askForSignature();
       }
     }
-  }, [account, askForSignature, dispatch, isLoginSuccess, loginError]);
+  }, [account, askForSignature, checkNetwork, dispatch, isLoginSuccess, loginError]);
 
   return (
     <div className="App">

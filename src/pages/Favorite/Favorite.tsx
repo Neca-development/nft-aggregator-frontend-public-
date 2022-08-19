@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+
 import FavoriteItem from "@components/FavoriteItem/FavoriteItem";
 import Button from "@components/UI/Button/Button";
 import "./favorite.scss";
 import InfoModal from "@components/InfoModal/InfoModal";
 import FavoriteSkeleton from "@UI/FavoriteSkeleton/FavoriteSkeleton";
-import { AnimatePresence, motion } from "framer-motion";
 import { useAppSelector } from "@store/store.hook";
 import { selectUserData } from "@store/state/userSlice";
 import { convertToFavItem } from "@utils/utils";
