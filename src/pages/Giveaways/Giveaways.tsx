@@ -19,6 +19,7 @@ import { useAppSelector } from "@store/store.hook";
 import Button from "@UI/Button/Button";
 import TableFilterTitle from "@UI/TableFilterTitle/TableFilterTitle";
 import Tabs from "@UI/Tabs/Tabs";
+import Loader from "@components/UI/Loader/Loader";
 
 const gaaTabs = [
   { name: "All", type: GaaChannelTypes.all },
@@ -98,7 +99,7 @@ function Giveaways() {
   if (initialRender.current) {
     return (
       <PagePresenceWrapper>
-        <div className="container">Loading...</div>
+        <Loader variant="logo" />
       </PagePresenceWrapper>
     );
   }
