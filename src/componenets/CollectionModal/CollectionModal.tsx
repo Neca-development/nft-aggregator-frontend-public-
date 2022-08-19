@@ -116,34 +116,6 @@ const CollectionModal = ({
         {isSuccess && (
           <CollectionInfo data={data} isFavorite={isFavorite} handleClickFav={handleClickFav} />
         )}
-
-        {/* {!data ? (
-          <Spinner />
-        ) : (
-          <>
-            <div className="colModal__messages mesg">
-              <div className="mesg__tabs">
-                <Tabs tabs={collectionTabs} activeTab={activeTab} setActiveTab={setActiveTab} />
-              </div>
-
-              <div className="mesg__body">
-                {active ? (
-                  // TODO check pagination
-                  renderMessages()
-                ) : (
-                  <div className="mesg__noAccess">
-                    <p>Viewing messages is only available with a paid subscription</p>
-                    <Button variant="gradient" size="large" onClick={() => navigate("/profile")}>
-                      Buy Subscription
-                    </Button>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <CollectionInfo data={data} isFavorite={isFavorite} handleClickFav={handleClickFav} />
-          </>
-        )} */}
       </section>
     </BaseModal>
   );
