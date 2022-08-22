@@ -21,7 +21,7 @@ export default function DiscordMessages({ data, handleMarkAsRead }: DiscordMessa
   return (
     <>
       {localDiscord?.length > 0 ? (
-        <div onClick={handleMarkAsRead}>
+        <div onMouseEnter={handleMarkAsRead}>
           {localDiscord.map(msg => (
             <SingleMessage
               key={msg.id}
