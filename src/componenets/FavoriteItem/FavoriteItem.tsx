@@ -24,6 +24,10 @@ const FavoriteItem = ({ item }: IFavoriteItemProps) => {
   const [showCollectionModal, setShowCollectionModal] = useState(false);
   const { removeFromFavorite } = useFavorite(item.openseaId);
   const [desiredTab, setDesiredTab] = useState(collectionTabs[0]);
+  const [hasNewMessages, setHasNewMessages] = useState({
+    discord: item.discordNewMessages > 0 ? true : false,
+    twitter: item.twitterNewMessages > 0 ? true : false,
+  });
 
   const handleRemoveFromFav = async () => {
     await removeFromFavorite();
@@ -32,6 +36,17 @@ const FavoriteItem = ({ item }: IFavoriteItemProps) => {
   const openModalWithDesiredTab = (tab: ITab) => {
     setDesiredTab(tab);
     setShowCollectionModal(true);
+  };
+
+  const hideMessagesBadge = (tab: "discord" | "twitter") => {
+    switch (tab) {
+      case "discord":
+        setHasNewMessages(prev => ({ ...prev, discord: false }));
+        break;
+      case "twitter":
+        setHasNewMessages(prev => ({ ...prev, twitter: false }));
+        break;
+    }
   };
 
   return (
@@ -64,18 +79,14 @@ const FavoriteItem = ({ item }: IFavoriteItemProps) => {
             onClick={() => openModalWithDesiredTab(collectionTabs[0])}
           >
             <DiscordIcon />
-            {item.discordNewMessages > 0 && (
-              <span>{hundredFormatter(item.discordNewMessages)}</span>
-            )}
+            {hasNewMessages.discord && <span>{hundredFormatter(item.discordNewMessages)}</span>}
           </div>
           <div
             className="favItem__socialIcon"
             onClick={() => openModalWithDesiredTab(collectionTabs[1])}
           >
             <TwitterIcon />
-            {item.twitterNewMessages > 0 && (
-              <span>{hundredFormatter(item.twitterNewMessages)}</span>
-            )}
+            {hasNewMessages.twitter && <span>{hundredFormatter(item.twitterNewMessages)}</span>}
           </div>
         </div>
       </motion.article>
@@ -87,6 +98,7 @@ const FavoriteItem = ({ item }: IFavoriteItemProps) => {
         onClose={() => setShowCollectionModal(false)}
         handleClickFav={handleRemoveFromFav}
         initialTab={desiredTab}
+        hideMessagesBadge={hideMessagesBadge}
       />
     </>
   );

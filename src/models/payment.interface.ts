@@ -5,4 +5,9 @@ export interface ISubscriptionState {
   isNewUser: boolean;
 }
 
-export type TransactionState = "none" | "pending" | "success" | "failed";
+export enum TransactionState {
+  failed = 0,
+  success = 1,
+  unknown = 2,
+  pending = 3,
+}

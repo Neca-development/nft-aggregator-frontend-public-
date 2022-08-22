@@ -8,6 +8,7 @@ import {
 } from "@services/payment.api";
 import { setTransactionStatus } from "@store/state/userSlice";
 import { useAppDispatch } from "@store/store.hook";
+import { TransactionState } from "@models/payment.interface";
 
 const useBuySubscription = () => {
   const { sendTransaction, state: transactionStatus } = useSendTransaction();
@@ -26,7 +27,7 @@ const useBuySubscription = () => {
   useEffect(() => {
     switch (transactionStatus.status) {
       case "PendingSignature":
-        dispatch(setTransactionStatus("pending"));
+        dispatch(setTransactionStatus(TransactionState.pending));
         break;
       case "Mining":
         sendTransactionHash(transactionStatus.transaction.hash);
@@ -34,16 +35,16 @@ const useBuySubscription = () => {
       case "Success":
         timer.current = setTimeout(() => {
           getSubscriptionState();
-          dispatch(setTransactionStatus("success"));
+          dispatch(setTransactionStatus(TransactionState.success));
         }, 10000);
         break;
       case "Exception":
       case "Fail":
-        dispatch(setTransactionStatus("failed"));
+        dispatch(setTransactionStatus(TransactionState.failed));
         break;
       default:
       case "None":
-        dispatch(setTransactionStatus("none"));
+        dispatch(setTransactionStatus(TransactionState.unknown));
     }
 
     return () => {

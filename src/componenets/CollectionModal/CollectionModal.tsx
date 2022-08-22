@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./collectionModal.scss";
 import { useNavigate } from "react-router-dom";
 
@@ -10,15 +10,11 @@ import BaseModal from "@components/UI/BaseModal/BaseModal";
 import { useLazyGetCollectionByIdQuery } from "@services/collections.api";
 import Loader from "@components/UI/Loader/Loader";
 import { collectionTabs } from "@constants/constant";
+import { useMarkDiscordMutation, useMarkTwitterMutation } from "@services/messages.api";
 
 import CollectionInfo from "./CollectionInfo";
-import SingleMessage from "./SingleMessage";
-
-// TODO rewrite better
-// const collectionTabs = [
-//   { name: "Discord", type: 0 },
-//   { name: "Twitter", type: 1 },
-// ];
+import DiscordMessages from "./DiscordMessages";
+import TwitterMessages from "./TwitterMessages";
 
 interface ICollectionModalProps {
   collectionId: string;
@@ -27,6 +23,7 @@ interface ICollectionModalProps {
   onClose: () => void;
   handleClickFav: () => void;
   initialTab?: ITab;
+  hideMessagesBadge?: (tab: "discord" | "twitter") => void;
 }
 
 const CollectionModal = ({
@@ -36,48 +33,49 @@ const CollectionModal = ({
   onClose,
   handleClickFav,
   initialTab = collectionTabs[0],
+  hideMessagesBadge,
 }: ICollectionModalProps) => {
   const navigate = useNavigate();
   const { active } = useAppSelector(selectUserData);
   const [trigger, { data, isLoading, isSuccess }] = useLazyGetCollectionByIdQuery();
 
   const [activeTab, setActiveTab] = useState(initialTab);
+  const [markDiscordAsRead] = useMarkDiscordMutation();
+  const [markTwitterAsRead] = useMarkTwitterMutation();
 
-  useEffect(() => {
-    setActiveTab(initialTab);
-  }, [initialTab]);
+  const isDiscordRead = useRef(false);
+  const isTwitterRead = useRef(false);
 
-  // TODO maybe move to component
+  const handleMarkAsRead = async () => {
+    if (data.isFavorite === false) {
+      return;
+    }
+    if (activeTab === collectionTabs[0]) {
+      if (isDiscordRead.current === false) {
+        await markDiscordAsRead(collectionId);
+        hideMessagesBadge && hideMessagesBadge("discord");
+        isDiscordRead.current = true;
+      }
+    }
+    if (activeTab === collectionTabs[1]) {
+      if (isTwitterRead.current === false) {
+        await markTwitterAsRead(collectionId);
+        hideMessagesBadge && hideMessagesBadge("twitter");
+        isTwitterRead.current = true;
+      }
+    }
+  };
+
   const renderMessages = () => {
+    if (!data) {
+      return;
+    }
+    // TODO maybe make one component
     switch (activeTab) {
       case collectionTabs[0]:
-        if (data.discordMessages?.length > 0) {
-          return data.discordMessages.map(msg => (
-            <SingleMessage
-              key={msg.id}
-              avatar={msg.author.image}
-              name={msg.author.name}
-              createdAt={msg.createdAt}
-              message={msg.text}
-            />
-          ));
-        } else {
-          return <div>No messages from discord</div>;
-        }
+        return <DiscordMessages data={data.discordMessages} handleMarkAsRead={handleMarkAsRead} />;
       case collectionTabs[1]:
-        if (data.twitter?.messages.length > 0) {
-          return data.twitter.messages.map(msg => (
-            <SingleMessage
-              key={msg.id}
-              avatar={data.twitter.author.image}
-              name={data.twitter.author.name}
-              createdAt={msg.createdAt}
-              message={msg.message}
-            />
-          ));
-        } else {
-          return <div>No messages from twitter</div>;
-        }
+        return <TwitterMessages data={data.twitter} handleMarkAsRead={handleMarkAsRead} />;
     }
   };
 
@@ -86,6 +84,12 @@ const CollectionModal = ({
       trigger(collectionId);
     }
   }, [isOpen, collectionId, trigger]);
+
+  useEffect(() => {
+    if (isOpen && activeTab !== initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [isOpen]);
 
   if (isLoading) {
     return (
@@ -107,7 +111,6 @@ const CollectionModal = ({
 
           <div className="mesg__body">
             {active ? (
-              // TODO check pagination
               renderMessages()
             ) : (
               <div className="mesg__noAccess">

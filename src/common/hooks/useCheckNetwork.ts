@@ -7,6 +7,9 @@ const useCheckNetwork = () => {
   const { chainId } = useEthers();
 
   const checkNetwork = useCallback(async () => {
+    if (!chainId) {
+      return;
+    }
     if (env === "development" && chainId !== Rinkeby.chainId) {
       try {
         await window.ethereum.request({

@@ -14,7 +14,7 @@ const initialState: IUserSlice = {
   active: false,
   expiresAt: "",
   isNewUser: true,
-  transactionState: "none",
+  transactionState: TransactionState.success,
 };
 
 export const userSlice = createSlice({

@@ -50,6 +50,8 @@ function App() {
 
   useEffect(() => {
     if (account) {
+      checkNetwork();
+
       if (userHasSignature() === false && !loginError) {
         askForSignature();
       }
@@ -58,10 +60,8 @@ function App() {
       if (userHasSignature() && (loginError?.status === 401 || loginError?.status === 403)) {
         askForSignature();
       }
-
-      checkNetwork();
     }
-  }, [account, askForSignature, checkNetwork, dispatch, loginError]);
+  }, [account, askForSignature, loginError]);
 
   return (
     <div className="App">
