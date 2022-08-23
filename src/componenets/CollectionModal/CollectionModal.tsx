@@ -15,6 +15,7 @@ import { useMarkDiscordMutation, useMarkTwitterMutation } from "@services/messag
 import CollectionInfo from "./CollectionInfo";
 import DiscordMessages from "./DiscordMessages";
 import TwitterMessages from "./TwitterMessages";
+import MessagesBlock from "./MessagesBlock";
 
 interface ICollectionModalProps {
   collectionId: string;
@@ -63,15 +64,23 @@ const CollectionModal = ({
   };
 
   const renderMessages = () => {
-    if (!data) {
-      return;
-    }
-    // TODO maybe make one component
     switch (activeTab) {
       case collectionTabs[0]:
-        return <DiscordMessages data={data.discordMessages} handleMarkAsRead={handleMarkAsRead} />;
+        return (
+          <DiscordMessages
+            data={data.discordMessages}
+            handleMarkAsRead={handleMarkAsRead}
+            collectionId={collectionId}
+          />
+        );
       case collectionTabs[1]:
-        return <TwitterMessages data={data.twitter} handleMarkAsRead={handleMarkAsRead} />;
+        return (
+          <TwitterMessages
+            data={data.twitter}
+            handleMarkAsRead={handleMarkAsRead}
+            collectionId={collectionId}
+          />
+        );
     }
   };
 
@@ -106,7 +115,7 @@ const CollectionModal = ({
           </div>
 
           <div className="mesg__body">
-            {active ? (
+            {active && data ? (
               renderMessages()
             ) : (
               <div className="mesg__noAccess">

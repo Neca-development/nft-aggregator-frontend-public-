@@ -1,11 +1,21 @@
-import { formatDate } from "@utils/utils";
 import React from "react";
 import "./collectionModal.scss";
 import Linkify from "react-linkify";
 
-const SingleMessage = ({ avatar, name, createdAt, message }) => {
+import { formatDate } from "@utils/utils";
+
+type SingleMessageProps = {
+  avatar: string;
+  name: string;
+  createdAt: string;
+  message: string;
+};
+
+const SingleMessage = React.forwardRef((props: SingleMessageProps, ref: any) => {
+  const { avatar, name, createdAt, message } = props;
+
   return (
-    <div className="mesg__item singleMessage">
+    <div className="mesg__item singleMessage" ref={ref}>
       <div className="singleMessage__header">
         <img src={avatar} alt="avatar" />
         <p>{name}</p>
@@ -16,6 +26,6 @@ const SingleMessage = ({ avatar, name, createdAt, message }) => {
       </Linkify>
     </div>
   );
-};
+});
 
 export default SingleMessage;

@@ -3,7 +3,7 @@ import { IMeta } from "./response.interface";
 export interface IMessagesRequest {
   collectionId: string;
   page: number;
-  perPage: number;
+  perPage?: number;
 }
 
 export interface IDiscordMessagesResponse {

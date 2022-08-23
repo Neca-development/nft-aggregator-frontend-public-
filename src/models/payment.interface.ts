@@ -8,6 +8,6 @@ export interface ISubscriptionState {
 export enum TransactionState {
   failed = 0,
   success = 1,
-  unknown = 2,
-  pending = 3,
+  pending = 2,
+  null = 3,
 }
