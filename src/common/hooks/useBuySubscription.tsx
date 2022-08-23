@@ -8,6 +8,9 @@ import {
 } from "@services/payment.api";
 import { setTransactionStatus } from "@store/state/userSlice";
 import { useAppDispatch } from "@store/store.hook";
+import { TransactionState } from "@models/payment.interface";
+
+import useCheckNetwork from "./useCheckNetwork";
 
 const useBuySubscription = () => {
   const { sendTransaction, state: transactionStatus } = useSendTransaction();
@@ -15,8 +18,10 @@ const useBuySubscription = () => {
   const [getSubscriptionState] = useLazyGetSubscriptionStateQuery();
   const dispatch = useAppDispatch();
   const timer = useRef(null);
+  const { checkNetwork } = useCheckNetwork();
 
-  const buySubscription = () => {
+  const buySubscription = async () => {
+    await checkNetwork();
     sendTransaction({
       to: "0xd771008E6f496317De65aa7D56701F9383fa6a07",
       value: utils.parseEther("0.02"),
@@ -26,7 +31,7 @@ const useBuySubscription = () => {
   useEffect(() => {
     switch (transactionStatus.status) {
       case "PendingSignature":
-        dispatch(setTransactionStatus("pending"));
+        dispatch(setTransactionStatus(TransactionState.pending));
         break;
       case "Mining":
         sendTransactionHash(transactionStatus.transaction.hash);
@@ -34,16 +39,16 @@ const useBuySubscription = () => {
       case "Success":
         timer.current = setTimeout(() => {
           getSubscriptionState();
-          dispatch(setTransactionStatus("success"));
-        }, 10000);
+          dispatch(setTransactionStatus(TransactionState.success));
+        }, 15000);
         break;
       case "Exception":
       case "Fail":
-        dispatch(setTransactionStatus("failed"));
+        dispatch(setTransactionStatus(TransactionState.failed));
         break;
       default:
       case "None":
-        dispatch(setTransactionStatus("none"));
+        dispatch(setTransactionStatus(TransactionState.unknown));
     }
 
     return () => {

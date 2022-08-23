@@ -1,6 +1,6 @@
 import { useEthers } from "@usedapp/core";
 import { AnimatePresence } from "framer-motion";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 
@@ -33,23 +33,25 @@ function App() {
 
   const [showNoSignModal, setShowNoSignModal] = useState(false);
 
-  const askForSignature = useCallback(async () => {
-    const signResult = await signMessage();
-    if (!signResult?.signature) {
-      deactivate();
-      dispatch(clearUserState());
-      setShowNoSignModal(true);
-    } else {
-      const signature = signResult.signature;
-      const timestamp = signResult.timestamp;
-      const agAuth = { signature, timestamp };
-      localStorage.setItem("agAuth", JSON.stringify(agAuth));
-      getSubState();
-    }
-  }, [deactivate, dispatch, getSubState, signMessage]);
-
   useEffect(() => {
+    const askForSignature = async () => {
+      const signResult = await signMessage();
+      if (!signResult?.signature) {
+        deactivate();
+        dispatch(clearUserState());
+        setShowNoSignModal(true);
+      } else {
+        const signature = signResult.signature;
+        const timestamp = signResult.timestamp;
+        const agAuth = { signature, timestamp };
+        localStorage.setItem("agAuth", JSON.stringify(agAuth));
+        getSubState();
+      }
+    };
+
     if (account) {
+      checkNetwork();
+
       if (userHasSignature() === false && !loginError) {
         askForSignature();
       }
@@ -58,10 +60,8 @@ function App() {
       if (userHasSignature() && (loginError?.status === 401 || loginError?.status === 403)) {
         askForSignature();
       }
-
-      checkNetwork();
     }
-  }, [account, askForSignature, checkNetwork, dispatch, loginError]);
+  }, [account, checkNetwork, deactivate, dispatch, getSubState, loginError, signMessage]);
 
   return (
     <div className="App">

@@ -8,6 +8,7 @@ import Button from "@UI/Button/Button";
 import TransactionProcessingModal from "@components/TransactionProcessingModal/TransactionProcessingModal";
 import { useAppSelector } from "@store/store.hook";
 import { selectUserData } from "@store/state/userSlice";
+import { TransactionState } from "@models/payment.interface";
 
 function Header() {
   const { transactionState, isLoggedIn } = useAppSelector(selectUserData);
@@ -17,7 +18,7 @@ function Header() {
   const [showTransInProcessModal, setShowTransInProcessModal] = useState(false);
 
   const renderProfileBtn = () => {
-    if (isLoggedIn && transactionState === "pending") {
+    if (isLoggedIn && transactionState === TransactionState.pending) {
       return (
         <Button icon="profile" variant="gradient" onClick={() => setShowTransInProcessModal(true)}>
           Transaction in progress

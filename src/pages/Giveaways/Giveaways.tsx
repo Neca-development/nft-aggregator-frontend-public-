@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./giveaways.scss";
-import { useNavigate } from "react-router-dom";
 
 import GaATableItem from "@components/GaATableItem/GaATableItem";
 import Sidebar from "@components/Sidebar/Sidebar";
@@ -28,7 +27,6 @@ const gaaTabs = [
 ];
 
 function Giveaways() {
-  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(gaaTabs[0]);
   const [activeFilter, setActiveFilter] = useState(GiveawaysFilterBy.date);
   const [isSortAsc, setIsSortAsc] = useState(false);
@@ -40,6 +38,11 @@ function Giveaways() {
 
   const initialRender = useRef(true);
   const sidebarRef = useRef(null);
+
+  // Reset filter options by function in the sidebar
+  const handleResetSearch = () => {
+    sidebarRef.current.resetFunction();
+  };
 
   // Get filter max ranges
   useEffect(() => {
@@ -165,7 +168,7 @@ function Giveaways() {
           ) : (
             <div className="giveaways__empty">
               <h2>No Giveaways and Announcements found for this search</h2>
-              <Button size="large" variant="gradient" onClick={() => navigate("/")}>
+              <Button size="large" variant="gradient" onClick={handleResetSearch}>
                 Back to all messages
               </Button>
             </div>

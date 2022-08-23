@@ -5,6 +5,9 @@ export const useCreateSignature = () => {
   const { library, account } = useEthers();
 
   const signMessage = useCallback(async () => {
+    if (!account) {
+      return;
+    }
     try {
       const timestamp = Date.now().toString();
       const signer = library.getSigner();

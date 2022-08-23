@@ -1,4 +1,5 @@
 import { IFilterRequest } from "./filters";
+import { IDiscordMessage, ITwitterMessages } from "./messages.interface";
 import { IMeta } from "./response.interface";
 
 export interface ICollection {
@@ -25,31 +26,31 @@ export interface ICollection {
   twitterUsername: string;
 }
 
-interface IDiscordMessage {
-  id: number;
-  text: string;
-  createdAt: string;
-  discordId: string;
-  author: {
-    name: string;
-    image: string;
-  };
-  channelType: string;
-}
+// interface IDiscordMessage {
+//   id: string;
+//   text: string;
+//   createdAt: string;
+//   discordId: string;
+//   channelType: string;
+//   author: {
+//     name: string;
+//     image: string;
+//   };
+// }
 
-interface ITwitterMessages {
-  author: {
-    name: string;
-    image: string;
-  };
-  messages: ITweet[];
-}
+// interface ITwitterMessages {
+//   author: {
+//     name: string;
+//     image: string;
+//   };
+//   messages: ITweet[];
+// }
 
-interface ITweet {
-  message: string;
-  createdAt: string;
-  id: string;
-}
+// interface ITweet {
+//   message: string;
+//   createdAt: string;
+//   id: string;
+// }
 
 export interface ICollectionData {
   collections: ICollection[];

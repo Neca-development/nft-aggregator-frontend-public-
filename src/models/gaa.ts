@@ -7,14 +7,6 @@ export enum GaaChannelTypes {
   all = 2,
 }
 
-export interface IGiveawaysAndAnn {
-  collections: IGaaItem[];
-  ranges: {
-    sizeMax: number;
-    membersCountMax: number;
-  };
-}
-
 export interface IGaaItem {
   bannerImage: string;
   image: string;
