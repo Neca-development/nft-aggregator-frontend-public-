@@ -15,7 +15,6 @@ import { useMarkDiscordMutation, useMarkTwitterMutation } from "@services/messag
 import CollectionInfo from "./CollectionInfo";
 import DiscordMessages from "./DiscordMessages";
 import TwitterMessages from "./TwitterMessages";
-import MessagesBlock from "./MessagesBlock";
 
 interface ICollectionModalProps {
   collectionId: string;
