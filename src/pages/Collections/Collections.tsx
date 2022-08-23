@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import CollectionTableItem from "@components/CollectionTableItem/CollectionTableItem";
 import Sidebar from "@components/Sidebar/Sidebar";
@@ -7,7 +8,7 @@ import "./collections.scss";
 import CollectionItemSkeleton from "@components/UI/CollectionItemSkeleton/CollectionItemSkeleton";
 import PagePresenceWrapper from "@components/UI/PagePresenceWrapper";
 import { useDidMountEffect } from "@hooks/useDidMountEffect";
-import { ICollection, ICollectionRequest, IMaxRanges } from "@models/collection";
+import { ICollection, IMaxRanges } from "@models/collection";
 import { CollectionsFilterBy, FilterType, IFilterRequest } from "@models/filters";
 import { useGetCollectionsMutation } from "@services/collections.api";
 import { selectFilterRequest } from "@store/state/filterSlice";
@@ -16,20 +17,28 @@ import Button from "@UI/Button/Button";
 import TableFilterTitle from "@UI/TableFilterTitle/TableFilterTitle";
 import Loader from "@components/UI/Loader/Loader";
 
+const PER_PAGE = 10;
+
 function Collections() {
   const [activeFilter, setActiveFilter] = useState(CollectionsFilterBy.name);
   const [isSortAsc, setIsSortAsc] = useState(false);
   const filterRequest = useAppSelector(selectFilterRequest);
-  const [fetchCollections, { data, isLoading }] = useGetCollectionsMutation();
+  const [fetchCollections, { data }] = useGetCollectionsMutation();
   const [page, setPage] = useState(0);
-  const [localData, setLocalData] = useState<ICollection[]>(null);
+  const [hasMore, setHasMore] = useState(true);
+  const [localData, setLocalData] = useState<ICollection[]>([]);
   const [rangeData, setRangeData] = useState<IMaxRanges>(null);
   const initialRender = useRef(true);
   const sidebarRef = useRef(null);
 
-  // Reset filter options by function in the sidebar
   const handleResetSearch = () => {
     sidebarRef.current.resetFunction();
+  };
+
+  const requestNextPage = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    fetchCollections({ filter: filterRequest, page: nextPage, perPage: PER_PAGE });
   };
 
   // Get max ranges at first render
@@ -56,36 +65,40 @@ function Collections() {
           orderType: FilterType.asc,
         },
       };
-      const res = await fetchCollections({ filter: initialFilter, page: 0 }).unwrap();
+      const res = await fetchCollections({
+        filter: initialFilter,
+        page: 0,
+        perPage: PER_PAGE,
+      }).unwrap();
       setRangeData(res.data.items.ranges);
       initialRender.current = false;
     };
     getMaxRanges();
   }, [fetchCollections]);
 
-  // TODO pagination here
-  useEffect(() => {
-    if (data) {
-      setLocalData(data.data.items.collections);
-    }
-  }, [data]);
-
   // Observe filter change
   useDidMountEffect(() => {
-    const requestCollections = async () => {
-      const req: ICollectionRequest = {
-        filter: filterRequest,
-        page: page,
-      };
-      try {
-        const res = await fetchCollections(req).unwrap();
-        setLocalData([...res.data.items.collections]);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    requestCollections();
+    setPage(0);
+    setHasMore(true);
+    fetchCollections({ filter: filterRequest, page: 0, perPage: PER_PAGE });
   }, [filterRequest]);
+
+  // Writing incoming data
+  useEffect(() => {
+    if (!data) {
+      return;
+    }
+
+    if (page === 0) {
+      setLocalData(data.data.items.collections);
+    } else {
+      setLocalData(prev => [...prev, ...data.data.items.collections]);
+    }
+
+    if (page + 1 >= data.data.meta.totalPages) {
+      setHasMore(false);
+    }
+  }, [data, page]);
 
   if (initialRender.current) {
     return (
@@ -163,14 +176,18 @@ function Collections() {
             <span></span>
           </div>
 
-          {isLoading ? (
-            <CollectionItemSkeleton />
-          ) : localData?.length > 0 ? (
-            <div className="collections__body">
+          {localData?.length > 0 ? (
+            <InfiniteScroll
+              dataLength={localData.length}
+              height={60 * PER_PAGE}
+              next={requestNextPage}
+              hasMore={hasMore}
+              loader={<CollectionItemSkeleton />}
+            >
               {localData.map(item => (
                 <CollectionTableItem key={item.openseaId} item={item} />
               ))}
-            </div>
+            </InfiniteScroll>
           ) : (
             <motion.div
               initial={{ opacity: 0 }}
