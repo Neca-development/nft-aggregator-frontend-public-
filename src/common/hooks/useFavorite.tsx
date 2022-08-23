@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import { freeFavoritesSize } from "@constants/constant";
+import { FREE_FAVORITES_SIZE } from "@constants/constant";
 import {
   useAddToFavoriteMutation,
   useGetUserFavoritesQuery,
@@ -32,7 +32,7 @@ const useFavorite = (itemId: string) => {
 
   const lsAddToFav = () => {
     const favorites = getFavFromLs();
-    if (favorites.length >= freeFavoritesSize) {
+    if (favorites.length >= FREE_FAVORITES_SIZE) {
       return FavoriteFunctionStatus.limit;
     }
     favorites.push(itemId);
@@ -52,7 +52,7 @@ const useFavorite = (itemId: string) => {
   };
 
   const serverAddToFav = async () => {
-    if (active === false && userFavorites.items.length >= freeFavoritesSize) {
+    if (active === false && userFavorites.items.length >= FREE_FAVORITES_SIZE) {
       return FavoriteFunctionStatus.limit;
     }
     const response = await putToFavorites(itemId).unwrap();

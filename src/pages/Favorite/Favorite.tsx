@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import FavoriteItem from "@components/FavoriteItem/FavoriteItem";
 import Button from "@components/UI/Button/Button";
@@ -11,29 +12,30 @@ import { useAppSelector } from "@store/store.hook";
 import { selectUserData } from "@store/state/userSlice";
 import { convertToFavItem } from "@utils/utils";
 import { IFavorite } from "@models/favorite";
-import { freeFavoritesSize } from "@constants/constant";
+import { FREE_FAVORITES_SIZE } from "@constants/constant";
 import useFavorite from "@hooks/useFavorite";
 import PagePresenceWrapper from "@components/UI/PagePresenceWrapper";
 import { useGetUserFavoritesQuery } from "@services/users.api";
 import { useLazyGetCollectionByIdQuery } from "@services/collections.api";
+import { useRemToPx } from "@hooks/useRemToPx";
 
 function Favorite() {
   const { active, isLoggedIn } = useAppSelector(selectUserData);
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
-  const { data: paginatedData, isLoading } = useGetUserFavoritesQuery(
-    { page },
-    { skip: !isLoggedIn }
-  );
+  const [hasMore, setHasMore] = useState(true);
+  const { data: paginatedData } = useGetUserFavoritesQuery({ page }, { skip: !isLoggedIn });
   const [requestCollectionById] = useLazyGetCollectionByIdQuery();
-  const [favorites, setFavorites] = useState(null);
+  const [favorites, setFavorites] = useState<IFavorite[]>([]);
   const [showLimitModal, setShowLimitModal] = useState(false);
   const { getFavFromLs } = useFavorite(null);
+  const { result: rowHeight } = useRemToPx(22);
 
   const importFavFromLs = useCallback(async () => {
     if (isLoggedIn) {
       return;
     }
+    setHasMore(false);
     const favFromLs = getFavFromLs();
     const findedCollections = [];
     for (const openseaId of favFromLs) {
@@ -62,12 +64,24 @@ function Favorite() {
     }
   };
 
-  // Initial data loading
+  const requestNextPage = () => {
+    setPage(prev => prev + 1);
+  };
+
+  // Write incoming data
   useEffect(() => {
-    if (paginatedData?.items) {
-      setFavorites(paginatedData.items);
+    if (!paginatedData) {
+      return;
     }
-  }, [paginatedData]);
+    if (page === 0) {
+      setFavorites(paginatedData.items);
+    } else {
+      setFavorites(prev => [...prev, ...paginatedData.items]);
+    }
+    if (page + 1 >= paginatedData.meta.totalPages) {
+      setHasMore(false);
+    }
+  }, [page, paginatedData]);
 
   // Import favorites from ls and listen for their deletion
   useEffect(() => {
@@ -79,43 +93,36 @@ function Favorite() {
     };
   }, [importFavFromLs]);
 
-  // TODO add lazy pagination
-
   return (
     <PagePresenceWrapper>
       <div className="container favorite">
         <div className="favorite__body">
-          {favorites === null && (
-            <section className="favorite__wrapper">
-              <FavoriteSkeleton />
-              <FavoriteSkeleton />
-              <FavoriteSkeleton />
-            </section>
-          )}
-
-          {favorites?.length > 0 && (
+          {favorites.length > 0 ? (
             <>
-              <section className="favorite__wrapper">
+              <InfiniteScroll
+                dataLength={favorites.length}
+                height={rowHeight * 2}
+                next={requestNextPage}
+                hasMore={hasMore}
+                className="favorite__wrapper"
+                loader={<FavoriteSkeleton />}
+              >
                 <AnimatePresence>
-                  {favorites.map((fav: IFavorite) => (
+                  {favorites.map(fav => (
                     <FavoriteItem key={fav.openseaId} item={fav} />
                   ))}
                 </AnimatePresence>
 
-                {isLoading && <FavoriteSkeleton />}
-
                 {active === false &&
                   paginatedData?.meta.totalPages > 1 &&
                   Array.from(Array(3).keys()).map(i => <FavoriteSkeleton key={i} />)}
-              </section>
+              </InfiniteScroll>
 
-              {active === false && favorites.length >= freeFavoritesSize && (
+              {active === false && favorites.length >= FREE_FAVORITES_SIZE && (
                 <div className="favorite__loadMoreBtn">{renderFooterBtn()}</div>
               )}
             </>
-          )}
-
-          {favorites?.length === 0 && (
+          ) : (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

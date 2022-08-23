@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./giveaways.scss";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import GaATableItem from "@components/GaATableItem/GaATableItem";
 import Sidebar from "@components/Sidebar/Sidebar";
@@ -11,7 +12,7 @@ import {
   GiveawaysFilterBy,
   IFilterRequest,
 } from "@models/filters";
-import { GaaChannelTypes, IGaaItem, IGaaRequest, IMaxRangesGaa } from "@models/gaa";
+import { GaaChannelTypes, IGaaItem, IMaxRangesGaa } from "@models/gaa";
 import { useGetGiveawaysAndAnnouncementsMutation } from "@services/collections.api";
 import { selectFilterRequest } from "@store/state/filterSlice";
 import { useAppSelector } from "@store/store.hook";
@@ -19,12 +20,16 @@ import Button from "@UI/Button/Button";
 import TableFilterTitle from "@UI/TableFilterTitle/TableFilterTitle";
 import Tabs from "@UI/Tabs/Tabs";
 import Loader from "@components/UI/Loader/Loader";
+import { useRemToPx } from "@hooks/useRemToPx";
+import GaaItemSkeleton from "@components/UI/GaaItemSkeleton/GaaItemSkeleton";
 
 const gaaTabs = [
   { name: "All", type: GaaChannelTypes.all },
   { name: "Giveaways", type: GaaChannelTypes.giveaways },
   { name: "Announcements", type: GaaChannelTypes.announcement },
 ];
+
+const PER_PAGE = 6;
 
 function Giveaways() {
   const [activeTab, setActiveTab] = useState(gaaTabs[0]);
@@ -33,8 +38,10 @@ function Giveaways() {
   const filterRequest = useAppSelector(selectFilterRequest);
   const [fetchGaa, { data }] = useGetGiveawaysAndAnnouncementsMutation();
   const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
   const [localData, setLocalData] = useState<IGaaItem[]>(null);
   const [rangeData, setRangeData] = useState<IMaxRangesGaa>(null);
+  const { result: rowHeight } = useRemToPx(28.125);
 
   const initialRender = useRef(true);
   const sidebarRef = useRef(null);
@@ -44,7 +51,13 @@ function Giveaways() {
     sidebarRef.current.resetFunction();
   };
 
-  // Get filter max ranges
+  const requestNextPage = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    fetchGaa({ filter: filterRequest, type: activeTab.type, page: nextPage, perPage: PER_PAGE });
+  };
+
+  // Initial request and retrieve max ranges for filter
   useEffect(() => {
     const getMaxRanges = async () => {
       const initialFilter: IFilterRequest = {
@@ -66,6 +79,7 @@ function Giveaways() {
         filter: initialFilter,
         type: activeTab.type,
         page: 0,
+        perPage: PER_PAGE,
       }).unwrap();
       setRangeData(res.data.items.ranges);
       initialRender.current = false;
@@ -73,30 +87,28 @@ function Giveaways() {
     getMaxRanges();
   }, [activeTab.type, fetchGaa]);
 
-  // TODO pagination here
+  // Track incoming data
   useEffect(() => {
-    if (data?.data.items) {
-      setLocalData(data.data.items.collections);
+    if (!data) {
+      return;
     }
-  }, [data]);
+
+    if (page === 0) {
+      setLocalData(data.data.items.collections);
+    } else {
+      setLocalData(prev => [...prev, ...data.data.items.collections]);
+    }
+
+    if (page + 1 >= data.data.meta.totalPages) {
+      setHasMore(false);
+    }
+  }, [data, page]);
 
   // Observe filter change
   useDidMountEffect(() => {
-    const requestCollections = async () => {
-      const req: IGaaRequest = {
-        filter: filterRequest,
-        type: activeTab.type,
-        page,
-      };
-      try {
-        const res = await fetchGaa(req).unwrap();
-        setLocalData(res.data.items.collections);
-        // TODO get range data on tabs change
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    requestCollections();
+    setPage(0);
+    setHasMore(true);
+    fetchGaa({ filter: filterRequest, type: activeTab.type, page: 0, perPage: PER_PAGE });
   }, [filterRequest]);
 
   if (initialRender.current) {
@@ -160,11 +172,17 @@ function Giveaways() {
           </div>
 
           {localData?.length > 0 ? (
-            <div className="giveaways__body">
+            <InfiniteScroll
+              dataLength={localData.length}
+              height={rowHeight * 2}
+              next={requestNextPage}
+              hasMore={hasMore}
+              loader={<GaaItemSkeleton />}
+            >
               {localData.map((item, idx) => (
                 <GaATableItem key={idx} item={item} />
               ))}
-            </div>
+            </InfiniteScroll>
           ) : (
             <div className="giveaways__empty">
               <h2>No Giveaways and Announcements found for this search</h2>
