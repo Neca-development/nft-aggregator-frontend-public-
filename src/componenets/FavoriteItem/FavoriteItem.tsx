@@ -25,8 +25,8 @@ const FavoriteItem = ({ item }: IFavoriteItemProps) => {
   const { removeFromFavorite } = useFavorite(item.openseaId);
   const [desiredTab, setDesiredTab] = useState(collectionTabs[0]);
   const [hasNewMessages, setHasNewMessages] = useState({
-    discord: item.discordNewMessages > 0 ? true : false,
-    twitter: item.twitterNewMessages > 0 ? true : false,
+    discord: item.discordNewMessages > 0,
+    twitter: item.twitterNewMessages > 0,
   });
 
   const handleRemoveFromFav = async () => {

@@ -50,19 +50,15 @@ const CollectionModal = ({
     if (data.isFavorite === false) {
       return;
     }
-    if (activeTab === collectionTabs[0]) {
-      if (isDiscordRead.current === false) {
-        await markDiscordAsRead(collectionId);
-        hideMessagesBadge && hideMessagesBadge("discord");
-        isDiscordRead.current = true;
-      }
+    if (activeTab === collectionTabs[0] && isDiscordRead.current === false) {
+      await markDiscordAsRead(collectionId);
+      hideMessagesBadge && hideMessagesBadge("discord");
+      isDiscordRead.current = true;
     }
-    if (activeTab === collectionTabs[1]) {
-      if (isTwitterRead.current === false) {
-        await markTwitterAsRead(collectionId);
-        hideMessagesBadge && hideMessagesBadge("twitter");
-        isTwitterRead.current = true;
-      }
+    if (activeTab === collectionTabs[1] && isTwitterRead.current === false) {
+      await markTwitterAsRead(collectionId);
+      hideMessagesBadge && hideMessagesBadge("twitter");
+      isTwitterRead.current = true;
     }
   };
 
