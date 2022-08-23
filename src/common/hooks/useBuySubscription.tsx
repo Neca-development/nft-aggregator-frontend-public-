@@ -48,7 +48,7 @@ const useBuySubscription = () => {
         break;
       default:
       case "None":
-        dispatch(setTransactionStatus(TransactionState.unknown));
+        dispatch(setTransactionStatus(TransactionState.null));
     }
 
     return () => {
