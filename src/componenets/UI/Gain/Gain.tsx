@@ -1,35 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
 import "./gain.scss";
 import ArrowUp from "@assets/icons/arrow-up.svg";
 import ArrowDown from "@assets/icons/arrow-down.svg";
 
 const Gain = ({ change }: { change: number | string }) => {
-  const formatChange = (change: number | string) => {
-    if (+change === 0) {
-      return 0;
-    } else {
-      return Math.abs(+change).toFixed(3);
-    }
+  const [value, setValue] = useState(0);
+
+  const roundChange = (change: number | string) => {
+    return +Number(change).toFixed(1);
   };
 
-  if (+change === 0) {
-    return <span className="gain">{formatChange(change)}%</span>;
+  useEffect(() => {
+    setValue(roundChange(change));
+  }, [change]);
+
+  if (value === 0) {
+    return <span className="gain">{value}%</span>;
   }
 
-  if (+change > 0) {
+  if (value > 0) {
     return (
       <span className="gain gain_positive">
         <ArrowUp />
-        {formatChange(change)}%
+        {value}%
       </span>
     );
   }
 
-  if (+change < 0) {
+  if (value < 0) {
     return (
       <span className="gain gain_negative">
         <ArrowDown />
-        {formatChange(change)}%
+        {Math.abs(value)}%
       </span>
     );
   }

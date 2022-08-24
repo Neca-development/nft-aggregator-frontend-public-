@@ -9,7 +9,7 @@ import Button from "@UI/Button/Button";
 import EtherBlue from "@assets/icons/ether-blue.svg";
 import Gain from "@UI/Gain/Gain";
 import SocialIcon from "@UI/SocialIcon/SocialIcon";
-import { createTwitterLink, formatDate, kFormatter, roundNumber } from "@utils/utils";
+import { createTwitterLink, formatDate, kFormatter, roundFloorPrice } from "@utils/utils";
 import { ICollection } from "@models/collection";
 import useTextParser from "@hooks/useTextParser";
 
@@ -43,7 +43,7 @@ const CollectionInfo = ({ data, handleClickFav, isFavorite }: ICollectionInfoPro
 
       <div className="colModalInfo__mainNumbers">
         <p>
-          Collection size <span>{data.size.toLocaleString()}</span>
+          Collection size <span>{kFormatter(data.size)}</span>
         </p>
         <p>
           Owners <span>{kFormatter(data.owners)}</span>
@@ -65,7 +65,7 @@ const CollectionInfo = ({ data, handleClickFav, isFavorite }: ICollectionInfoPro
             Floor price
             <span>
               <EtherBlue />
-              {roundNumber(data.floorPrice)}
+              {roundFloorPrice(data.floorPrice)}
             </span>
           </p>
         </div>
@@ -74,7 +74,7 @@ const CollectionInfo = ({ data, handleClickFav, isFavorite }: ICollectionInfoPro
             Volume traded
             <span>
               <EtherBlue />
-              {roundNumber(data.volumeTraded)}
+              {kFormatter(+data.volumeTraded)}
             </span>
           </p>
         </div>

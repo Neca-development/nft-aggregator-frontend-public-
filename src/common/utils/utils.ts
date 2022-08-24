@@ -5,9 +5,13 @@ import { ICollection } from "@models/collection";
 import { IFavorite } from "@models/favorite";
 
 export function kFormatter(num: number) {
-  return Math.abs(num) > 999
-    ? Math.sign(num) * +(Math.abs(num) / 1000).toFixed(1) + "K"
-    : Math.sign(num) * Math.abs(num);
+  if (Math.abs(num) > 999999) {
+    return Math.sign(num) * +(Math.abs(num) / 1000000).toFixed(1) + "M";
+  }
+  if (Math.abs(num) > 999) {
+    return Math.sign(num) * +(Math.abs(num) / 1000).toFixed(1) + "k";
+  }
+  return Math.sign(num) * +Math.abs(num).toFixed(2);
 }
 
 export function hundredFormatter(num: number) {
@@ -67,4 +71,8 @@ export const calculateInputStep = (maxValue: number) => {
 export const calculateMaxRange = (maxValue: number) => {
   const oneStepValue = calculateInputStep(maxValue);
   return +(oneStepValue * (100 / RANGE_INPUT_STEP_PERCENT) + oneStepValue).toFixed(4);
+};
+
+export const roundFloorPrice = (floorPrice: string | number) => {
+  return parseFloat(Number(floorPrice).toFixed(4));
 };
