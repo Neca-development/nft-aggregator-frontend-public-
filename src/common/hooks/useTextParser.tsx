@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-type TextParserProps = {
-  children: string;
+type TextParserOptions = {
   contentFrom?: "twitter" | "discord";
   renderAs: "p" | "div";
   className?: string;
 };
 
-export default function TextParser({
-  children,
-  contentFrom,
-  renderAs,
-  className,
-}: TextParserProps) {
+export default function useTextParser(
+  content: string,
+  { contentFrom, renderAs, className }: TextParserOptions
+) {
   const [result, setResult] = useState("");
 
   const replaceLinks = (input: string) => {
@@ -48,14 +45,14 @@ export default function TextParser({
 
   useEffect(() => {
     let res = "";
-    res = replaceBreaks(children);
+    res = replaceBreaks(content);
     res = replaceLinks(res);
     if (contentFrom === "twitter") {
       res = convertTwitterNameToLink(res);
       res = convertTwitterHashtagToLink(res);
     }
     setResult(res);
-  }, [children, contentFrom]);
+  }, [content, contentFrom]);
 
   switch (renderAs) {
     case "p":

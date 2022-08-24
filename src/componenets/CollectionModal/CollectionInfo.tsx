@@ -11,7 +11,7 @@ import Gain from "@UI/Gain/Gain";
 import SocialIcon from "@UI/SocialIcon/SocialIcon";
 import { createTwitterLink, formatDate, kFormatter, roundNumber } from "@utils/utils";
 import { ICollection } from "@models/collection";
-import TextParser from "@utils/TextParser";
+import useTextParser from "@hooks/useTextParser";
 
 interface ICollectionInfoProps {
   data: ICollection;
@@ -21,6 +21,7 @@ interface ICollectionInfoProps {
 
 const CollectionInfo = ({ data, handleClickFav, isFavorite }: ICollectionInfoProps) => {
   const [showFullDescr, setShowFullDescr] = useState(false);
+  const parsedDescription = useTextParser(data.description, { renderAs: "p" });
 
   const toggleShowFullDescr = () => {
     setShowFullDescr(!showFullDescr);
@@ -98,7 +99,7 @@ const CollectionInfo = ({ data, handleClickFav, isFavorite }: ICollectionInfoPro
           colModalInfo__about_full: showFullDescr === true,
         })}
       >
-        <TextParser renderAs="p">{data.description}</TextParser>
+        {parsedDescription}
 
         {data.description.length > 100 && (
           <button onClick={toggleShowFullDescr}>{showFullDescr ? "close" : "show more"}</button>

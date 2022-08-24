@@ -2,7 +2,7 @@ import React from "react";
 import "./collectionModal.scss";
 
 import { formatDate } from "@utils/utils";
-import TextParser from "@utils/TextParser";
+import useTextParser from "@hooks/useTextParser";
 
 type SingleMessageProps = {
   avatar: string;
@@ -13,6 +13,11 @@ type SingleMessageProps = {
 
 const SingleMessage = React.forwardRef((props: SingleMessageProps, ref: any) => {
   const { avatar, name, createdAt, message } = props;
+  const parsedMessage = useTextParser(message, {
+    contentFrom: "twitter",
+    className: "singleMessage__text",
+    renderAs: "p",
+  });
 
   return (
     <div className="mesg__item singleMessage" ref={ref}>
@@ -21,9 +26,7 @@ const SingleMessage = React.forwardRef((props: SingleMessageProps, ref: any) => 
         <p>{name}</p>
         <span>{formatDate(createdAt)}</span>
       </div>
-      <TextParser renderAs="p" contentFrom="twitter" className="singleMessage__text">
-        {message}
-      </TextParser>
+      {parsedMessage}
     </div>
   );
 });
