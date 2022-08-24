@@ -1,8 +1,8 @@
 import React from "react";
 import "./collectionModal.scss";
-import Linkify from "react-linkify";
 
 import { formatDate } from "@utils/utils";
+import TextParser from "@utils/TextParser";
 
 type SingleMessageProps = {
   avatar: string;
@@ -21,9 +21,9 @@ const SingleMessage = React.forwardRef((props: SingleMessageProps, ref: any) => 
         <p>{name}</p>
         <span>{formatDate(createdAt)}</span>
       </div>
-      <Linkify>
-        <p className="singleMessage__text">{message}</p>
-      </Linkify>
+      <TextParser renderAs="p" contentFrom="twitter" className="singleMessage__text">
+        {message}
+      </TextParser>
     </div>
   );
 });
