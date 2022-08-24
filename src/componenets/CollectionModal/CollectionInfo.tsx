@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import classNames from "classnames";
-import Linkify from "react-linkify";
 
 import ItemBannerBlock from "@components/UI/ItemBannerBlock/ItemBannerBlock";
 import "./collectionModal.scss";
@@ -12,6 +11,7 @@ import Gain from "@UI/Gain/Gain";
 import SocialIcon from "@UI/SocialIcon/SocialIcon";
 import { createTwitterLink, formatDate, kFormatter, roundNumber } from "@utils/utils";
 import { ICollection } from "@models/collection";
+import useTextParser from "@hooks/useTextParser";
 
 interface ICollectionInfoProps {
   data: ICollection;
@@ -21,6 +21,7 @@ interface ICollectionInfoProps {
 
 const CollectionInfo = ({ data, handleClickFav, isFavorite }: ICollectionInfoProps) => {
   const [showFullDescr, setShowFullDescr] = useState(false);
+  const parsedDescription = useTextParser(data.description, { renderAs: "p" });
 
   const toggleShowFullDescr = () => {
     setShowFullDescr(!showFullDescr);
@@ -98,15 +99,7 @@ const CollectionInfo = ({ data, handleClickFav, isFavorite }: ICollectionInfoPro
           colModalInfo__about_full: showFullDescr === true,
         })}
       >
-        <Linkify
-          componentDecorator={(decoratedHref, decoratedText, key) => (
-            <a target="blank" href={decoratedHref} key={key}>
-              {decoratedText}
-            </a>
-          )}
-        >
-          <p>{data.description}</p>
-        </Linkify>
+        {parsedDescription}
 
         {data.description.length > 100 && (
           <button onClick={toggleShowFullDescr}>{showFullDescr ? "close" : "show more"}</button>
