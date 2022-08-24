@@ -88,7 +88,7 @@ export default function TwitterMessages({
           {isLoading && <MessageItemSkeleton />}
         </div>
       ) : (
-        <div className="noMessages">No messages from Twitter</div>
+        <div className="noMessages">There are no messages in Twitter</div>
       )}
     </>
   );

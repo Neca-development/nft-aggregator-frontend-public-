@@ -55,6 +55,10 @@ const useFavorite = (itemId: string) => {
     if (active === false && userFavorites.items.length >= FREE_FAVORITES_SIZE) {
       return FavoriteFunctionStatus.limit;
     }
+    // TODO get userFavorites length
+    // if (active === false) {
+    //   return FavoriteFunctionStatus.limit;
+    // }
     const response = await putToFavorites(itemId).unwrap();
     if (response.status !== 200) {
       return FavoriteFunctionStatus.error;

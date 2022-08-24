@@ -1,18 +1,30 @@
-import BaseModal from "@components/UI/BaseModal/BaseModal";
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
+import BaseModal from "@components/UI/BaseModal/BaseModal";
 import "./transProcModal.scss";
+import Button from "@components/UI/Button/Button";
 
 interface ITransactionProcessingModalProps {
   isOpen: boolean;
-  onClose: React.Dispatch<React.SetStateAction<boolean>>;
+  onClose: () => void;
 }
 
 const TransactionProcessingModal = ({ isOpen, onClose }: ITransactionProcessingModalProps) => {
+  const navigate = useNavigate();
+
+  const closeAndNavigate = () => {
+    onClose();
+    navigate("/profile");
+  };
+
   return (
     <BaseModal isOpen={isOpen} closeModal={onClose}>
       <div className="transProcModal">
         <h3>Transaction processing</h3>
-        <div>Some loader here...</div>
+        <Button size="large" onClick={closeAndNavigate}>
+          Profile
+        </Button>
       </div>
     </BaseModal>
   );

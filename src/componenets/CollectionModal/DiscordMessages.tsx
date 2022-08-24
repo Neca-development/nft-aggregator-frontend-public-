@@ -89,7 +89,7 @@ export default function DiscordMessages({
           {isLoading && <MessageItemSkeleton />}
         </div>
       ) : (
-        <div className="noMessages">No messages from Discord</div>
+        <div className="noMessages">There are no messages in Discord</div>
       )}
     </>
   );

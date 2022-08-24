@@ -115,7 +115,7 @@ function Profile(props: IProfileProps) {
           <p>Subscription cost: 0.02 ETH</p>
           {transactionState === TransactionState.pending ? (
             <Button variant="gradient" size="large">
-              Sending transaction....
+              Pending transaction....
             </Button>
           ) : (
             <Button variant="gradient" size="large" onClick={buySubscription}>
