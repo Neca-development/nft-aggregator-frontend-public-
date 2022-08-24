@@ -4,7 +4,7 @@ import "./collectionTableItem.scss";
 import { motion } from "framer-motion";
 
 import LinkIcon from "@assets/icons/link.svg";
-import { createTwitterLink, kFormatter } from "@utils/utils";
+import { createTwitterLink, kFormatter, roundFloorPrice } from "@utils/utils";
 import { ICollection } from "@models/collection";
 import Heart from "@UI/Heart/Heart";
 import CollectionModal from "@components/CollectionModal/CollectionModal";
@@ -71,6 +71,8 @@ const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
 
     if (!isLoggedIn) {
       checkItemInLs();
+    } else {
+      setLocalItem(item);
     }
   }, [getFavFromLs, isLoggedIn, item]);
 
@@ -90,7 +92,7 @@ const CollectionTableItem = ({ item }: ICollectionTableItemProps) => {
         <p className="collectionTableItem__textSize">{item.size.toLocaleString()}</p>
         <p>
           <EthereumIcon />
-          {item.floorPrice}
+          {roundFloorPrice(item.floorPrice)}
         </p>
         <Gain change={item.dailyChange} />
         <p>

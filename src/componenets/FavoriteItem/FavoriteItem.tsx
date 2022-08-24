@@ -11,7 +11,7 @@ import Gain from "@UI/Gain/Gain";
 import ItemBannerBlock from "@UI/ItemBannerBlock/ItemBannerBlock";
 import CollectionModal from "@components/CollectionModal/CollectionModal";
 import EthereumIcon from "@UI/EthereumIcon/EthereumIcon";
-import { hundredFormatter } from "@utils/utils";
+import { hundredFormatter, roundFloorPrice } from "@utils/utils";
 import useFavorite from "@hooks/useFavorite";
 import { collectionTabs } from "@constants/constant";
 import { ITab } from "@components/UI/Tabs/Tabs";
@@ -65,7 +65,7 @@ const FavoriteItem = ({ item }: IFavoriteItemProps) => {
         <div className="favItem__stats">
           <p style={{ marginRight: "0.5rem" }}>
             Floor price <EthereumIcon />
-            {item.floorPrice}
+            {roundFloorPrice(item.floorPrice)}
           </p>
           <p>
             24h change

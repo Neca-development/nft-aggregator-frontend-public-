@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import { GaaChannelTypes, IGaaItem } from "@models/gaa";
 import "./gaaTableItem.scss";
 import Button from "@UI/Button/Button";
@@ -6,6 +7,7 @@ import SocialIcon from "@UI/SocialIcon/SocialIcon";
 import ItemBannerBlock from "@UI/ItemBannerBlock/ItemBannerBlock";
 import GiveawayAnnounceModal from "@components/GiveawayAnnounceModal/GiveawaysAnnounceModal";
 import EthereumIcon from "@UI/EthereumIcon/EthereumIcon";
+import { kFormatter, roundFloorPrice } from "@utils/utils";
 
 const GaATableItem = ({ item }: { item: IGaaItem }) => {
   const [showItemModal, setShowItemModal] = useState(false);
@@ -19,11 +21,11 @@ const GaATableItem = ({ item }: { item: IGaaItem }) => {
           <h3>{item.name}</h3>
           <div className="gaaItem__stat">
             <p>
-              NFT: {item.size.toLocaleString()} <span>items</span>
+              NFT: {kFormatter(item.size)} <span>items</span>
             </p>
             <p className="gaaItem__price">
               Floor price: <EthereumIcon />
-              {item.floorPrice}
+              {roundFloorPrice(item.floorPrice)}
             </p>
           </div>
           {item.discordMessage.channelType === GaaChannelTypes.giveaways && (
@@ -37,7 +39,13 @@ const GaATableItem = ({ item }: { item: IGaaItem }) => {
 
         <div className="gaaItem__controls">
           <Button onClick={() => setShowItemModal(true)}>Expand</Button>
-          <SocialIcon community="discord" number={99200} link="/" showLinkIcon={true} />
+          <SocialIcon
+            community="discord"
+            number={item.discordMembersCount}
+            // !!! NEED LINK TO DISCORD
+            link="/"
+            showLinkIcon={true}
+          />
         </div>
       </article>
 
