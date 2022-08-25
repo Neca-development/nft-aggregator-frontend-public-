@@ -1,13 +1,9 @@
 import { useCallback } from "react";
 
 import { FREE_FAVORITES_SIZE } from "@constants/constant";
-import {
-  useAddToFavoriteMutation,
-  useGetUserFavoritesQuery,
-  useRemoveFromFavoriteMutation,
-} from "@services/users.api";
-import { selectUserData } from "@store/state/userSlice";
-import { useAppSelector } from "@store/store.hook";
+import { useAddToFavoriteMutation, useRemoveFromFavoriteMutation } from "@services/users.api";
+import { selectUserData, setFavoritesNumber } from "@store/state/userSlice";
+import { useAppDispatch, useAppSelector } from "@store/store.hook";
 
 export enum FavoriteFunctionStatus {
   success = "success",
@@ -16,10 +12,10 @@ export enum FavoriteFunctionStatus {
 }
 
 const useFavorite = (itemId: string) => {
-  const { active, isLoggedIn } = useAppSelector(selectUserData);
+  const { active, isLoggedIn, favoritesNumber } = useAppSelector(selectUserData);
   const [putToFavorites] = useAddToFavoriteMutation();
   const [deleteFromFavorites] = useRemoveFromFavoriteMutation();
-  const { data: userFavorites } = useGetUserFavoritesQuery({ page: 0 }, { skip: !isLoggedIn });
+  const dispatch = useAppDispatch();
 
   const getFavFromLs = useCallback(() => {
     const favorites = JSON.parse(localStorage.getItem("favorites"));
@@ -52,17 +48,14 @@ const useFavorite = (itemId: string) => {
   };
 
   const serverAddToFav = async () => {
-    if (active === false && userFavorites.items.length >= FREE_FAVORITES_SIZE) {
+    if (active === false && favoritesNumber >= FREE_FAVORITES_SIZE) {
       return FavoriteFunctionStatus.limit;
     }
-    // TODO get userFavorites length
-    // if (active === false) {
-    //   return FavoriteFunctionStatus.limit;
-    // }
     const response = await putToFavorites(itemId).unwrap();
     if (response.status !== 200) {
       return FavoriteFunctionStatus.error;
     } else {
+      dispatch(setFavoritesNumber(favoritesNumber + 1));
       return FavoriteFunctionStatus.success;
     }
   };
@@ -72,6 +65,7 @@ const useFavorite = (itemId: string) => {
     if (response.status !== 200) {
       return FavoriteFunctionStatus.error;
     } else {
+      dispatch(setFavoritesNumber(favoritesNumber - 1));
       return FavoriteFunctionStatus.success;
     }
   };

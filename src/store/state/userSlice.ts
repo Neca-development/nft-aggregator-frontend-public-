@@ -7,6 +7,7 @@ import { RootState } from "../store";
 
 interface IUserSlice extends ISubscriptionState {
   isLoggedIn: boolean;
+  favoritesNumber: number;
 }
 
 const initialState: IUserSlice = {
@@ -15,6 +16,7 @@ const initialState: IUserSlice = {
   expiresAt: "",
   isNewUser: true,
   transactionState: TransactionState.success,
+  favoritesNumber: 0,
 };
 
 export const userSlice = createSlice({
@@ -33,6 +35,9 @@ export const userSlice = createSlice({
     setTransactionStatus: (state, action: PayloadAction<TransactionState>) => {
       state.transactionState = action.payload;
     },
+    setFavoritesNumber: (state, action: PayloadAction<number>) => {
+      state.favoritesNumber = action.payload;
+    },
   },
   extraReducers: builder => {
     builder.addMatcher(
@@ -50,8 +55,13 @@ export const userSlice = createSlice({
   },
 });
 
-export const { clearUserState, setLoggedIn, setLoggedOut, setTransactionStatus } =
-  userSlice.actions;
+export const {
+  clearUserState,
+  setLoggedIn,
+  setLoggedOut,
+  setTransactionStatus,
+  setFavoritesNumber,
+} = userSlice.actions;
 
 export const selectUserData = (state: RootState) => state.user;
 

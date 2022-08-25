@@ -18,9 +18,10 @@ import { ITab } from "@components/UI/Tabs/Tabs";
 
 interface IFavoriteItemProps {
   item: IFavorite;
+  removeFavFromList: (itemId: string) => void;
 }
 
-const FavoriteItem = ({ item }: IFavoriteItemProps) => {
+const FavoriteItem = ({ item, removeFavFromList }: IFavoriteItemProps) => {
   const [showCollectionModal, setShowCollectionModal] = useState(false);
   const { removeFromFavorite } = useFavorite(item.openseaId);
   const [desiredTab, setDesiredTab] = useState(collectionTabs[0]);
@@ -31,6 +32,7 @@ const FavoriteItem = ({ item }: IFavoriteItemProps) => {
 
   const handleRemoveFromFav = async () => {
     await removeFromFavorite();
+    removeFavFromList(item.openseaId);
   };
 
   const openModalWithDesiredTab = (tab: ITab) => {

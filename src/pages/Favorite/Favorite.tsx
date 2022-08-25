@@ -20,7 +20,7 @@ import { useLazyGetCollectionByIdQuery } from "@services/collections.api";
 import { useRemToPx } from "@hooks/useRemToPx";
 
 function Favorite() {
-  const { active, isLoggedIn } = useAppSelector(selectUserData);
+  const { active, isLoggedIn, favoritesNumber } = useAppSelector(selectUserData);
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -58,7 +58,7 @@ function Favorite() {
         </Button>
       );
     }
-    if (active === false) {
+    if (active === false && favoritesNumber > FREE_FAVORITES_SIZE) {
       return (
         <Button size="large" variant="gradient" onClick={() => setShowLimitModal(true)}>
           Load more
@@ -69,6 +69,16 @@ function Favorite() {
 
   const requestNextPage = () => {
     setPage(prev => prev + 1);
+  };
+
+  const removeFavFromList = (itemId: string) => {
+    const fIdx = favorites.findIndex(item => item.openseaId === itemId);
+    if (fIdx < 0) {
+      return;
+    }
+    const newArr = [...favorites];
+    newArr.splice(fIdx, 1);
+    setFavorites(newArr);
   };
 
   // Write incoming data
@@ -117,7 +127,11 @@ function Favorite() {
                 <div className="favorite__wrapper">
                   <AnimatePresence>
                     {favorites.map(fav => (
-                      <FavoriteItem key={fav.openseaId} item={fav} />
+                      <FavoriteItem
+                        key={fav.openseaId}
+                        item={fav}
+                        removeFavFromList={removeFavFromList}
+                      />
                     ))}
                   </AnimatePresence>
                 </div>
