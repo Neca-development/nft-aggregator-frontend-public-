@@ -18,7 +18,7 @@ import TableFilterTitle from "@UI/TableFilterTitle/TableFilterTitle";
 import Loader from "@components/UI/Loader/Loader";
 import { useRemToPx } from "@hooks/useRemToPx";
 
-const PER_PAGE = 10;
+const PER_PAGE = 9;
 
 function Collections() {
   const [activeFilter, setActiveFilter] = useState(CollectionsFilterBy.name);

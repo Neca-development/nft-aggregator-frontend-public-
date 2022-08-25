@@ -24,7 +24,10 @@ function Favorite() {
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const { data: paginatedData } = useGetUserFavoritesQuery({ page }, { skip: !isLoggedIn });
+  const { data: paginatedData } = useGetUserFavoritesQuery(
+    { page, perPage: 9 },
+    { skip: !isLoggedIn }
+  );
   const [requestCollectionById] = useLazyGetCollectionByIdQuery();
   const [favorites, setFavorites] = useState<IFavorite[]>([]);
   const [showLimitModal, setShowLimitModal] = useState(false);
@@ -73,6 +76,9 @@ function Favorite() {
     if (!paginatedData) {
       return;
     }
+
+    window.removeEventListener("storage", importFavFromLs);
+
     if (page === 0) {
       setFavorites(paginatedData.items);
     } else {
@@ -80,8 +86,10 @@ function Favorite() {
     }
     if (page + 1 >= paginatedData.meta.totalPages) {
       setHasMore(false);
+    } else {
+      setHasMore(true);
     }
-  }, [page, paginatedData]);
+  }, [paginatedData]);
 
   // Import favorites from ls and listen for their deletion
   useEffect(() => {
@@ -104,14 +112,15 @@ function Favorite() {
                 height={rowHeight * 2}
                 next={requestNextPage}
                 hasMore={hasMore}
-                className="favorite__wrapper"
                 loader={<FavoriteSkeleton />}
               >
-                <AnimatePresence>
-                  {favorites.map(fav => (
-                    <FavoriteItem key={fav.openseaId} item={fav} />
-                  ))}
-                </AnimatePresence>
+                <div className="favorite__wrapper">
+                  <AnimatePresence>
+                    {favorites.map(fav => (
+                      <FavoriteItem key={fav.openseaId} item={fav} />
+                    ))}
+                  </AnimatePresence>
+                </div>
 
                 {active === false &&
                   paginatedData?.meta.totalPages > 1 &&
