@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -17,7 +17,6 @@ import useFavorite from "@hooks/useFavorite";
 import PagePresenceWrapper from "@components/UI/PagePresenceWrapper";
 import { useGetUserFavoritesQuery } from "@services/users.api";
 import { useLazyGetCollectionByIdQuery } from "@services/collections.api";
-import { useRemToPx } from "@hooks/useRemToPx";
 
 function Favorite() {
   const { active, isLoggedIn, favoritesNumber } = useAppSelector(selectUserData);
@@ -32,7 +31,8 @@ function Favorite() {
   const [favorites, setFavorites] = useState<IFavorite[]>([]);
   const [showLimitModal, setShowLimitModal] = useState(false);
   const { getFavFromLs } = useFavorite(null);
-  const { result: rowHeight } = useRemToPx(22);
+  const bottomGradientTriggerRef = useRef(null);
+  const [isGradientVisible, setIsGradientVisible] = useState(true);
 
   const importFavFromLs = useCallback(async () => {
     if (isLoggedIn) {
@@ -81,6 +81,11 @@ function Favorite() {
     setFavorites(newArr);
   };
 
+  const toggleBottomGradient = entries => {
+    const [entry] = entries;
+    setIsGradientVisible(!entry.isIntersecting);
+  };
+
   // Write incoming data
   useEffect(() => {
     if (!paginatedData) {
@@ -111,6 +116,23 @@ function Favorite() {
     };
   }, [importFavFromLs]);
 
+  // Observer for bottom gradient
+  useEffect(() => {
+    const observer = new IntersectionObserver(toggleBottomGradient, {
+      root: null,
+      rootMargin: "0px",
+      threshold: 1.0,
+    });
+    if (bottomGradientTriggerRef.current) {
+      observer.observe(bottomGradientTriggerRef.current);
+    }
+    return () => {
+      if (bottomGradientTriggerRef.current) {
+        observer.unobserve(bottomGradientTriggerRef.current);
+      }
+    };
+  }, [bottomGradientTriggerRef.current]);
+
   return (
     <PagePresenceWrapper>
       <div className="container favorite">
@@ -119,7 +141,7 @@ function Favorite() {
             <>
               <InfiniteScroll
                 dataLength={favorites.length}
-                height={rowHeight * 2}
+                height={document.documentElement.clientHeight * 0.8}
                 next={requestNextPage}
                 hasMore={hasMore}
                 loader={<FavoriteSkeleton />}
@@ -139,11 +161,18 @@ function Favorite() {
                 {active === false &&
                   paginatedData?.meta.totalPages > 1 &&
                   Array.from(Array(3).keys()).map(i => <FavoriteSkeleton key={i} />)}
+
+                <div ref={bottomGradientTriggerRef}></div>
               </InfiniteScroll>
 
               {active === false && favorites.length >= FREE_FAVORITES_SIZE && (
                 <div className="favorite__loadMoreBtn">{renderFooterBtn()}</div>
               )}
+
+              <motion.div
+                animate={{ opacity: isGradientVisible ? 1 : 0 }}
+                className="favorite__bottomGradient"
+              ></motion.div>
             </>
           ) : (
             <motion.div

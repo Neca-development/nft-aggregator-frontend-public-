@@ -20,7 +20,6 @@ import Button from "@UI/Button/Button";
 import TableFilterTitle from "@UI/TableFilterTitle/TableFilterTitle";
 import Tabs from "@UI/Tabs/Tabs";
 import Loader from "@components/UI/Loader/Loader";
-import { useRemToPx } from "@hooks/useRemToPx";
 import GaaItemSkeleton from "@components/UI/GaaItemSkeleton/GaaItemSkeleton";
 
 const gaaTabs = [
@@ -41,7 +40,6 @@ function Giveaways() {
   const [hasMore, setHasMore] = useState(true);
   const [localData, setLocalData] = useState<IGaaItem[]>(null);
   const [rangeData, setRangeData] = useState<IMaxRangesGaa>(null);
-  const { result: rowHeight } = useRemToPx(28.125);
 
   const initialRender = useRef(true);
   const sidebarRef = useRef(null);
@@ -174,7 +172,7 @@ function Giveaways() {
           {localData?.length > 0 ? (
             <InfiniteScroll
               dataLength={localData.length}
-              height={rowHeight * 2}
+              height={window.innerHeight * 0.75}
               next={requestNextPage}
               hasMore={hasMore}
               loader={<GaaItemSkeleton />}

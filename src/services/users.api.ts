@@ -9,12 +9,14 @@ export const usersApi = baseApi.injectEndpoints({
       query: ({ page, perPage = 9 }) =>
         `users/favorites/collections?page=${page}&perPage=${perPage}`,
       transformResponse: (response: IBaseResponse) => response.data,
+      providesTags: ["Favorites"],
     }),
     addToFavorite: builder.mutation<IBaseResponse, string>({
       query: collectionId => ({
         url: `users/favorites/collections/${collectionId}`,
         method: "PUT",
       }),
+      invalidatesTags: ["Favorites"],
     }),
     removeFromFavorite: builder.mutation<IBaseResponse, string>({
       query: collectionId => ({

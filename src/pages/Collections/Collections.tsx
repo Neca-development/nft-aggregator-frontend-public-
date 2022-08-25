@@ -16,9 +16,8 @@ import { useAppSelector } from "@store/store.hook";
 import Button from "@UI/Button/Button";
 import TableFilterTitle from "@UI/TableFilterTitle/TableFilterTitle";
 import Loader from "@components/UI/Loader/Loader";
-import { useRemToPx } from "@hooks/useRemToPx";
 
-const PER_PAGE = 9;
+const PER_PAGE = 12;
 
 function Collections() {
   const [activeFilter, setActiveFilter] = useState(CollectionsFilterBy.name);
@@ -31,7 +30,6 @@ function Collections() {
   const [rangeData, setRangeData] = useState<IMaxRanges>(null);
   const initialRender = useRef(true);
   const sidebarRef = useRef(null);
-  const { result: rowHeight } = useRemToPx(3.875);
 
   const handleResetSearch = () => {
     sidebarRef.current.resetFunction();
@@ -181,7 +179,7 @@ function Collections() {
           {localData?.length > 0 ? (
             <InfiniteScroll
               dataLength={localData.length}
-              height={rowHeight * PER_PAGE}
+              height={window.innerHeight * 0.75}
               next={requestNextPage}
               hasMore={hasMore}
               loader={<CollectionItemSkeleton />}
