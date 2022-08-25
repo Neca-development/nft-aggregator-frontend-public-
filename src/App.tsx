@@ -14,10 +14,11 @@ import Collections from "@pages/Collections/Collections";
 import Favorite from "@pages/Favorite/Favorite";
 import Giveaways from "@pages/Giveaways/Giveaways";
 import Profile from "@pages/Profile/Profile";
-import { clearUserState } from "@store/state/userSlice";
+import { clearUserState, setFavoritesNumber } from "@store/state/userSlice";
 import { useGetSubscriptionStateQuery } from "@services/payment.api";
 import RequireSubscriptionGuard from "@pages/RequireSubscriptionGuard";
 import { userHasSignature } from "@utils/utils";
+import { useLazyGetUserFavoritesQuery } from "@services/users.api";
 
 function App() {
   const location = useLocation();
@@ -30,6 +31,7 @@ function App() {
   const { refetch: getSubState, error: loginError } = useGetSubscriptionStateQuery(null, {
     skip: !account,
   });
+  const [getUserFavorites] = useLazyGetUserFavoritesQuery();
 
   const [showNoSignModal, setShowNoSignModal] = useState(false);
 
@@ -49,6 +51,12 @@ function App() {
       }
     };
 
+    const requestUserFavoritesNumber = async () => {
+      const resp = await getUserFavorites({ page: 0 }).unwrap();
+      const favNumber = resp.items.length;
+      dispatch(setFavoritesNumber(favNumber));
+    };
+
     if (account) {
       checkNetwork();
 
@@ -60,8 +68,19 @@ function App() {
       if (userHasSignature() && (loginError?.status === 401 || loginError?.status === 403)) {
         askForSignature();
       }
+
+      requestUserFavoritesNumber();
     }
-  }, [account, checkNetwork, deactivate, dispatch, getSubState, loginError, signMessage]);
+  }, [
+    account,
+    checkNetwork,
+    deactivate,
+    dispatch,
+    getSubState,
+    getUserFavorites,
+    loginError,
+    signMessage,
+  ]);
 
   return (
     <div className="App">
