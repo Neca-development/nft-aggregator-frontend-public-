@@ -9,12 +9,13 @@ type SingleMessageProps = {
   name: string;
   createdAt: string;
   message: string;
+  contentFrom: "discord" | "twitter";
 };
 
 const SingleMessage = React.forwardRef((props: SingleMessageProps, ref: any) => {
-  const { avatar, name, createdAt, message } = props;
+  const { avatar, name, createdAt, message, contentFrom } = props;
   const parsedMessage = useTextParser(message, {
-    contentFrom: "twitter",
+    contentFrom,
     className: "singleMessage__text",
     renderAs: "p",
   });

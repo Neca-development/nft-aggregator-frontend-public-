@@ -18,7 +18,7 @@ export interface ITwitterMessagesResponse {
 
 export interface IDiscordMessage {
   id: string;
-  text: string;
+  message: string;
   channelType: number;
   createdAt: string;
   author: {

@@ -70,6 +70,7 @@ export default function TwitterMessages({
                   name={localTwitter.author.name}
                   createdAt={msg.createdAt}
                   message={msg.message}
+                  contentFrom="twitter"
                   ref={lastElementRef}
                 />
               );
@@ -81,6 +82,7 @@ export default function TwitterMessages({
                   name={localTwitter.author.name}
                   createdAt={msg.createdAt}
                   message={msg.message}
+                  contentFrom="twitter"
                 />
               );
             }

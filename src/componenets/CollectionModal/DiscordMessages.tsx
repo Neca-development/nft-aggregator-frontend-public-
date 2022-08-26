@@ -70,7 +70,8 @@ export default function DiscordMessages({
                   avatar={msg.author.image}
                   name={msg.author.name}
                   createdAt={msg.createdAt}
-                  message={msg.text}
+                  message={msg.message}
+                  contentFrom="discord"
                   ref={lastElementRef}
                 />
               );
@@ -81,7 +82,8 @@ export default function DiscordMessages({
                   avatar={msg.author.image}
                   name={msg.author.name}
                   createdAt={msg.createdAt}
-                  message={msg.text}
+                  message={msg.message}
+                  contentFrom="discord"
                 />
               );
             }
