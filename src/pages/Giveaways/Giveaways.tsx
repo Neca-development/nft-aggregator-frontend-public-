@@ -29,7 +29,7 @@ const gaaTabs = [
   { name: "Announcements", type: GaaChannelTypes.announcement },
 ];
 
-const PER_PAGE = 6;
+const PER_PAGE = 9;
 
 function Giveaways() {
   const [activeTab, setActiveTab] = useState(gaaTabs[0]);
@@ -179,9 +179,11 @@ function Giveaways() {
               hasMore={hasMore}
               loader={<GaaItemSkeleton />}
             >
-              {localData.map((item, idx) => (
-                <GaATableItem key={idx} item={item} />
-              ))}
+              <div className="giveaways__wrapper">
+                {localData.map((item, idx) => (
+                  <GaATableItem key={idx} item={item} />
+                ))}
+              </div>
             </InfiniteScroll>
           ) : (
             <div className="giveaways__empty">
