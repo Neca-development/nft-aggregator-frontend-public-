@@ -106,9 +106,11 @@ pipeline {
                   git restore .env.production
                 '''
                 notify_slack("Production deployment success")
+              }
             }
           }
         }
+
         stage('Dev') {
           agent { label 'main' }
 
