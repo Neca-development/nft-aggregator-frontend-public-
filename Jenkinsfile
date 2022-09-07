@@ -1,17 +1,15 @@
 pipeline {
-  agent none
+  agent any
   environment {
     REGISTRY_HOST = credentials('docker-registry-host')
     REGISTRY_HOST_REMOTE = credentials('docker-registry-domain')
     JENKINS_SERVER = credentials('jenkins-server')
-    SLACK_CHANNEL = 'C03JCM5FGEM'
-    PRODUCTION_URL = ''
+    GIT_REPO_NAME = env.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1').toLowerCase().trim()
+    SLACK_CHANNEL = ''
   }
 
   stages {
     stage ('Check build') {
-      agent { label 'main' }
-
       when { changeRequest() }
 
       steps {
@@ -20,8 +18,6 @@ pipeline {
     }
 
     stage('Build') {
-      agent { label 'main' }
-
       when {
         allOf {
           not {
@@ -112,8 +108,6 @@ pipeline {
         }
 
         stage('Dev') {
-          agent { label 'main' }
-
           when {
             allOf {
               not {
@@ -158,14 +152,11 @@ pipeline {
 
   post {
     failure {
-      node(null) {
-        script {
-          if (env.BRANCH_NAME == "dev" || env.BRANCH_NAME == "master" || env.BRANCH_NAME == "main") {
-            notify_slack('Build failure')
-          }
+      script {
+        if (env.BRANCH_NAME == "dev" || env.BRANCH_NAME == "master" || env.BRANCH_NAME == "main") {
+          notify_slack('Build failure')
         }
       }
     }
   }
 }
-
