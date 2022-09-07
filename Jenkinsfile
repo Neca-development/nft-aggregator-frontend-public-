@@ -5,7 +5,7 @@ pipeline {
     REGISTRY_HOST_REMOTE = credentials('docker-registry-domain')
     JENKINS_SERVER = credentials('jenkins-server')
     GIT_REPO_NAME = env.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1').toLowerCase().trim()
-    SLACK_CHANNEL = 'C03JCM5FGEM'
+    SLACK_CHANNEL = ''
   }
 
   stages {
