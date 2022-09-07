@@ -132,8 +132,6 @@ pipeline {
                   IMAGE_PREVIOUS_PORT="\$(docker-compose port traefik $IMAGE_EXPOSED_PORT | egrep "[0-9]+\$" -o)"
                 fi
 
-                docker-compose down -v
-
                 if [ -z "\${IMAGE_PREVIOUS_PORT}" ]; then
                   WEB_PORT=$IMAGE_EXPOSED_PORT \
                     docker-compose --env-file .development.env up -d 
