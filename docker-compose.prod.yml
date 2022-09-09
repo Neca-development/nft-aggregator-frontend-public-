@@ -10,6 +10,7 @@ services:
   frontend:
     <<: *logging
     image: ${REGISTRY_HOST_REMOTE}/${GIT_REPO_NAME}.${BRANCH_NAME}
+    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend.rule=Host(`${DOMAIN}`) && PathPrefix(`/`)"
