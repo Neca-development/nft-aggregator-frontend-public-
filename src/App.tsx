@@ -99,7 +99,7 @@ function App() {
           />
           <Route path="/profile" element={<Profile buySubscription={buySubscription} />} />
 
-          <Route path="/admin" element={<Admin />} />
+          {/* <Route path="/admin" element={<Admin />} /> */}
 
           <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
