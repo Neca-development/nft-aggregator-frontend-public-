@@ -60,8 +60,7 @@ export const createTwitterLink = (twitterAccountId: string) => {
 
 export const calculateInputStep = (maxValue: number) => {
   const calculatedPercent = (RANGE_INPUT_STEP_PERCENT / 100) * maxValue;
-
-  if (maxValue > 1) {
+  if (maxValue >= 100) {
     return Math.floor(calculatedPercent);
   } else {
     return +calculatedPercent.toFixed(4);
