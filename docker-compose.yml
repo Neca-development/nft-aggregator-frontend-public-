@@ -15,6 +15,7 @@ services:
       - "custom.label=${GIT_REPO_NAME}-${BRANCH_NAME}"
       - "traefik.http.routers.frontend.rule=PathPrefix(`/`)"
       - "traefik.http.routers.frontend.entrypoints=web"
+      - "io.portainer.accesscontrol.teams=devs,managers"
     networks:
       - default
 
