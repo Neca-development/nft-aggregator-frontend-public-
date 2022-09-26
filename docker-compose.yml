@@ -41,3 +41,5 @@ services:
 networks:
   default:
     name: ${GIT_REPO_NAME}-${BRANCH_NAME}
+    labels:
+      - "io.portainer.accesscontrol.teams=devs,managers"
