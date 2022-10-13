@@ -1,46 +1,36 @@
-# Getting Started with Create React App
+# NFT-aggregator-frontend
+## Production
+User: jenkins
+App folder: `/home/jenkins/frontend`
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
+We build production images on our servers and pull them to production servers on deployment. If you want to use them, you'll need to set the following environment variables:
 
-## Available Scripts
+- `REGISTRY_HOST_REMOTE`
+- `GIT_REPO_NAME`
+- `BRANCH_NAME`
+- `COMPOSE_PROJECT_NAME`
+- `LOKI_USR`
+- `LOKI_PSW`
+- `DOMAIN` - your domain of choice
 
-In the project directory, you can run:
+> If you are starting the application from a preconfigured server, you already have those variables set in .production.env file in the application folder.
 
-### `npm start`
+> Your production server has to be preconfigured by us to be logged in into our docker registry to be able to pull images from it.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Build your own Docker image or update currently running images
+1. Set any new variables values in .production.env 
+2. Substitute the line `image: ${REGISTRY_HOST_REMOTE}/${GIT_REPO_NAME}.${BRANCH_NAME}` in docker-compose.prod.yml with:
+```yaml
+build:
+  context: .
+  args:
+    - DOCKER_ENV=production
+```
+3. Run `docker compose --env-file .production.env -f docker-compose.prod.yml up -d --build`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Logging
+Current setup is using Loki for collecting docker container logs into a Loki instance
 
-### `npm test`
+You can also configure your own Loki instance by setting `loki-url:` in docker-compose.prod.yml file
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+> Loki requires docker-loki plugin to be installed on a server
