@@ -175,7 +175,13 @@ function Giveaways() {
               height={window.innerHeight * 0.75}
               next={requestNextPage}
               hasMore={hasMore}
-              loader={<GaaItemSkeleton />}
+              loader={
+                <div className="giveaways__wrapper">
+                  <GaaItemSkeleton />
+                  <GaaItemSkeleton />
+                  <GaaItemSkeleton />
+                </div>
+              }
             >
               <div className="giveaways__wrapper">
                 {localData.map((item, idx) => (
