@@ -70,7 +70,7 @@ function Giveaways() {
         },
         order: {
           orderBy: CollectionsFilterBy.name,
-          orderType: FilterType.asc,
+          orderType: FilterType.desc,
         },
       };
       const res = await fetchGaa({

@@ -21,7 +21,7 @@ const PER_PAGE = 12;
 
 function Collections() {
   const [activeFilter, setActiveFilter] = useState(CollectionsFilterBy.name);
-  const [isSortAsc, setIsSortAsc] = useState(false);
+  const [isSortAsc, setIsSortAsc] = useState(true);
   const filterRequest = useAppSelector(selectFilterRequest);
   const [fetchCollections, { data }] = useGetCollectionsMutation();
   const [page, setPage] = useState(0);
