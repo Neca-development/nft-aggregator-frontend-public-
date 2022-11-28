@@ -8,9 +8,14 @@ import ItemBannerBlock from "@UI/ItemBannerBlock/ItemBannerBlock";
 import GiveawayAnnounceModal from "@components/GiveawayAnnounceModal/GiveawaysAnnounceModal";
 import EthereumIcon from "@UI/EthereumIcon/EthereumIcon";
 import { kFormatter, roundFloorPrice } from "@utils/utils";
+import useTextParser from "@hooks/useTextParser";
 
 const GaATableItem = ({ item }: { item: IGaaItem }) => {
   const [showItemModal, setShowItemModal] = useState(false);
+  const messagePreview = useTextParser(item.discordMessage.message, {
+    renderAs: "p",
+    className: "gaaItem__text",
+  });
 
   return (
     <>
@@ -34,7 +39,8 @@ const GaATableItem = ({ item }: { item: IGaaItem }) => {
           {item.discordMessage.channelType === GaaChannelTypes.announcement && (
             <h4 style={{ color: "#219CFB" }}>Announcement:</h4>
           )}
-          <p className="gaaItem__text">{item.discordMessage.message}</p>
+          {/* <p className="gaaItem__text">{item.discordMessage.message}</p> */}
+          {messagePreview}
         </div>
 
         <div className="gaaItem__controls">
@@ -42,8 +48,7 @@ const GaATableItem = ({ item }: { item: IGaaItem }) => {
           <SocialIcon
             community="discord"
             number={item.discordMembersCount}
-            // !!! NEED LINK TO DISCORD
-            link="/"
+            link={item.discordInviteLink}
             showLinkIcon={true}
           />
         </div>
@@ -53,6 +58,7 @@ const GaATableItem = ({ item }: { item: IGaaItem }) => {
         message={item.discordMessage}
         isOpen={showItemModal}
         onClose={() => setShowItemModal(false)}
+        inviteLink={item.discordInviteLink}
       />
     </>
   );
