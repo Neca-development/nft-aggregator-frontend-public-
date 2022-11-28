@@ -24,7 +24,10 @@ export default function useTextParser(
   };
 
   const replaceBreaks = (input: string) => {
-    return input.replace(/\n/g, "<br />");
+    const withNlBreaks = input.replace(/\n/g, "<br />");
+    const withDoubleNlDiscordBreaks = withNlBreaks.replace(/(,,)/g, "<br /><br />");
+    const withOneLineDiscordBreaks = withDoubleNlDiscordBreaks.replace(/(,\b)/g, "<br />");
+    return withOneLineDiscordBreaks;
   };
 
   const convertTwitterNameToLink = (input: string) => {

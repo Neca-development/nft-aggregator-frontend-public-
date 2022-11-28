@@ -15,6 +15,7 @@ export interface IGaaItem {
   floorPrice?: number;
   discordMessage: IGaaMessage;
   discordMembersCount: number;
+  discordInviteLink: string;
 }
 
 export interface IGaaMessage {
