@@ -13,7 +13,7 @@ We build production images on our servers and pull them to production servers on
 - `LOKI_PSW`
 - `DOMAIN` - your domain of choice
 
-> If you are starting the application from a preconfigured server, you already have those variables set in .production.env file in the application folder.
+> If you are starting the application from a preconfigured server, you already have those variables set in .production.env file in the application folder. App run
 
 > Your production server has to be preconfigured by us to be logged in into our docker registry to be able to pull images from it.
 
